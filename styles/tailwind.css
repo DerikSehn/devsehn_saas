@@ -1,0 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: "moglan";
+  src: url("./fonts/moglandemo/Moglan_DEMO.ttf")
+}
+@font-face {
+  font-family: "Montserrat";
+  src: url("./fonts/Montserrat/Montserrat-VariableFont_wght.ttf")
+}
+
+@font-face {
+  font-family: "Plex";
+  src: url("./fonts/IBM_Plex_Mono/IBMPlexMono-Medium.ttf")
+}
+@font-face {
+  font-family: "Alegreya";
+  src: url("./fonts/Alegreya_Sans/AlegreyaSans-Medium.ttf")
+}
+
+@font-face {
+  font-family: "AlegreyaBlack";
+  src: url("./fonts/Alegreya_Sans/AlegreyaSans-Black.ttf")
+}
+
+@font-face {
+  font-family: "AlegreyaBold";
+  src: url("./fonts/Alegreya_Sans/AlegreyaSans-Bold.ttf")
+}
+
+@font-face {
+  font-family: "AlegreyaLight";
+  src: url("./fonts/Alegreya_Sans/AlegreyaSans-Light.ttf")
+}
+
+@font-face {
+  font-family: "AlegreyaThin";
+  src: url("./fonts/Alegreya_Sans/AlegreyaSans-Thin.ttf")
+}
+
+@font-face {
+  font-family: "Anton";
+  src: url("./fonts/Anton/Anton-Regular.ttf")
+}
+
+@font-face {
+  font-family: "Passion";
+  src: url("./fonts/Passion_One/PassionOne-Regular.ttf")
+}
+
+@font-face {
+  font-family: "Montagu Slab";
+  src: url("./fonts/Montagu_Slab/MontaguSlab-VariableFont_opsz\,wght.ttf")
+}
+
+@font-face {
+  font-family: "Montaga";
+  src: url("./fonts/Montaga/Montaga-Regular.ttf")
+}
+ 

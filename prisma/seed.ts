@@ -1,0 +1,127 @@
+//seed.ts
+import { PrismaClient } from "@prisma/client";
+import { hash } from "bcrypt";
+
+const prisma = new PrismaClient();
+
+async function main() {
+  const projects = await prisma.project.findMany();
+  if (projects.length === 0) {
+    await prisma.project.createMany({
+      data: [
+        {
+          title: "Projeto 1",
+          description: "Descrição do projeto 1",
+        },
+        {
+          title: "Projeto 2",
+          description: "Descrição do projeto 2",
+        },
+        {
+          title: "Projeto 3",
+          description: "Descrição do projeto 3",
+        },
+      ],
+    });
+  }
+  const users = await prisma.user.findMany();
+  if (users.length === 0) {
+    await prisma.user.createMany({
+      data: [
+        {
+          name: "João",
+          email: "joao@culturaverde.com.br",
+          password: await hash("joao" + "test", 12),
+          emailVerified: new Date(),
+        },
+        {
+          name: "Maria",
+          email: "maria@culturaverde.com.br",
+          password: await hash("maria" + "test", 12),
+          emailVerified: new Date(),
+        },
+      ],
+    });
+  }
+  const comments = await prisma.comment.findMany();
+  if (comments.length === 0) {
+    try {
+      prisma.comment.createMany({
+        skipDuplicates: true,
+        data: [
+          {
+            model: "User",
+            field: "name",
+            description: "Nome",
+          },
+          {
+            model: "User",
+            field: "email",
+            description: "Email",
+          },
+          {
+            model: "User",
+            field: "password",
+            description: "Senha",
+          },
+          {
+            model: "User",
+            field: "emailVerified",
+            description: "Data de verificação do email",
+          },
+          {
+            model: "Project",
+            field: "title",
+            description: "Título do projeto",
+          },
+          {
+            model: "Project",
+            field: "description",
+            description: "Descrição do projeto",
+          },
+          {
+            model: "Image",
+            field: "name",
+            description: "Nome da imagem",
+          },
+          {
+            model: "Image",
+            field: "description",
+            description: "Descrição da imagem",
+          },
+          {
+            model: "Testimonial",
+            field: "name",
+            description: "Nome do cliente",
+          },
+          {
+            model: "Testimonial",
+            field: "description",
+            description: "Depoimento do cliente",
+          },
+          {
+            model: "Testimonial",
+            field: "job",
+            description: "Cargo do cliente",
+          },
+          {
+            model: "Testimonial",
+            field: "id",
+            description: "Imagem do cliente",
+          },
+        ],
+      });
+    } catch (e) {}
+  }
+}
+
+/* run  with prisma db seed */
+
+main()
+  .catch((e) => {
+    console.error(e);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
