@@ -109,6 +109,91 @@ async function main() {
             field: "id",
             description: "Imagem do cliente",
           },
+          {
+            model: "EmailTemplate",
+            field: "keyword",
+            description: "Palavra-chave do email",
+          },
+          {
+            model: "EmailTemplate",
+            field: "headerTitle",
+            description: "Título do email",
+          },
+          {
+            model: "EmailTemplate",
+            field: "headerSubtitle",
+            description: "Subtítulo do email",
+          },
+          {
+            model: "EmailTemplate",
+            field: "buttonText",
+            description: "Texto do botão",
+          },
+          {
+            model: "EmailTemplate",
+            field: "buttonLink",
+            description: "Link do botão",
+          },
+          {
+            model: "EmailTemplate",
+            field: "footerText",
+            description: "Texto do rodapé",
+          },
+          {
+            model: "EmailContent",
+            field: "heading",
+            description: "Título do conteúdo",
+          },
+          {
+            model: "EmailContent",
+            field: "paragraph",
+            description: "Parágrafo do conteúdo",
+          },
+          {
+            model: "EmailLink",
+            field: "description",
+            description: "Descrição do link",
+          },
+          {
+            model: "EmailLink",
+            field: "href",
+            description: "Link do link",
+          },
+          {
+            model: "EmailLink",
+            field: "emailTemplateId",
+            description: "Id do template do email",
+          },
+          {
+            model: "Service",
+            field: "title",
+            description: "Título do serviço",
+          },
+          {
+            model: "Service",
+            field: "description",
+            description: "Descrição do serviço",
+          },
+          {
+            model: "Service",
+            field: "imageId",
+            description: "Imagem do serviço",
+          },
+          {
+            model: "Project",
+            field: "title",
+            description: "Título do projeto",
+          },
+          {
+            model: "Project",
+            field: "description",
+            description: "Descrição do projeto",
+          },
+          {
+            model: "Project",
+            field: "images",
+            description: "Imagens do projeto",
+          },
         ],
       });
     } catch (e) {}
