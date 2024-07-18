@@ -24,7 +24,7 @@ const LINKS = [
         {
             icon: <Settings />,
             name: "Configurações",
-            href: '/admin/account'
+            href: '/admin/settings'
         },
        /*  {
             icon: <Coins />,

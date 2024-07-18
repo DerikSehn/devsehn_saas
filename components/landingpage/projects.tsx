@@ -6,7 +6,6 @@ import ZoomParallax from "../ui/scroll/zoom-parallax";
 import { Section } from "./section";
 
 export default function Projects({ projects }: { projects: ModelWithImages<Project>[] }) {
-    console.log(projects)
     return (
         <Section id="projects" className="  bg-primary-300 h-[200vh]">
             <Image

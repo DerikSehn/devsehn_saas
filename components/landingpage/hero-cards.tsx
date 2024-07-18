@@ -13,7 +13,6 @@ import { useRef } from "react";
 
 
 export default function HeroCards({ services }: { services: ModelWithImage<Service>[] }) {
-    console.log(services)
 
     /* on scroll, motion will turn the div with 100% */
 
@@ -28,14 +27,13 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
 
     return (
         <div ref={container} className="w-full min-h-screen relative rounded-t-[3dvw]  -translate-y-[2%]  z-20 bg-primary-300 shadow-primary-100 shadow-lg">
-            
+
 
 
         </div>
     )
 }
 export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
-    console.log(service)
     return (<span    >
         <Card className="relative w-full overflow-visible h-96 max-w-lg border-none" >
             <CardHeader className="relative z-10 text-neutral-100 font-sans">

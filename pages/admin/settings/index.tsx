@@ -22,7 +22,7 @@ export async function getServerSideProps() {
     return { props: { user, images, projects } }
 }
 
-export default function Account({ user, images }: { user: User, images: Image[] }) {
+export default function AdminSettings({ user, images }: { user: User, images: Image[] }) {
 
     const handleUpload = async (image: File) => await handleApiRequest(image, 'image', 'create')
 

@@ -69,7 +69,6 @@ const ZoomParallax = ({ classes, children }: { children: React.ReactNode[], clas
       },
     };
   });
-  console.log(pictures)
 
   return (
     <section

@@ -16,7 +16,6 @@ export default async function handler(req: any, res: any) {
     },
     include: { links: true, content: true },
   });
-  console.log(emailTemplate);
 
   const emailBody = await renderAsync(EmailTemplate(emailTemplate as any));
 

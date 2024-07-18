@@ -4,7 +4,6 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 
 export const TestimonialCard = ({ item, readOnly, ...props }: { item: Testimonial & { image?: ImageType }, readOnly?: boolean }) => {
-    console.log(props)
     return (
         <motion.div
             className="flex flex-col justify-center border-t bg-neutral-200/50 hover:bg-neutral-50 transition-colors  dark:bg-gray-800 p-4 rounded-lg"

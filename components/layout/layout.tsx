@@ -24,13 +24,14 @@ export const Layout = ({ children }: any) => {
     const isAdmin = router.pathname.startsWith("/admin")
 
     return (
-        isAdmin ?
-            <AdminLayout backgroundImage='/uploads/dashboard/background.jpeg'
-            >{children}</AdminLayout>
-            : <>
-                <FloatingNavBar navItems={navItems} />
-                <div>{children}</div>
-                <Footer />
-            </>
+        router.pathname.startsWith("/auth") ? <>{children}</> :
+            isAdmin ?
+                <AdminLayout backgroundImage='/uploads/dashboard/background.jpeg'
+                >{children}</AdminLayout>
+                : <>
+                    <FloatingNavBar navItems={navItems} />
+                    <div>{children}</div>
+                    <Footer />
+                </>
     )
 }

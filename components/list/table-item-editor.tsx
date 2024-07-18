@@ -9,6 +9,8 @@ import AutoFormFile from '../ui/auto-form/fields/file';
 import AutoFormFiles from "../ui/auto-form/fields/files";
 import { Button } from '../ui/button';
 import { Item } from './list-item';
+import lodash, { isArray } from 'lodash';
+import { Image } from "@prisma/client";
 
 type FormData = any
 
@@ -43,8 +45,6 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
     const canShowColumn = (col: Column) => {
         if (col.name === 'images') {
-            console.log(col)
-            console.log(col.isList)
         }
         if (['updatedAt', 'createdAt'].includes(col.name)
             || col.isUnique
@@ -58,26 +58,20 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
     const getColumns = async () => {
         const columns = await getAsyncColumns(tableName);
-        console.log(columns)
         setColumns(columns);
     }
 
-    const onSubmit = async (data: FormData) => {
-        console.log(data);
+    const onSubmit = async (data: FormData, event) => {
+        console.log(event)
 
-        const newDataEntries = await Promise.all(
-            Object.entries({ ...item, ...data }).map(async ([key, value]) => {
-                /* @ts-ignore */
-                if (key.startsWith('image') && item?.image !== value) {
-                    const createdImage = await handleCreateImage({
-                        file: value as File | File[],
-                        description: `Image of ${tableName as string}`
-                    });
-                    return ['imageId', createdImage.id]; // Transfer id to imageId
-                }
-                return [key, value];
-            })
-        );
+        if (event) {
+            return;
+        }
+
+
+        console.log(data)
+
+        const newDataEntries = await handleImageIntegration(item, data)
 
         const convertedItem = Object.fromEntries(newDataEntries);
 
@@ -85,14 +79,11 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
             ...convertedItem,
             image: undefined
         };
-        console.log(convertedItem)
 
-        console.log(newData);
-        const res = await handleApiRequest(newData, tableName, method);
-        console.log(res);
-        /* @ts-ignore */
+      /*   const res = await handleApiRequest(newData, tableName, method);
+         @ts-ignore  
         onClose({ item: { ...convertedItem, image: item?.image, ...(method === 'create' ? { id: res.id } : {}) }, method });
-    };
+   */  };
     const handleDelete = async () => {
         const res = await handleApiRequest(item, tableName, 'delete');
         onClose({ item: res, method: 'delete' });
@@ -105,7 +96,6 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
     const generateZodSchema = () => {
         const schema: any = {};
         columns.filter(canShowColumn).forEach(col => {
-            console.log(col.name)
             switch (col.type) {
                 case 'text':
                 case 'character varying':
@@ -154,7 +144,9 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
                 }}
             >
                 <br className="h-full" />
-                <AutoFormSubmit className='mr-2'>Salvar</AutoFormSubmit>
+                <AutoFormSubmit className='mr-2'>
+                    Salvar
+                </AutoFormSubmit>
                 {item &&
                     <Button type="button" className="bg-red-500 hover:bg-red-700 text-white mr-2" onClick={handleDelete}>Remover Item</Button>
                 }
@@ -165,3 +157,34 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 };
 
 export default TableItemEditor;
+
+const handleImageIntegration = async (defaultForm: FormData, form: FormData) => {
+    console.log(form);
+    // search for image keys
+    const changedImages = Object.entries(form).filter(([key, value]) =>
+        key.startsWith('image') && value !== defaultForm[key]
+    );
+
+    console.log(changedImages);
+
+    // integrate every changed image
+    const integratedImages = changedImages.map(async ([key, value]) => {
+        if (isArray(value)) {
+            return await Promise.all(value.map(async (file: File | Image) => {
+                console.log(file);
+                return await handleCreateImage(file);
+            }));
+        }
+    });
+
+    console.log(integratedImages);
+
+    const newObject = {
+        ...defaultForm,
+        ...Object.fromEntries(await Promise.all(integratedImages) as any)
+    }
+    console.log(newObject);
+
+
+    return newObject;
+};

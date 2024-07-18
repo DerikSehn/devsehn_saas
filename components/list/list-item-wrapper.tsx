@@ -4,17 +4,40 @@ import React, { useState } from 'react';
 import AddButton from '../button/AddButton';
 import Drawer from '../drawer/drawer';
 import { useToast } from '../providers/toast-provider';
-import { DialogTrigger, DialogContent, DialogPortal, DialogOverlay } from '../ui/dialog';
+import { DialogContent } from '../ui/dialog';
 
-/*  import { useToast } from '../Providers/ToastProvider';
+export interface OnSubmitProps {
+    item: any;
+    method: CrudRequest["method"];
+}
+
+export interface ListItemWrapperProps {
+    children: any;
+    clickArea?: any;
+    onSubmit: (props: OnSubmitProps) => void;
+    disableClickArea?: boolean;
+    variant?: 'modal' | 'drawer';
+}
+
+/**
+ * @file TableItemWrapper.tsx
+ * @description Componente para criar um modal ou drawer com um formulário para adicionar ou editar um item.
+ * 
+ * Propriedades:
+ *   - children: o conteúdo do modal ou drawer
+ *   - clickArea: o elemento que será clicável para abrir o modal ou drawer
+ *   - onSubmit: a função que será chamada quando o formulário for submetido
+ *   - disableClickArea: se o clickArea for definido, esse atributo pode ser usado para desabilitar o clique no clickArea
+ *   - variant: o tipo de modal ou drawer a ser criado. Pode ser 'modal' ou 'drawer'
+ *   
  */
-export default function TableItemWrapper({ children, onSubmit = () => { }, clickArea, disableClickArea, variant = 'drawer' }: { children: any, clickArea?: any, onSubmit: any, disableClickArea?: boolean, variant?: 'modal' | 'drawer' }) {
+
+export default function TableItemWrapper({ children, onSubmit, clickArea, disableClickArea, variant = 'drawer' }: { children: any, clickArea?: any, onSubmit?: any, disableClickArea?: boolean, variant?: 'modal' | 'drawer' }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const notify = useToast()
 
     const toggleMenu = () => {
-        console.log(isOpen)
         if (disableClickArea) {
             return
         }
@@ -44,27 +67,31 @@ export default function TableItemWrapper({ children, onSubmit = () => { }, click
     }
 
 
-    const handleSave = async (props: { item: any, method: CrudRequest["method"] }) => {
-        try {
-            await onSubmit(props.item, props.method);
-            toggleMenu();
-            if (props.item.error) {
-                notify('Não foi possível efetuar as mudanças', { type: 'error' })
-            } else switch (props.method) {
-                case 'create':
-                    notify('Novo Item Adicionado', { type: 'success' })
-                    break;
-                case 'update':
-                    notify('Alterações Concluídas', { type: 'success' })
-                    break;
-                case 'delete':
-                    notify('Item Removido', { type: 'success' })
-                    break;
+    const handleSave = async (props: OnSubmitProps) => {
+        console.log(props)
+        if (typeof onSubmit === 'function') {
+            try {
+                await onSubmit(props);
+                if (props.item?.error) {
+                    notify('Não foi possível efetuar as mudanças', { type: 'error' })
+                } else switch (props?.method) {
+                    case 'create':
+                        notify('Novo Item Adicionado', { type: 'success' })
+                        break;
+                    case 'update':
+                        notify('Alterações Concluídas', { type: 'success' })
+                        break;
+                    case 'delete':
+                        notify('Item Removido', { type: 'success' })
+                        break;
 
+                }
+            } catch (error) {
+                console.log(error)
+                notify('Não foi possível efetuar as mudanças', { type: 'error' })
             }
-        } catch (error) {
-            notify('Não foi possível efetuar as mudanças', { type: 'error' })
         }
+        toggleMenu();
     };
 
     return (

@@ -2,7 +2,7 @@ import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Trash2, UploadIcon } from "lucide-react";
 import Image from "next/image";
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { Button } from "../../button";
 import AutoFormLabel from "../common/label";
 import AutoFormTooltip from "../common/tooltip";
@@ -16,16 +16,17 @@ export default function AutoFormFile({
   field,
 }: AutoFormInputComponentProps) {
   const { showLabel: _showLabel, ...fieldPropsWithoutShowLabel } = fieldProps;
-  console.log(fieldPropsWithoutShowLabel)
   const showLabel = _showLabel === undefined ? true : _showLabel;
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
-  console.log(field)
+  console.log(fileUrl)
+  useEffect(() => {
+    setFileUrl(field.value)
+  }, [field.value])
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-
     if (selectedFile) {
       setFile(selectedFile);
       setFileUrl(URL.createObjectURL(selectedFile));

@@ -1,4 +1,4 @@
-import TableItemWrapper from "@/components/list/list-item-wrapper";
+import TableItemWrapper, { OnSubmitProps } from "@/components/list/list-item-wrapper";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
@@ -35,7 +35,11 @@ export default function AutoFormFiles({
         field.onChange(newFiles.map((f) => f.file));
     };
 
+    console.log(files)
+
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+        console.log(e)
+
         const selectedFiles: FileWithDescription[] = Array.from(e.target.files || []).map((file, index) => ({
             file,
             image: {
@@ -48,14 +52,31 @@ export default function AutoFormFiles({
         field.onChange(selectedFiles);
     };
 
-    const handleImageClick = () => {
+    const handleImageClick = (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        console.log(fileInputRef.current)
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
     };
 
-    const handleSingleChange = (data: FileWithDescription) => {
-        setFiles(pvSt => pvSt.map((f) => f.file === data.file ? data : f));
+    const handleSingleChange = (
+        props: OnSubmitProps
+    ) => {
+        console.log(props)
+        const { item: { file, image }, method } = props;
+        switch (method) {
+            case 'create':
+                setFiles(pvSt => [...pvSt, { file, image }]);
+                break;
+            case 'update':
+                setFiles(pvSt => pvSt.map((f) => f.file === file ? { file, image } as any : f));
+                break;
+            case 'delete':
+                setFiles(pvSt => pvSt.filter((f) => f.file !== file));
+                break;
+        }
     };
 
 
@@ -95,10 +116,10 @@ export default function AutoFormFiles({
                             {files.length ?
                                 <TableItemWrapper
                                     variant="modal"
-                                    onSubmit={handleFileChange}
+                                    onSubmit={handleSingleChange}
                                     clickArea={<FcFirstImage onClick={handleImageClick} />}
                                 >
-                                    <ImageEditor isRequired={isRequired} label={fieldConfigItem?.label || label} image={files[0]?.image} onSubmit={handleSingleChange} />
+                                    <ImageEditor isRequired={isRequired} label={fieldConfigItem?.label || label} file={files[0]?.file} image={files[0]?.image} onClose={handleSingleChange} />
                                 </TableItemWrapper>
                                 : <FcFirstImage onClick={handleImageClick} />
                             }
@@ -109,7 +130,6 @@ export default function AutoFormFiles({
                                     <FcFirstImage onClick={handleImageClick} src={'/uploads/image-upload.svg'} className="border-dashed border-2 border-gray-300 rounded-md object-contain" />
                                     : files.slice(1).map(({ file, image }, index) => (
                                         <div key={index} className="relative aspect-square">
-                                            {console.log(image?.description, image?.url)}
                                             <Image
                                                 alt="Preview"
                                                 className="aspect-square w-full rounded-md object-cover hover:opacity-75 hover:brightness-75 transition-all cursor-pointer"

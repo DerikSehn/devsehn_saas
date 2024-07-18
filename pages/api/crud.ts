@@ -90,19 +90,71 @@ export async function handleApiRequest(
   const json = await response.json();
   return json;
 }
-export async function handleCreateImage(data: {
-  file: File | File[];
+
+export type RawFileProps = {
+  file?: File | File[];
   description: string;
-}) {
+  image?: Image | Image[];
+};
+
+async function imageToBlob(imageUrl: string): Promise<Blob> {
+  return new Promise((resolve, reject) => {
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', imageUrl, true);
+    xhr.responseType = 'blob';
+    xhr.onload = () => {
+      if (xhr.status === 200) {
+        resolve(xhr.response);
+      } else {
+        reject(new Error(`Failed to convert image URL to Blob: ${xhr.statusText}`));
+      }
+    };
+    xhr.onerror = () => {
+      reject(new Error('Failed to convert image URL to Blob'));
+    };
+    xhr.send();
+  });
+}
+
+async function convertImageToBlobFile(image: Image): Promise<File> {
+  const blob = await imageToBlob(image.url);
+  const filename = `${image.name}.png`; // You may adjust the file name as needed
+  const mimeType = 'image/png'; // Adjust mime type if necessary
+  return new File([blob], filename, { type: mimeType });
+}
+
+async function convertImagesToFiles(images: Image[]): Promise<File[]> {
+  const filePromises = images.map(image => convertImageToBlobFile(image));
+  return Promise.all(filePromises);
+}
+
+export async function handleCreateImage(data: RawFileProps) {
+  console.log(data);
+
+  if (data.image) {
+    let files: File | File[] | undefined = undefined;
+    
+    if (Array.isArray(data.image)) {
+      files = await convertImagesToFiles(data.image);
+    } else {
+      files = await convertImageToBlobFile(data.image);
+    }
+
+    return handleCreateImage({ ...data, file: files });
+  }
+
   const formData = new FormData();
-  if ((data.file as File[])?.length > 0) {
-    (data.file as File[]).forEach((file) => {
+
+  if (Array.isArray(data.file)) {
+    data.file.forEach((file) => {
       formData.append("file", file);
     });
-  } else {
-    formData.append("file", data.file as File);
+  } else if (data.file) {
+    formData.append("file", data.file);
   }
+
   formData.append("description", data.description);
+
   const response = await fetch(`/api/file`, {
     method: "POST",
     body: formData,

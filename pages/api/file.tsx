@@ -52,6 +52,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     const form = formidable({ multiples: true });
 
     form.parse(req, async (err, fields: any, files) => {
+        console.log(fields);
+        console.log(files);
+
+
         if (err) {
             return res.status(500).json({ error: "Error parsing file" });
         }
@@ -73,7 +77,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const imageRecords: File[] = [];
 
-
+        // Process each file
         uploadedFiles.forEach(async (file, index) => {
             const fileName = file!.originalFilename || `${Date.now()}-${file.newFilename}`;
             const filePath = path.join(uploadsDir, fileName);
