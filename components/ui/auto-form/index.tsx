@@ -50,13 +50,8 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   onSubmit?: (values: z.infer<SchemaType>) => void;
   fieldConfig?: FieldConfig<z.infer<SchemaType>>;
   children?:
-<<<<<<< HEAD
   | React.ReactNode
   | ((formState: FormState<z.infer<SchemaType>>) => React.ReactNode);
-=======
-    | React.ReactNode
-    | ((formState: FormState<z.infer<SchemaType>>) => React.ReactNode);
->>>>>>> 988440aef5afea92158899830dae6b4b0425a175
   className?: string;
   dependencies?: Dependency<z.infer<SchemaType>>[];
 }) {
@@ -99,12 +94,9 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
       <Form {...form}>
         <form
           onSubmit={(e) => {
-<<<<<<< HEAD
             console.log(e)
             e.preventDefault();
             e.stopPropagation();
-=======
->>>>>>> 988440aef5afea92158899830dae6b4b0425a175
             form.handleSubmit(onSubmit)(e);
           }}
           className={cn("space-y-5", className)}

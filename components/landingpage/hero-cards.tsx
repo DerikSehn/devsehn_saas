@@ -25,7 +25,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
                     Serviços
                 </h3>
                 <h2 className="text-3xl font-light tracking-wide sm:text-5xl lg:text-7xl max-w-screen-md text-neutral-100 font-moglan">
-                    Onde a cultura verde entra em ação!
+                    Áreas de atuação
 
                 </h2>
 

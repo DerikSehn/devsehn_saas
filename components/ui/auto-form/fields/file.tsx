@@ -2,11 +2,7 @@ import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Trash2, UploadIcon } from "lucide-react";
 import Image from "next/image";
-<<<<<<< HEAD
 import { ChangeEvent, useEffect, useState } from "react";
-=======
-import { ChangeEvent, useState } from "react";
->>>>>>> 988440aef5afea92158899830dae6b4b0425a175
 import { Button } from "../../button";
 import AutoFormLabel from "../common/label";
 import AutoFormTooltip from "../common/tooltip";
@@ -20,19 +16,11 @@ export default function AutoFormFile({
   field,
 }: AutoFormInputComponentProps) {
   const { showLabel: _showLabel, ...fieldPropsWithoutShowLabel } = fieldProps;
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  console.log(fieldPropsWithoutShowLabel)
->>>>>>> 988440aef5afea92158899830dae6b4b0425a175
-=======
   console.log(fieldProps)
->>>>>>> 65711d3 (feat(App):many diffs, polished image and file upload, returned to local development, enhanced visual layout in the landing page, and more)
   const showLabel = _showLabel === undefined ? true : _showLabel;
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
 
-<<<<<<< HEAD
   console.log(fileUrl)
   useEffect(() => {
     setFileUrl(field.value)
@@ -40,13 +28,6 @@ export default function AutoFormFile({
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     const selectedFile = e.target.files?.[0];
-=======
-  console.log(field)
-
-  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const selectedFile = e.target.files?.[0];
-
->>>>>>> 988440aef5afea92158899830dae6b4b0425a175
     if (selectedFile) {
       setFile(selectedFile);
       setFileUrl(URL.createObjectURL(selectedFile));
