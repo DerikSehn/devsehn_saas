@@ -2,7 +2,10 @@ import AutoFormCheckbox from "./fields/checkbox";
 import AutoFormDate from "./fields/date";
 import AutoFormEnum from "./fields/enum";
 import AutoFormFile from "./fields/file";
+<<<<<<< HEAD
 import AutoFormFiles from "./fields/files";
+=======
+>>>>>>> 988440aef5afea92158899830dae6b4b0425a175
 import AutoFormInput from "./fields/input";
 import AutoFormNumber from "./fields/number";
 import AutoFormRadioGroup from "./fields/radio-group";
@@ -18,7 +21,10 @@ export const INPUT_COMPONENTS = {
   textarea: AutoFormTextarea,
   number: AutoFormNumber,
   file: AutoFormFile,
+<<<<<<< HEAD
   files: AutoFormFiles,
+=======
+>>>>>>> 988440aef5afea92158899830dae6b4b0425a175
   fallback: AutoFormInput,
 };
 

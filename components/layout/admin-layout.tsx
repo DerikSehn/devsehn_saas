@@ -1,11 +1,8 @@
-import prisma from "@/lib/prisma";
-import { Coins, File, Home, Info, InfoIcon, LandPlot, LogOut, ProjectorIcon, Search, Settings, Tags } from "lucide-react";
+import { motion } from "framer-motion";
+import { File, Home, InfoIcon, LandPlot, LogOut, ProjectorIcon, Search, Settings, Tags } from "lucide-react";
 import Image from "next/image";
-import Link from "next/link";
-import GradientCircle from "../box/gradient-circle";
 import Container from "../container";
 import Sidebar from "../sidebar/sidebar";
-import { motion } from "framer-motion";
 import SidebarLinks from "../sidebar/sidebar-links";
 
 const LINKS = [

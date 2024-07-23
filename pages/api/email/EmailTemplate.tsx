@@ -1,4 +1,4 @@
-import { EmailContent, EmailLink, EmailTemplate } from "@prisma/client";
+import { EmailContent, EmailLink, EmailTemplate as EmailTemplateType } from "@prisma/client";
 import {
     Body,
     Column,
@@ -31,7 +31,7 @@ export const EmailTemplate = ({
     footerText,
     content = [],
     links = []
-}: EmailTemplate & { links: EmailLink[], content: EmailContent[] }) => (
+}: EmailTemplateType & { links: EmailLink[], content: EmailContent[] }) => (
     <Html>
         <Head />
         <Preview>

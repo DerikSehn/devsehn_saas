@@ -51,9 +51,8 @@ async function handleCrudRequest(
   table: CrudRequest["table"],
   method: CrudRequest["method"]
 ) {
-  console.log(`prisma.${table}.${method}(${JSON.stringify(data)})`);
-  let res;
   try {
+    let res: any;
     switch (method) {
       case "create":
         /* @ts-ignore */
@@ -67,7 +66,7 @@ async function handleCrudRequest(
         if (Object.keys(nestedItems).length) {
           Object.entries(nestedItems).forEach(async ([key, value]) => {
             const nestedTable = key.substring(0, key.length - 1);
-            const nestedRes = [];
+            const nestedRes: any[] = [];
             console.log(nestedTable);
             value.forEach(async (item: any) => {
               console.log(item);

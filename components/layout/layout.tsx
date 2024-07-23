@@ -1,7 +1,11 @@
 import { Contact, Home, Projector, ShoppingBag, User, Workflow } from 'lucide-react'
 import { useRouter } from 'next/router'
 import React from 'react'
+<<<<<<< HEAD
 import { FloatingNavBar } from '../ui/scroll/floating-nav-bar'
+=======
+import { FloatingNavBar } from '../ui/floating-nav-bar'
+>>>>>>> 988440aef5afea92158899830dae6b4b0425a175
 import { Footer } from '../ui/footer'
 import AdminLayout from './admin-layout'
 

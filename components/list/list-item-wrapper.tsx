@@ -105,6 +105,6 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
             <Wrapper>
                 {React.cloneElement(children, { onClose: handleSave })}
             </Wrapper>
-        </div>
+        </div >
     );
 }

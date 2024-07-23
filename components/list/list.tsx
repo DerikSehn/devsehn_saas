@@ -4,8 +4,9 @@ import { PlusIcon } from 'lucide-react';
 import { cloneElement, ReactElement, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 import { useToast } from '../providers/toast-provider';
+
+import SparklesText from '../magicui/sparkles-text';
 import { Button } from '../ui/button';
-import SparklesText from '../ui/scroll/magicui/sparkles-text';
 import ListItem, { Item } from './list-item';
 import ListItemWrapper from './list-item-wrapper';
 import ListPagination from './list-pagination';

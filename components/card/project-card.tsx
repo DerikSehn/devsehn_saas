@@ -31,7 +31,6 @@ export const ProjectCard = ({ item, className }: { item: ModelWithImages<Project
         scale: 0.99
       }}
       className={cn("grid md:grid-cols-2 justify-center relative overflow-hidden rounded-lg bg-neutral-200/50 hover:bg-neutral-50 transition-colors  dark:bg-gray-800",
-        className
       )}>
       <div className="p-6">
         <div>

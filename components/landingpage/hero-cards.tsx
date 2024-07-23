@@ -1,11 +1,10 @@
 import { getIsMobile } from "@/lib/utils";
 import { ModelWithImage } from "@/prisma/prisma-utils";
 import { Service } from "@prisma/client";
-import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
-import { useEffect, useRef, useState } from "react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import { Section } from "./section";
+import { useRef } from "react";
+import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
 
 
 export default function HeroCards({ services }: { services: ModelWithImage<Service>[] }) {
@@ -68,3 +67,4 @@ export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
         </Card>
     );
 }
+

@@ -105,7 +105,6 @@ const config: Config = {
           "0%": { opacity: "1" },
           "100%": { opacity: "0" },
         },
-
         "logo-carousel": {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(calc(-100% - 2rem))" },

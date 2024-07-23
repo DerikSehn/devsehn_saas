@@ -127,7 +127,7 @@ export default function AdminDashboard({ metrics, projects, testimonials, servic
         <div className="col-span-12 ">
             <div className="lg:mt-32 md:grid grid-cols-2 lg:grid-cols-4  gap-6">
                 {metrics?.map((metric, index) =>
-                    <MetricCard key={index} className='' >
+                    <MetricCard key={index} className=''>
                         <div className="flex justify-between">
                             <div className="relative z-10 font-bold text-md text-neutral-700/60 uppercase flex flex-col">
                                 <span>

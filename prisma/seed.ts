@@ -194,6 +194,21 @@ async function main() {
             field: "images",
             description: "Imagens do projeto",
           },
+          {
+            model: "Section",
+            field: "title",
+            description: "Título da seção",
+          },
+          {
+            model: "Section",
+            field: "description",
+            description: "Descrição da seção",
+          },
+          {
+            model: "Section",
+            field: "images",
+            description: "Imagens da seção",
+          },
         ],
       });
       const sections = await prisma.section.findMany();

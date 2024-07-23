@@ -4,12 +4,14 @@ import formidable from "formidable";
 import fs from "fs";
 import path from "path";
 import prisma from "../../lib/prisma";
+import { Image } from "@prisma/client";
 
 export const config = {
     api: {
         bodyParser: false,
     },
 };
+
 
 /**
  * @swagger
@@ -52,8 +54,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         return res.status(401).json({ error: "Not authenticated" });
     }
 
-    console.log(req);
-
     const form = formidable({ multiples: true });
 
     form.parse(req, async (err, fields, files) => {
@@ -65,14 +65,20 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         console.log(fields);
         console.log(files);
 
-        if (!files.file) {
+        if (err) {
+            return res.status(500).json({ error: "Error parsing file" });
+        }
+
+        const uploadedFiles = Array.isArray(files.file) ? files.file : [files.file]; // Ensure files is an array
+
+        if (uploadedFiles.length === 0) {
             return res.status(400).json({ error: "No files found" });
         }
 
-        const uploadedFiles = Array.isArray(files.file) ? files.file : [files.file];
+
         // const imageUrls = Array.isArray(fields.imageUrl) ? fields.imageUrl : [fields.imageUrl];
-        const imageNames = Array.isArray(fields.imageName) ? fields.imageName : [fields.imageName];
-        const imageDescriptions = Array.isArray(fields.imageDescription) ? fields.imageDescription : [fields.imageDescription];
+        const imageNames: any[] = Array.isArray(fields.imageName) ? fields.imageName : [fields.imageName];
+        const imageDescriptions: any[] = Array.isArray(fields.imageDescription) ? fields.imageDescription : [fields.imageDescription];
 
         const currentYear = new Date().getFullYear();
         const directory = `/public${process.env.NEXT_PUBLIC_UPLOADS_DIRECTORY}/${currentYear}`;
@@ -83,10 +89,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             fs.mkdirSync(uploadsDir, { recursive: true });
         }
 
-        const imageRecords = [];
+        const imageRecords: Image[] = [];
 
         for (let index = 0; index < uploadedFiles.length; index++) {
-            const file = uploadedFiles[index];
+            const file: any = uploadedFiles[index];
             const lastImage = await prisma.image.findFirst({
                 orderBy: { id: 'desc' }
             });
@@ -106,16 +112,17 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     url: urlPath,
                     name: imageNames[index],
                     description: imageDescriptions[index],
-                    projectId: fields.projectId ? fields.projectId[0] : null,
-                    userId: session.user.id,
+                    projectId: fields.projectId as any ? (fields as any).projectId[0] as any : null,
+                    userId: session!.user!.id!,
                 },
             });
 
             // Insert the image URL path into the Prisma database
 
             imageRecords.push(image);
-        }
+            res.status(200).json(imageRecords);
 
+        }
         res.status(200).json({ message: 'Upload successful', files: imageRecords });
-    });
+    })
 }

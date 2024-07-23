@@ -3,9 +3,10 @@ import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { getAsyncColumns } from '@/lib/prisma';
 import { CrudRequest, handleApiRequest, handleCreateImage } from '@/pages/api/crud';
 import { motion } from 'framer-motion';
-import { isArray, isEqual } from 'lodash';
+import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { z } from 'zod';
+import AutoFormFile from "../ui/auto-form/fields/file";
 import AutoFormFiles from "../ui/auto-form/fields/files";
 import { Button } from '../ui/button';
 import { Item } from './list-item';
@@ -64,6 +65,9 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
         console.log(data)
 
+        const newDataEntries = await handleImageIntegration(item, data)
+
+        const convertedItem = Object.fromEntries(newDataEntries);
         const integratedImages = await handleImageIntegration(item, data)
 
         console.log(integratedImages)
@@ -143,10 +147,6 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
                         fieldType: AutoFormFiles,
                     },
                     images: {
-                        inputProps: {
-                            accept: 'image/*',
-                            multiple: true,
-                        },
                         fieldType: AutoFormFiles,
                         description: 'Escolha uma ou mais imagens',
                     },
@@ -222,5 +222,4 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
     console.log(newObject);
 
     return newObject;
-};
-
+}; 
