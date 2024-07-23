@@ -37,7 +37,7 @@ export const BentoGridItem = ({
     return (
         <div
             className={cn(
-                "group overflow-hidden relative  w-full grow h-96 md:h-[23dvw]  hover:shadow-md duration-200 shadow-input dark:shadow-none dark:border-white/[0.2]  border border-transparent p-4  flex flex-col space-y-4",
+                "group/item overflow-hidden relative  w-full grow h-96 md:h-[23dvw]  hover:shadow-md duration-200 shadow-input dark:shadow-none dark:border-white/[0.2]  border border-transparent p-4  flex flex-col space-y-4",
                 className,
                 variant === "static" ? "cursor-default rounded-3xl" : "cursor-pointer rounded-3xl"
             )}
@@ -52,14 +52,14 @@ export const BentoGridItem = ({
                     <span className={cn("text-left transition-all duration-300",
                         variant === "static" ?
                             "relative"
-                            : "absolute z-10 opacity-0 group-hover:opacity-100 inset-0"
+                            : "absolute z-10 opacity-0 group-hover/item:opacity-100 inset-0"
                     )}>
 
                         <div className="font-bold mb-2 mt-2 text-xl uppercase">
                             {title}
                         </div>
                         <div className={cn("  font-sans font-normal text-xs ",
-                            variant === "static" ? "" : "transition-all delay-300 duration-300 opacity-0 group-hover:opacity-100"
+                            variant === "static" ? "" : "transition-all delay-300 duration-300 opacity-0 group-hover/item:opacity-100"
                         )}>
                             {description}
                         </div>
@@ -71,7 +71,7 @@ export const BentoGridItem = ({
                     </span>
                 </div>
                 <span className={cn(" ",
-                    variant === "static" ? "relative" : "absolute transition duration-300 inset-0 group-hover:scale-[1.02] "
+                    variant === "static" ? "relative" : "absolute transition duration-300 inset-0 group-hover/item:scale-[1.02] "
                 )}>
                     {children}
                 </span>

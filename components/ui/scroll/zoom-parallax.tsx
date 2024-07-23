@@ -2,7 +2,7 @@ import React, { FC, useRef } from "react";
 import Image from "next/image";
 
 import { useScroll, useTransform, motion } from "framer-motion";
-import { cn } from "@/lib/utils";
+import { cn, getIsMobile } from "@/lib/utils";
 
 /*  {
       src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1528",
@@ -56,15 +56,17 @@ const ZoomParallax = ({ classes, children }: { children: React.ReactNode[], clas
     const x = radius * Math.cos(angle);
     const y = radius * Math.sin(angle);
 
+    const isMobile = getIsMobile(450)
+
     return {
       child,
-      scale: useTransform(scrollYProgress, [0, 1], [1, index + 4]),
+      scale: useTransform(scrollYProgress, [0, 1], [1, index + (isMobile ? 2 : 4)]),
       style: {
         position: "relative",
         zIndex: index ? + 1 : 100,
-        top: `${index ? 15 + 1.6 * y : 0}%`, // Ajuste para centralizar verticalmente
-        left: `${index ? 15 + 1.6 * x : 0}%`, // Ajuste para centralizar horizontalmente
-        width: `${index ? 10 + index * 2 : 25}%`, // Aumenta a largura conforme o índice aumenta
+        top: `${index ? -15 - (isMobile ? 0.6 : 1.6) * y : 0}%`, // Ajuste para centralizar verticalmente
+        left: `${index ? -15 - (isMobile ? 2 : 1.6) * x : 0}%`, // Ajuste para centralizar horizontalmente
+        width: `${index ? (10 + index * (isMobile ? 6 : 5)) : isMobile ? 50 : 25}%`, // Aumenta a largura conforme o índice aumenta
         aspectRatio: 1,
       },
     };

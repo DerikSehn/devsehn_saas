@@ -97,6 +97,15 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       keyframes: {
+        "modal-fade-in": {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+        "modal-fade-out": {
+          "0%": { opacity: "1" },
+          "100%": { opacity: "0" },
+        },
+
         "logo-carousel": {
           from: { transform: "translateX(0)" },
           to: { transform: "translateX(calc(-100% - 2rem))" },
@@ -105,6 +114,8 @@ const config: Config = {
       //Adjust duration as your needs
       animation: {
         "logo-carousel": "logo-carousel 16s linear infinite",
+        "modal-fade-in": "modal-fade-in 500ms ease-out",
+        "modal-fade-out": "modal-fade-out 500ms ease-in",
       },
     },
   },

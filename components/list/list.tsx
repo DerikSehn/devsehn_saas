@@ -1,12 +1,13 @@
 import { cn } from '@/lib/utils';
-import { CrudRequest } from '@/pages/api/crud';
+import { CrudRequest, handleApiRequest } from '@/pages/api/crud';
 import { PlusIcon } from 'lucide-react';
 import { cloneElement, ReactElement, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
+import { useToast } from '../providers/toast-provider';
 import { Button } from '../ui/button';
 import SparklesText from '../ui/scroll/magicui/sparkles-text';
 import ListItem, { Item } from './list-item';
-import TableItemWrapper from './list-item-wrapper';
+import ListItemWrapper from './list-item-wrapper';
 import ListPagination from './list-pagination';
 import TableItemEditor from './table-item-editor';
 
@@ -46,13 +47,14 @@ const List = <T,>({
     header,
     children
 }: ListProps<T>) => {
+    const notify = useToast();
     const [currentPage, setCurrentPage] = useState(1);
     const [sortOption, setSortOption] = useState(sortOptions[0]?.value || '');
     const [filterOption, setFilterOption] = useState(filterOptions[0]?.value || '');
     const [isSelected, setIsSelected] = useState(false)
     const [currentList, setList] = useState(items)
 
-    const handleSubmit = (itemData: any, reason: CrudRequest["method"]) => {
+    const handleSubmit = ({ item: itemData, method: reason }: { item: any, method: CrudRequest["method"] }) => {
         setIsSelected(!isSelected)
         switch (reason) {
             case 'create':
@@ -76,6 +78,18 @@ const List = <T,>({
             onClick(item)
         }
     }
+    const handleItemDelete = async (id: number) => {
+        console.log(tableName)
+        const where = { id }
+        console.log(where)
+        const res = await handleApiRequest({ where }, tableName!, 'delete');
+        if (res.error) {
+            notify({ message: res.error, type: 'error' })
+        }
+        setList(pvSt => pvSt.filter(item => item.id !== id))
+    }
+
+
 
     useEffect(() => {
         if (sortOptions.length === 0) {
@@ -86,19 +100,17 @@ const List = <T,>({
         }
     }, [sortOptions, filterOptions]);
 
-
     const sortedItems = sortOptions.length
         ? [...currentList].sort((a, b) => {
+            /* @ts-ignore */
             return a?.[sortOption as keyof Item] > b?.[sortOption as keyof Item] ? 1 : -1;
         })
         : currentList;
 
-
     const filteredItems = filterOptions.length > 1 && filterOption
+        /* @ts-ignore */
         ? sortedItems.filter((item) => item.category === filterOption)
         : sortedItems;
-
-
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const paginatedItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
@@ -114,15 +126,15 @@ const List = <T,>({
                     sparklesCount={2}
                     colors={{ first: "#70b266", second: "#cfe5cc" }} />
                 {enableEditor ?
-                    <TableItemWrapper onSubmit={handleSubmit}
+                    <ListItemWrapper onSubmit={handleSubmit}
                         clickArea={
-                            <Button variant={'outline'} className="absolute  right-0 top-0 rounded-3xl flex justify-between space-x-2">
+                            <Button variant={'outline'} className="absolute  right-4 top-4 rounded-3xl flex justify-between space-x-2">
                                 <PlusIcon className=" w-6 h-6 text-neutral-800" />
                             </Button>
                         }
                     >
                         <TableItemEditor method={'create'} onClose={() => { }} tableName={tableName!} />
-                    </TableItemWrapper>
+                    </ListItemWrapper>
                     : null
                 }
             </div>
@@ -160,13 +172,13 @@ const List = <T,>({
             )}
             {enableEditor ? <>
                 {paginatedItems.map((item) =>
-                    <TableItemWrapper key={item?.id} onSubmit={handleSubmit} disableClickArea={isSelected} clickArea={
-                        <ListItem onClick={handleItemClick} item={item} >
+                    <ListItemWrapper key={item?.id} onSubmit={handleSubmit} disableClickArea={isSelected} clickArea={
+                        <ListItem onDelete={() => handleItemDelete(item?.id)} onClick={handleItemClick} item={item} >
                             {children ? cloneElement(children, { item }) : null}
                         </ListItem>}
                     >
-                        <TableItemEditor method={'update'} onClose={() => { }} tableName={tableName!} item={item} />
-                    </TableItemWrapper>
+                        <TableItemEditor method={'update'} onClose={handleSubmit} tableName={tableName!} item={item} />
+                    </ListItemWrapper>
                 )}</> : paginatedItems.map((item) =>
                     <ListItem key={item.id} onClick={handleItemClick} item={item} />)
             }

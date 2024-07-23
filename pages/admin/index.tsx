@@ -51,6 +51,7 @@ export async function getServerSideProps() {
             images: true
         }
     });
+    console.log(projects);
     const services = await prisma.service.findMany({
         include: {
             image: true
@@ -126,16 +127,16 @@ export default function AdminDashboard({ metrics, projects, testimonials, servic
         <div className="col-span-12 ">
             <div className="lg:mt-32 md:grid grid-cols-2 lg:grid-cols-4  gap-6">
                 {metrics?.map((metric, index) =>
-                    <MetricCard key={index} className=''>
+                    <MetricCard key={index} className='' >
                         <div className="flex justify-between">
-                            <p className="relative z-10 font-bold text-md text-neutral-700/60 uppercase flex flex-col">
+                            <div className="relative z-10 font-bold text-md text-neutral-700/60 uppercase flex flex-col">
                                 <span>
                                     {metric.title}
                                 </span>
                                 <b>
                                     {metric.quantity}
                                 </b>
-                            </p>
+                            </div>
 
                             <GradientCircle className="h-12" index={index}>
                                 {/* @ts-ignore */}
@@ -153,14 +154,14 @@ export default function AdminDashboard({ metrics, projects, testimonials, servic
                         itemsPerPage={8}
                         enableEditor
                         tableName={'project'}
-                        className='grid md:grid-cols-2 gap-3'
+                        className='grid md:grid-cols-1 gap-3'
                         items={projects}
                         header={{
                             title: 'Lista de Projetos',
                         }}
                     >
                         {/* @ts-ignore */}
-                        <ProjectCard />
+                        <ProjectCard className="min-h-[200px]" />
                     </List>
                 </li>
                 <li className="space-y-4 p-4 border border-neutral-200 rounded-3xl bg-neutral-100 shadow-md">
@@ -189,6 +190,7 @@ export default function AdminDashboard({ metrics, projects, testimonials, servic
                             title: 'Serviços',
                         }}
                     >
+                        {/* @ts-ignore */}
                         <ServiceCard />
                     </List>
                 </li>

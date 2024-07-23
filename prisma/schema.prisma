@@ -90,6 +90,8 @@ model Image {
   User        User?        @relation(fields: [userId], references: [id])
   Testimonial Testimonial?
   Service     Service[]
+  Section     Section?     @relation(fields: [sectionId], references: [id])
+  sectionId   Int?
 }
 
 model Testimonial {
@@ -139,4 +141,14 @@ model EmailLink {
   href            String
   EmailTemplate   EmailTemplate? @relation(fields: [emailTemplateId], references: [id])
   emailTemplateId Int?
+}
+
+/// Sections about the landing page or informations the client needs
+model Section {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  images      Image[]
 }

@@ -1,6 +1,7 @@
 "use client";
 import { cn } from "@/lib/utils";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../button";
@@ -63,13 +64,15 @@ export const FloatingNavBar = ({
                 textShadow: '1px 1px 1px  gray'
             }}
             className={cn(
-                "flex md:max-w-screen-2xl bg-white fixed top-0 inset-x-0 md:mx-auto transition-colors duration-500 border md:border-primary/40  dark:border-white/20 md:rounded-full rounded-b-[40px] dark:bg-primary-300 backdrop-blur-[2px]  z-[5000] px-4 md:pl-8 py-2  items-between justify-between space-x-4",
-                isAtTop ? " md:bg-transparent md:border-none md:top-4 lg:top-10 xl:top-20" : "md:bg-primary/30 md:border-2 md:top-2 lg:top-4 xl:top-6",
+                "flex md:max-w-screen-2xl bg-orimary-300 fixed top-0 inset-x-0 md:mx-auto transition-colors duration-500 border md:border-primary/40  dark:border-white/20 md:rounded-full rounded-b-[40px] dark:bg-primary-300 backdrop-blur-[2px]  z-[5000] px-4 md:pl-8 py-2  items-between justify-between space-x-4",
+                isAtTop ? " md:bg-transparent md:border-none md:top-4 lg:top-6 xl:top-10 2xl:top-20" : "md:bg-primary/30 md:border-2 md:top-2 lg:top-4 xl:top-6",
                 className,
             )}
         >
-            <div className="max-w-96 md:w-1/4">
-                <Logo />
+            <div className="relative max-w-72 -my-2 h-[80px] w-1/2 md:w-1/4">
+                {/* max width is 200px */}
+                <Image src="/logo-white.png" alt="logo" fill className="object-cover object-center" />
+                {/* <Logo className="dark:hidden block" /> */}
             </div>
             <div className="hidden sm:flex justify-end gap-6">
                 {navItems.map((navItem: any, idx: number) => (

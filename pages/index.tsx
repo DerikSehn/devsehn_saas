@@ -29,6 +29,7 @@ export const getServerSideProps = (async () => {
   const projects = await prisma.project.findMany({ take: 5, include: { images: true } });
   const testimonials = await prisma.testimonial.findMany({ take: 10, include: { image: true } });
   const services = await prisma.service.findMany({ take: 5, include: { image: true } });
+  console.log(services)
 
   return { props: { projects, testimonials, services } }
 })
@@ -36,48 +37,14 @@ export const getServerSideProps = (async () => {
 
 export default function Home({ projects, testimonials, services }: { projects: ModelWithImages<Project>[], testimonials: ModelWithImage<Testimonial>[], services: ModelWithImage<Service>[] }) {
 
-  const session = useSession();
-  const [file, setFile] = useState(null);
-  const [message, setMessage] = useState('');
-
-  const handleFileChange = (e: any) => {
-    setFile(e.target.files[0]);
-  };
-
-  const handleSubmit = async (e: any) => {
-    e.preventDefault();
-
-    if (!session) {
-      setMessage('You must be signed in to upload a file.');
-      return;
-    }
-
-    const formData = new FormData();
-    formData.append('file', file as any);
-
-    const res = await fetch('/api/upload', {
-      method: 'POST',
-      body: formData,
-    });
-
-    const result = await res.json();
-    if (res.ok) {
-      setMessage('Upload successful!');
-    } else {
-      setMessage(`Upload failed: ${result.error}`);
-    }
-  };
-
   return (<div className="relative z-0">
     <Page className={`relative z-1  ${yeseva_one.className} ${prata.className}`}>
-      <div className="flex flex-col w-full min-h-[100vh]">
-        <main className="flex-1 bg-primary-300">
-          <Hero />
-          <HeroCards services={services} />
-          <Projects projects={projects} />
-          <About />
-          <Testimonials testimonials={testimonials} />
-        </main>
+      <div className="flex flex-col w-full min-h-[100vh] bg-primary-300">
+        <Hero />
+        <HeroCards services={services} />
+        <Projects projects={projects} />
+        <About />
+        <Testimonials testimonials={testimonials} />
       </div>
       <section id="projects" className="relative z-10 w-full overflow-hidden py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800 flex flex-col justify-center">
         <div className="flex flex-col items-center justify-center space-y-4 text-center">

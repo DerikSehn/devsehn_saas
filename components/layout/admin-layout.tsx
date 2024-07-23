@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Coins, Home, Info, InfoIcon, LandPlot, LogOut, Search, Settings, Tags } from "lucide-react";
+import { Coins, File, Home, Info, InfoIcon, LandPlot, LogOut, ProjectorIcon, Search, Settings, Tags } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import GradientCircle from "../box/gradient-circle";
@@ -26,6 +26,11 @@ const LINKS = [
             name: "Configurações",
             href: '/admin/settings'
         },
+        {
+            icon: <File />,
+            name: "Documentação",
+            href: '/admin/api-doc'
+        },
        /*  {
             icon: <Coins />,
             name: "Pagamentos",
@@ -40,8 +45,13 @@ const LINKS = [
             href: '/'
         }, {
             icon: <Tags />,
-            name: "Produtos",
-            href: '/#services'
+            name: "Seções do site",
+            href: '/admin/sections'
+        },
+        {
+            icon: <ProjectorIcon />,
+            name: "Página de Projetos",
+            href: '/admin/projects'
         },
         {
             icon: <LogOut />,

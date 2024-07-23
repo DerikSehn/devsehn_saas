@@ -1,13 +1,14 @@
+import { cn } from "@/lib/utils";
 import React from "react";
 
-function Logo() {
+function Logo({ className }: { className?: string }) {
     return (
         <svg
             xmlns="http://www.w3.org/2000/svg"
             width="100%"
             fillRule="evenodd"
             strokeLinejoin="round"
-            className="max-w-[200px]"
+            className={cn("max-w-[200px]", className)}
             strokeWidth="28.222"
             preserveAspectRatio="xMidYMid"
             version="1.2"

@@ -196,6 +196,25 @@ async function main() {
           },
         ],
       });
+      const sections = await prisma.section.findMany();
+      if (sections.length === 0) {
+        await prisma.section.createMany({
+          data: [
+            {
+              title: "Seção 1",
+              description: "Descrição da seção 1",
+            },
+            {
+              title: "Seção 2",
+              description: "Descrição da seção 2",
+            },
+            {
+              title: "Seção 3",
+              description: "Descrição da seção 3",
+            },
+          ],
+        });
+      }
     } catch (e) {}
   }
 }

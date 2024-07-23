@@ -25,25 +25,22 @@ export default function Gallery({ images }: { images: types.Image[] }) {
         }
     }, [])
 
-    const repeatedPattern = repeatPattern(values?.length);
+    const repeatedPattern = repeatPattern(values?.length, [1, 2, 1, 2, 2]);
 
     return (
-        <div className="mx-auto max-w-screen-2xl   pt-12">
+        <div className="mx-auto max-w-screen-2xl pt-12">
 
-            <BentoGrid className=' px-8'  >
+            <BentoGrid className=' px-8 md:grid-cols-6 h-full overflow-scroll'  >
 
                 {values?.map(({ description, name, url }, index) =>
 
-                    <BentoGridItem
-                        key={index}
-                        title={name}
-                        description={description}
+                    <div key={index}
                         className={cn(
                             "bg-gradient-to-b  from-neutral-700/20 via-50% via-transparent to-90% to-neutral-700/10",
                             repeatedPattern[index] === 2 ? 'md:col-span-2' : 'md:col-span-1')}
                     >
                         <Image fill src={url} alt={'images-image'} className="object-cover  object-center" />
-                    </BentoGridItem>
+                    </div>
 
                 )}
 

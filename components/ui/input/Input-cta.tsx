@@ -53,26 +53,26 @@ export default function InputCTA({ description }: { description: string }) {
 
     return (
         <form onSubmit={handleSubmit} className="relative">
-            <div className="flex flex-col items-start space-y-3 my-6 rounded-md max-w-3xl">
+            <div className="flex flex-col items-start space-y-3 rounded-md max-w-2xl xl:max-w-3xl">
                 <div className="leading-10">
-                    <p className="text-sm font-semibold md:text-xl dark:text-gray-200 xl:max-w-2xl">
+                    <p className="text-sm font-semibold md:text-xl dark:text-gray-200 xl:max-w-2xl px-4">
                         {description}
                     </p>
                 </div>
 
-                <div className="flex w-full relative">
+                <div className="flex w-full relative max-w-xl xl:max-w-2xl">
                     <input
                         type="email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Insira seu e-mail"
-                        className="w-full rounded-full p-4 px-4 border-2 border-neutral-600 bg-neutral-200 transition-colors focus:bg-neutral-100 hover:bg-neutral-100 text-neutral-600 h-full"
+                        className="w-full  rounded-full p-4 px-4 border-2 border-neutral-100 bg-neutral-200 transition-colors focus:bg-neutral-100 hover:bg-neutral-100 text-neutral-600 h-full"
                         required
-                    />  
+                    />
                     <Button
                         variant={'swipe'}
                         disabled={loading}
-                        className={cn(`p-3 px-4 h-full w-32 absolute right-0 z-10 ${loading ? 'bg-secondary-600 text-neutral-400 border-secondary-600 cursor-not-allowed' : 'bg-secondary-400 text-neutral-600 border-neutral-600 hover:bg-secondary-300 hover:text-neutral-700'}`)}
+                        className={cn(`p-3 px-4 h-full w-32 absolute right-0 z-10 ${loading ? 'bg-secondary-600 text-neutral-400 border-secondary-600 cursor-not-allowed' : 'bg-secondary-400 text-neutral-600 border-neutral-100 hover:bg-secondary-300 hover:text-neutral-700'}`)}
                         type="submit"
                     >
                         {loading ? 'Enviando...' : 'Enviar'}

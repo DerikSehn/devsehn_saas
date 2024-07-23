@@ -1,16 +1,18 @@
 //tailwind css framer-motion react-hook-form image upload section using prisma local server nextjs user already logged in
 
 import { BentoGrid, BentoGridItem } from "@/components/bento-grid"
+import CommentCard from "@/components/card/comment-card"
+import { ImageCard } from "@/components/card/image-card"
 import Gallery from "@/components/gallery/gallery"
 import { ImageUploader } from "@/components/image-uploader"
-import { ProjectCreator } from "@/components/project-creator"
+import List from "@/components/list/list"
 import prisma from "@/lib/prisma"
 import { handleApiRequest } from "@/pages/api/crud"
 import { Image, User } from "@prisma/client"
-import { ImageIcon } from "lucide-react"
+import { ImageIcon, SettingsIcon } from "lucide-react"
 export async function getServerSideProps() {
 
-    const projects = await prisma.project.findMany()
+    const comments = await prisma.comment.findMany()
     const user = await prisma.user.findFirst({
         where: {
             email: 'admin@admin.com'
@@ -19,41 +21,36 @@ export async function getServerSideProps() {
 
     const images = await prisma.image.findMany()
 
-    return { props: { user, images, projects } }
+    return { props: { user, images, comments } }
 }
 
-export default function AdminSettings({ user, images }: { user: User, images: Image[] }) {
-
-    const handleUpload = async (image: File) => await handleApiRequest(image, 'image', 'create')
+export default function AdminSettings({ comments, images }: { user: User, images: Image[], comments: Comment[] }) {
 
     return (
-        <div className="w-full h-full">
+        <div className="w-full h-full grid md:grid-cols-2 gap-4">
+            {/*  <div className="w-full h-full">
+                <List items={comments} tableName={'comment'}
+                    className='grid md:grid-cols-3 gap-3 bg-neutral-100 shadow-lg rounded-lg p-4 h-full'
+                    itemsPerPage={18}
+                    enableEditor={true}
+                    header={{ title: 'Comentários de Tabelas' }}
+                >
+                    <CommentCard />
+                </List>
+            </div> */}
+            <div className="w-full h-full md:col-span-full">
+                <List items={images} tableName={'image'}
+                    className=' grid md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3 bg-neutral-100 shadow-lg rounded-lg p-4 h-full'
+                    itemsPerPage={18}
+                    enableEditor
+                    header={{ title: 'Galeria de Imagens' }}
+                >
+                    {/* @ts-ignore */}
+                    <ImageCard />
+                </List>
 
-            <BentoGrid className="w-full h-full min-h-[600px]" >
-                <div className="col-span-1 space-y-4">
+            </div>
 
-                    <BentoGridItem
-                        description="Adicione imagens para a sua conta"
-                        icon={<ImageIcon className="w-8 h-8 text-muted-foreground" />}
-                        title="Nova imagem" className="w-full h-full bg-neutral-100 shadow-lg" variant="static">
-                        <ImageUploader onUpload={handleUpload} />
-                    </BentoGridItem>
-                    <BentoGridItem
-                        description="Crie, edite e gerencie suas imagens"
-                        icon={<ImageIcon className="w-8 h-8 text-muted-foreground" />}
-                        title="Galeria de imagens" className="w-full h-full bg-neutral-100 shadow-lg overflow-scroll" variant="static">
-                        <Gallery images={images} />
-                        {/* continuar aqui */}
-                    </BentoGridItem>
-                </div>
-
-                <BentoGridItem
-                    description="Adicione projetos "
-                    icon={<ImageIcon className="w-8 h-8 text-muted-foreground" />}
-                    title="Novo projeto" className="w-full col-span-2 h-full min-h-full bg-neutral-100 shadow-lg" variant="static">
-                    <ProjectCreator onUpload={handleUpload} />
-                </BentoGridItem>
-            </BentoGrid>
         </div>
 
     )

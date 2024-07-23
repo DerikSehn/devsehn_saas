@@ -2,6 +2,7 @@ import Image from "next/image";
 import { motion } from "framer-motion";
 import { ModelWithImages } from "@/prisma/prisma-utils";
 import { Project } from "@prisma/client";
+import { cn } from "@/lib/utils";
 
 const cardVariants = {
   initial: {
@@ -17,7 +18,9 @@ const cardVariants = {
   },
 };
 
-export const ProjectCard = ({ item }: { item: ModelWithImages<Project> }) => {
+export const ProjectCard = ({ item, className }: { item: ModelWithImages<Project>, className?: string }) => {
+
+  console.log(item);
 
   return (
     <motion.div
@@ -27,7 +30,9 @@ export const ProjectCard = ({ item }: { item: ModelWithImages<Project> }) => {
       whileTap={{
         scale: 0.99
       }}
-      className="grid md:grid-cols-2 justify-center relative overflow-hidden rounded-lg bg-neutral-200/50 hover:bg-neutral-50 transition-colors  dark:bg-gray-800">
+      className={cn("grid md:grid-cols-2 justify-center relative overflow-hidden rounded-lg bg-neutral-200/50 hover:bg-neutral-50 transition-colors  dark:bg-gray-800",
+        className
+      )}>
       <div className="p-6">
         <div>
           <h4 className="font-semibold">{item?.title}</h4>

@@ -16,6 +16,7 @@ export default function AutoFormFile({
   field,
 }: AutoFormInputComponentProps) {
   const { showLabel: _showLabel, ...fieldPropsWithoutShowLabel } = fieldProps;
+  console.log(fieldProps)
   const showLabel = _showLabel === undefined ? true : _showLabel;
   const [file, setFile] = useState<File | null>(null);
   const [fileUrl, setFileUrl] = useState<string | null>(null);
