@@ -1,44 +1,31 @@
 import React, { FC, useRef } from "react";
 import Image from "next/image";
-
-import { useScroll, useTransform, motion } from "framer-motion";
+import { useScroll, useTransform, motion, useSpring } from "framer-motion";
 import { cn, getIsMobile } from "@/lib/utils";
 
-/*  {
-      src: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1528",
-      scale: scale1,
-      classes: "relative w-[25%] h-[25%]",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1492288991661-058aa541ff43?q=80&w=1887",
-      scale: scale2,
-      classes: "relative top-[-30%] left-[5%] w-[35%] h-[30%]",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?q=80&w=1887",
-      scale: scale3,
-      classes: "relative top-[-29%] left-[-25%] w-[20%] h-[28%]",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1974",
-      scale: scale2,
-      classes: "relative left-[27.5%] w-[25%] h-[25%]",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1526510747491-58f928ec870f?q=80&w=1974",
-      scale: scale3,
-      classes: "relative left-[-27.5%] w-[25%] h-[25%]",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1501196354995-cbb51c65aaea?q=80&w=2071",
-      scale: scale4,
-      classes: "relative top-[27.5%] left-[5%] w-[20%] h-[25%]",
-    },
-    {
-      src: "https://images.unsplash.com/photo-1463453091185-61582044d556?q=80&w=2070",
-      scale: scale5,
-      classes: "relative top-[22.5%] left-[25%] w-[15%] h-[15%]",
-    }, */
+const fixedPictures = [
+  {
+    classes: "w-[25%] h-[25%]",
+  },
+  {
+    classes: "top-[-30%] left-[5%] w-[35%] h-[30%]",
+  },
+  {
+    classes: "top-[-29%] left-[-25%] w-[20%] h-[28%]",
+  },
+  {
+    classes: "top-[15%] left-[27.5%] w-[25%] h-[25%]",
+  },
+  {
+    classes: "top-[20%] left-[-27.5%] w-[25%] h-[25%]",
+  },
+  {
+    classes: "top-[27.5%] left-[5%] w-[20%] h-[25%]",
+  },
+  {
+    classes: "top-[22.5%] left-[25%] w-[15%] h-[15%]",
+  },
+];
 
 const ZoomParallax = ({ classes, children }: { children: React.ReactNode[], classes?: string }) => {
   const container = useRef(null);
@@ -46,51 +33,37 @@ const ZoomParallax = ({ classes, children }: { children: React.ReactNode[], clas
     target: container,
     offset: ["start start", "end end"],
   });
-  const goldenRatio = 1.61803398875; // Proporção áurea
 
-  const pictures = children.map((child, index) => {
-    const angle = index * (Math.PI / 2) / goldenRatio; // Ângulo em radianos
-    const radius = index * 8; // Aumenta o raio conforme o índice aumenta
-
-    // Cálculo das posições x e y na espiral
-    const x = radius * Math.cos(angle);
-    const y = radius * Math.sin(angle);
-
-    const isMobile = getIsMobile(450)
-
+  const pictures = children.slice(0, 5).map((child, index) => {
+    const isMobile = getIsMobile(768);
+    console.log(isMobile)
+    const scale =
+      useTransform(scrollYProgress, [0, 1], [isMobile && index ? .5 : 1, index + (isMobile ? !index ? 2 : .6 : 4)]);
+    const { classes } = fixedPictures[index];
     return {
       child,
-      scale: useTransform(scrollYProgress, [0, 1], [1, index + (isMobile ? 2 : 4)]),
-      style: {
-        position: "relative",
-        zIndex: index ? + 1 : 100,
-        top: `${index ? -15 - (isMobile ? 0.6 : 1.6) * y : 0}%`, // Ajuste para centralizar verticalmente
-        left: `${index ? -15 - (isMobile ? 2 : 1.6) * x : 0}%`, // Ajuste para centralizar horizontalmente
-        width: `${index ? (10 + index * (isMobile ? 6 : 5)) : isMobile ? 50 : 25}%`, // Aumenta a largura conforme o índice aumenta
-        aspectRatio: 1,
-      },
+      scale,
+      classes: cn("relative", classes, isMobile && index === 0 ? "z-100 w-[50%]" : "min-w-[300px]"),
     };
   });
 
   return (
     <section
       ref={container}
-      className={cn("relative h-[200vh] w-full", classes)}
+      className={cn("relative h-[200vh] w-full z-10", classes)}
     >
-      <div className="sticky top-0 h-screen overflow-hidden">
-        {pictures.map(({ child, scale, style, }, index) => {
-          return (
-            <motion.div
-              key={index}
-              style={{ scale, }}
-              className="absolute top-0 flex h-full w-full items-center justify-center"
-            >
-              <div style={style}>
-                {child}
-              </div>
-            </motion.div>
-          );
-        })}
+      <div className="sticky top-0 h-[100vh] overflow-hidden">
+        {pictures.map(({ child, scale, classes }, index) => (
+          <motion.div
+            key={index}
+            style={{ scale }}
+            className={cn("absolute top-0 z-0 flex h-full w-full  overflow-visible items-center justify-center", !index && "z-10")}
+          >
+            <div className={cn("", classes)}>
+              {child}
+            </div>
+          </motion.div>
+        ))}
       </div>
       <div className="h-[100vh] leading-[0]"></div>
     </section>

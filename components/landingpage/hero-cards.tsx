@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
 import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import SectionHeader from "./section/section-header";
 
 
 export default function HeroCards({ services }: { services: ModelWithImage<Service>[] }) {
@@ -19,24 +20,21 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
     const isMobile = getIsMobile()
 
     return (
-        <div ref={ref} className="relative z-10 w-full flex flex-col justify-center text-center items-center  -translate-y-[5%] rounded-[64px] lg:rounded-[3dvw] lg:rounded-b-none bg-primary-300 py-5 lg:p-0 lg:h-screen">
-            <div className="lg:absolute top-14 z-[15] col-span-full space-y-2">
-                <h3 className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800 ">
-                    Serviços
-                </h3>
-                <h2 className="text-3xl font-light tracking-wide sm:text-5xl lg:text-7xl max-w-screen-md text-neutral-100 font-moglan">
-                    Áreas de atuação
+        <div ref={ref} className="relative z-10 w-full flex flex-col justify-center text-center items-center  -translate-y-[5%] rounded-[64px] lg:rounded-[3dvw] lg:rounded-b-none bg-primary-300 py-5 lg:p-0 lg:h-[80vh] ">
 
-                </h2>
+            <SectionHeader
+                className="z-[15] "
+                title="Serviços"
+                subtitle="Áreas de atuação"
+            />
 
-            </div>
             <Image
                 alt="Hero Image"
                 fill
                 className="object-cover object-center z-0 -scale-x-100 -scale-y-100 select-none rounded-[64px] lg:rounded-none"
                 src="/hero/vector.svg" />
             <div className=" absolute inset-0 bg-gradient-to-t from-primary-300 from-20% z-10" />
-            <div className=" relative max-w-screen-2xl w-full z-20 min-h-[400px]  grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center gap-4 lg:gap-6 px-4 ">
+            <div className=" relative max-w-screen-2xl w-full z-20 min-h-[400px]  grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center space-y-10 lg:space-y-0 gap-4 lg:gap-6 px-4 ">
 
                 {services.slice(0, 4)?.map((service, index) =>
                     <motion.div
@@ -67,4 +65,5 @@ export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
         </Card>
     );
 }
+
 

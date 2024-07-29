@@ -2,18 +2,27 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { twMerge } from 'tailwind-merge';
 import useHandleClickAway from './use-handle-click-away';
+import { isFunction } from 'lodash';
 
 type DrawerProps = {
-    isOpen: boolean;
-    onClose: () => void;
+    isOpen?: boolean;
+    onClose?: () => void;
     children: React.ReactNode;
     anchor: 'left' | 'right' | 'top' | 'bottom';
     className?: string;
+    clickArea?: React.ReactNode;
 };
 
-const Drawer = ({ isOpen, onClose, children, anchor, className }: DrawerProps) => {
+const Drawer = ({ isOpen, onClose, children, anchor, className, clickArea }: DrawerProps) => {
     const [animationComplete, setAnimationComplete] = useState(false);
 
+    const [isAreaOpen, toggleOpen] = useState(isOpen);
+    const handleClose = () => {
+        toggleOpen(!isAreaOpen);
+        if (isFunction(onClose)) {
+            onClose();
+        }
+    }
 
 
     const handleAnimationComplete = () => {
@@ -79,11 +88,15 @@ const Drawer = ({ isOpen, onClose, children, anchor, className }: DrawerProps) =
                 return {};
         }
     };
-    useHandleClickAway('.drawer-content', onClose, isOpen)
+    useHandleClickAway('.drawer-content', handleClose, isAreaOpen)
 
     return (
         <AnimatePresence>
-            {isOpen && (
+            {clickArea ? (
+                /* @ts-ignore */
+                React.cloneElement(clickArea, { onClick: handleClose })
+            ) : null}
+            {isAreaOpen && (
                 <motion.div
                     className={twMerge(`drawer-content overflow-y-auto fixed ${getDrawerStyles()} bg-neutral-100 border-neutral-200 border shadow-lg z-50 `, className)}
                     initial={getInitialAnimation()}

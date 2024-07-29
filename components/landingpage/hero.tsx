@@ -1,7 +1,7 @@
 import Image from "next/image"
 import ImageInLine from "../ui/image/image-in-line"
 import InputCTA from "../ui/input/Input-cta"
-import { Section } from "./section"
+import { Section } from "./section/section"
 
 export default function Hero() {
 

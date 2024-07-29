@@ -1,4 +1,5 @@
 import { motion, Variants } from "framer-motion";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
 
 
@@ -23,7 +24,7 @@ interface SidebarLink {
 interface SidebarItem {
     href: string;
     name: string;
-    icon: React.ReactNode;
+    icon?: React.ReactNode;
 }
 
 const SidebarLinks = ({ links, variants = { liVariants, itemVariants, iconVariants } }: { links: SidebarLink[], variants?: { liVariants: Variants, itemVariants: Variants, iconVariants: Variants } }) => {
@@ -47,7 +48,7 @@ const SidebarLinks = ({ links, variants = { liVariants, itemVariants, iconVarian
                         className=' flex flex-col'
                     >
                         {items.map(({ href, name, icon }, index) => (
-                            <Link key={index} href={href} className='flex justify-center w-full items-center content-center hover:bg-neutral-200 p-2'>
+                            <Link key={index} href={href !== 'logout' ? href : '/'} onClick={href === 'logout' ? () => signOut() : undefined} className='flex justify-center w-full items-center content-center hover:bg-neutral-200 p-2'>
                                 <motion.div
                                     variants={variants.iconVariants}
                                     className='text-neutral-800'>

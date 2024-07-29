@@ -1,11 +1,12 @@
 "use client";
+import { Dropdown, Tab, Tabs, Trigger, TriggerWrapper } from "@/components/dropdown/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../button";
-import Logo from "../logo";
 
 export const FloatingNavBar = ({
     navItems,
@@ -64,12 +65,12 @@ export const FloatingNavBar = ({
                 textShadow: '1px 1px 1px  gray'
             }}
             className={cn(
-                "flex md:max-w-screen-2xl bg-orimary-300 fixed top-0 inset-x-0 md:mx-auto transition-colors duration-500 border md:border-primary/40  dark:border-white/20 md:rounded-full rounded-b-[40px] dark:bg-primary-300 backdrop-blur-[2px]  z-[5000] px-4 md:pl-8 py-2  items-between justify-between space-x-4",
-                isAtTop ? " md:bg-transparent md:border-none md:top-4 lg:top-6 xl:top-10 2xl:top-20" : "md:bg-primary/30 md:border-2 md:top-2 lg:top-4 xl:top-6",
+                "flex md:max-w-screen-2xl bg-primary-300 fixed top-0 inset-x-0 md:mx-auto transition-colors duration-500 border-b md:border md:border-primary/40 dark:border-white/20  md:rounded-b-[40px] md:rounded-full dark:bg-primary-300 backdrop-blur-[2px]  z-[5000] px-4 md:pl-8 py-2  items-between justify-between md:space-x-4",
+                isAtTop ? " md:bg-transparent md:border-none md:top-4 lg:top-6 xl:top-10 2xl:top-12" : "md:bg-primary/70 md:border-2 md:top-2 lg:top-4 xl:top-6",
                 className,
             )}
         >
-            <div className="relative max-w-72 -my-2 h-[80px] w-1/2 md:w-1/4">
+            <div className="hidden md:block relative max-w-72 -my-2 h-[80px] w-1/2 md:w-1/4">
                 {/* max width is 200px */}
                 <Image src="/logo-white.png" alt="logo" fill className="object-cover object-center" />
                 {/* <Logo className="dark:hidden block" /> */}
@@ -81,12 +82,9 @@ export const FloatingNavBar = ({
                         href={navItem.link}
 
                         className={cn(
-                            "relative font-bold  dark:text-neutral-50 items-center flex space-x-1 text-neutral-100 dark:hover:text-neutral-300 hover:text-neutral-200"
+                            "relative group/link font-bold flex dark:text-neutral-50 items-center space-x-1 text-neutral-100 dark:hover:text-neutral-300 hover:text-neutral-200"
                         )}
                     >
-                        <span className="block sm:hidden">
-                            {navItem.icon}
-                        </span>
                         <motion.span
                             animate={{
                                 fontWeight: isAtTop ? 300 : 600,
@@ -95,7 +93,9 @@ export const FloatingNavBar = ({
                                     type: 'spring'
                                 },
                             }}
-                            className={cn("hidden sm:block text-[10px]  lg:text-lg")}>{navItem.name}</motion.span>
+                            className={cn("hidden sm:block text-[10px]  lg:text-lg relative")}>
+                            <motion.span className="absolute bottom-0 w-0 h-[2px] transition-all group-hover/link:w-full mt-1 bg-secondary" />
+                            {navItem.name}</motion.span>
                     </Link>
                 ))}
                 <Link href="#contato" className="flex items-center justify-center  ">
@@ -106,6 +106,47 @@ export const FloatingNavBar = ({
                         Entre em contato
                     </Button>
                 </Link>
+
+
+
+            </div>
+            <div className="flex sm:hidden h-20 w-full justify-center">
+
+                <Dropdown className="w-full flex justify-center items-center">
+                    <TriggerWrapper >
+                        <Trigger className="">
+                            <div className="relative  w-72 h-[80px] ">
+                                {/* max width is 200px */}
+                                <Image src="/logo-white.png" alt="logo" fill className="object-cover object-center" />
+                                {/* <Logo className="dark:hidden block" /> */}
+                            </div>
+                        </Trigger>
+                    </TriggerWrapper>
+                    <Tabs>
+                        <Tab>
+                            <div className="flex gap-4 p-4 w-full h-full bg-primary-300 text-jet-900 border-b border-jet-900">
+                                <div
+                                    className={
+                                        'text-white font-bold text-3xl flex items-end justify-start p-4 w-56 h-[200px] rounded-md bg-gradient-to-br [background-size:150%] from-secondary-300   to-primary-400'
+                                    }
+                                >
+                                    Cultura <br /> Verde
+                                </div>
+                                <div className={'flex flex-col  justify-between'}>
+                                    {navItems.map((navItem, idx: number) => (
+                                        <Link href={navItem.link} className="flex items-center justify-start space-x-4 active:bg-primary-800/40 p-2 w-full rounded-lg">
+                                            <h3 className={'dark:text-white text-secondary-800'}>{navItem.icon}</h3>
+
+                                            <p className={'text-jet-900 text-xl '}>
+                                                {navItem.name}
+                                            </p>
+                                        </Link>
+                                    ))}
+                                </div>
+                            </div>
+                        </Tab>
+                    </Tabs>
+                </Dropdown>
             </div>
         </motion.div>
     );

@@ -16,7 +16,6 @@ import {
 } from "@react-email/components";
 import * as React from "react";
 
-const { ADDRESS, PHONE_NUMBER } = process.env
 
 const baseUrl = process.env.AWS_BUCKET_S3_LINK
     ? `https://${process.env.AWS_BUCKET_S3_LINK}`
@@ -29,9 +28,9 @@ export const EmailTemplate = ({
     headerSubtitle,
     buttonText,
     footerText,
-    content = [],
+    contents = [],
     links = []
-}: EmailTemplateType & { links: EmailLink[], content: EmailContent[] }) => (
+}: EmailTemplateType & { links: EmailLink[], contents: EmailContent[] }) => (
     <Html>
         <Head />
         <Preview>
@@ -45,9 +44,9 @@ export const EmailTemplate = ({
 
                 <Section style={headerStyle}>
                     <Row>
-                        <Column style={headerContentStyle}>
-                            <Heading style={headerContentTitleStyle}>{headerTitle}</Heading>
-                            <Text style={headerContentSubtitleStyle}>{headerSubtitle}</Text>
+                        <Column style={headerContentsStyle}>
+                            <Heading style={headerContentsTitleStyle}>{headerTitle}</Heading>
+                            <Text style={headerContentsSubtitleStyle}>{headerSubtitle}</Text>
                         </Column>
                         <Column style={headerImageContainerStyle}>
                             <Img
@@ -59,22 +58,21 @@ export const EmailTemplate = ({
                     </Row>
                 </Section>
 
-                <Section style={contentStyle}>
-                    {content.map(({ heading, paragraph }) => <>
-                        <Heading key={heading} as="h2" style={titleStyle}>
+                <Section style={contentsStyle}>
+                    {contents.map(({ heading, paragraph }) => <React.Fragment key={heading}>
+                        <Heading as="h2" style={titleStyle}>
                             {heading}
                         </Heading>
                         <Text style={paragraphStyle}>{paragraph}</Text>
                         <Hr style={dividerStyle} />
-                    </>
+                    </React.Fragment>
                     )}
                     {buttonText ?
                         <React.Fragment>
-
                             <Section style={buttonContainerStyle}>
-                                <Link style={buttonStyle} href={buttonLink}>
+                                <a style={buttonStyle} href={buttonLink}>
                                     {buttonText}
-                                </Link>
+                                </a>
                             </Section>
                         </React.Fragment>
                         : null
@@ -106,16 +104,16 @@ const mainStyle = {
     fontFamily: "HelveticaNeue,Helvetica,Arial,sans-serif",
 };
 
-const headerContentStyle = { padding: "20px 30px 15px", maxWidth: '360px' };
+const headerContentsStyle = { padding: "20px 30px 15px", maxWidth: '360px' };
 
-const headerContentTitleStyle = {
+const headerContentsTitleStyle = {
     color: "#fff",
     fontSize: "27px",
     fontWeight: "bold",
     lineHeight: "27px",
 };
 
-const headerContentSubtitleStyle = {
+const headerContentsSubtitleStyle = {
     color: "#fff",
     fontSize: "17px",
 };
@@ -160,7 +158,7 @@ const footerStyle = {
     padding: "0 30px",
 };
 
-const contentStyle = {
+const contentsStyle = {
     padding: "30px 30px 40px 30px",
 };
 

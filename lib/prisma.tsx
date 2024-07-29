@@ -1,4 +1,4 @@
-import { CrudRequest, handleApiRequest } from '@/pages/api/crud';
+import { CrudRequest } from '@/pages/api/protected/crud';
 import { Prisma, PrismaClient } from '@prisma/client'
 
 const prismaClientSingleton = () => {
@@ -37,7 +37,7 @@ export async function getAsyncColumns(modelName: CrudRequest['table']) {
 
 
 
-    const response = await fetch(`/api/columns`, {
+    const response = await fetch(`/api/protected/columns`, {
         method: "POST",
         body: JSON.stringify({
             modelName

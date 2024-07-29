@@ -1,4 +1,4 @@
-import { CrudRequest } from '@/pages/api/crud';
+import { CrudRequest } from '@/pages/api/protected/crud';
 import { Dialog } from '@radix-ui/react-dialog';
 import React, { useState } from 'react';
 import AddButton from '../button/AddButton';
@@ -56,7 +56,7 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
 
         ) : (
             <Drawer
-                className="p-4 min-w-[450px] w-350dvw]"
+                className="p-4 min-w-[100dvw] md:min-w-[450px]"
                 anchor={'right'}
                 isOpen={isOpen}
                 onClose={toggleMenu}
@@ -87,7 +87,6 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
 
                 }
             } catch (error) {
-                console.log(error)
                 notify('Não foi possível efetuar as mudanças', { type: 'error' })
             }
         }
@@ -95,7 +94,7 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
     };
 
     return (
-        <div>
+        <React.Fragment>
             {
                 clickArea ?
                     React.cloneElement(clickArea, { onClick: toggleMenu })
@@ -105,6 +104,6 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
             <Wrapper>
                 {React.cloneElement(children, { onClose: handleSave })}
             </Wrapper>
-        </div >
+        </React.Fragment >
     );
 }

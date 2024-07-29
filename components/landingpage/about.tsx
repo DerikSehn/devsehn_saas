@@ -2,7 +2,7 @@ import { PlayCircle } from "lucide-react";
 import Image from "next/image";
 import { Button } from "../ui/button";
 import { VideoModal, VideoModalTrigger, VideoModalContent, VideoModalTitle, VideoModalDescription, VideoModalVideo, VideoPreview, VideoPlayButton, VideoPlayer } from "../ui/video-modal";
-import { Section } from "./section";
+import { Section } from "./section/section";
 
 
 export default function About() {

@@ -1,18 +1,29 @@
+import { Layout } from "@/components/layout/layout";
 import "@/styles/globals.css";
+import { ReactLenis } from '@studio-freight/react-lenis';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
-import { ReactLenis, useLenis } from '@studio-freight/react-lenis'
-import { Layout } from "@/components/layout/layout";
-import { SessionProvider } from "next-auth/react"
+
+
 import { ToastProvider } from "@/components/providers/toast-provider";
+import { useState } from "react";
+
+import "driver.js/dist/driver.css";
+
 
 export default function App({ Component,
   pageProps: { session, ...pageProps },
 
 }: AppProps) {
   const router = useRouter();
+  const [queryClient] = useState(() => new QueryClient())
 
-  return (
+
+
+  return (<QueryClientProvider client={queryClient}>
     <SessionProvider session={pageProps.session}>
       <div key={router.pathname}>
         <ToastProvider>
@@ -24,6 +35,9 @@ export default function App({ Component,
         </ToastProvider>
       </div>
     </SessionProvider>
+    <ReactQueryDevtools initialIsOpen={false} />
+
+  </QueryClientProvider>
   );
 }
 

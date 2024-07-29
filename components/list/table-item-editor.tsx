@@ -1,19 +1,20 @@
 "use client"
 import AutoForm, { AutoFormSubmit } from "@/components/ui/auto-form";
 import { getAsyncColumns } from '@/lib/prisma';
-import { CrudRequest, handleApiRequest, handleCreateImage } from '@/pages/api/crud';
+import { CrudRequest, handleApiRequest, handleCreateImage } from '@/pages/api/protected/crud';
 import { motion } from 'framer-motion';
 import { isEqual } from 'lodash';
 import { useEffect, useState } from 'react';
 import { z } from 'zod';
-import AutoFormFile from "../ui/auto-form/fields/file";
+import AutoFormComplete from "../ui/auto-form/fields/auto-complete";
 import AutoFormFiles from "../ui/auto-form/fields/files";
+import AutoFormInput from "../ui/auto-form/fields/input";
 import { Button } from '../ui/button';
 import { Item } from './list-item';
 
 type FormData = any
 
-interface TableItemEditorProps {
+export interface TableItemEditorProps {
     item?: Item;
     onClose?({ item, method }: {
         item?: Item,
@@ -43,8 +44,7 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
 
     const canShowColumn = (col: Column) => {
-        if (col.name === 'images') {
-        }
+
         if (['updatedAt', 'createdAt'].includes(col.name)
             || col.isUnique
             || col.isId
@@ -65,9 +65,6 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
         console.log(data)
 
-        const newDataEntries = await handleImageIntegration(item, data)
-
-        const convertedItem = Object.fromEntries(newDataEntries);
         const integratedImages = await handleImageIntegration(item, data)
 
         console.log(integratedImages)
@@ -98,6 +95,7 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
     const generateZodSchema = () => {
         const schema: any = {};
         columns.filter(canShowColumn).forEach(col => {
+            console.log({ [col.name]: col.type })
             switch (col.type) {
                 case 'text':
                 case 'character varying':
@@ -107,6 +105,8 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
                     schema[col.name] = z.coerce.date()
                     break;
                 case 'bigint':
+                case 'Int':
+                case 'Float':
                     schema[col.name] = z.coerce.number()
                     break;
                 case 'ARRAY':
@@ -131,36 +131,28 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
     const formSchema = generateZodSchema();
 
 
+
+
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="p-4 mt-4 border-l  border-neutral-200 w-full">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="md:p-4 pb-20 border-l shadow-inner max-h-[calc(100dvh-140px)] h-[calc(100dvh-140px)] overflow-y-auto border-neutral-200 w-full  ">
             <AutoForm
                 formSchema={formSchema}
+                className="static "
 
                 values={item}
                 onSubmit={onSubmit}
-                fieldConfig={{
-                    image: {
-                        inputProps: {
-                            accept: 'image/*',
-                            multiple: false,
-                        },
-                        fieldType: AutoFormFiles,
-                    },
-                    images: {
-                        fieldType: AutoFormFiles,
-                        description: 'Escolha uma ou mais imagens',
-                    },
-
-                }}
+                fieldConfig={getFieldConfig(columns.filter(canShowColumn))}
             >
-                <br className="h-full" />
-                <AutoFormSubmit className='mr-2'>
-                    Salvar
-                </AutoFormSubmit>
-                {item &&
-                    <Button type="button" className="bg-red-500 hover:bg-red-700 text-white mr-2" onClick={handleDelete}>Remover Item</Button>
-                }
-                {/* <Button type="button" className="bg-gray-500 hover:bg-gray-700 text-white" onClick={handleReset}>Reiniciar</Button> */}
+                <div className="absolute bottom-0 right-0 left-0 w-full bg-neutral-100 border-t p-4 flex flex-row justify-start shadow-[-20px_0px_10px_rgba(0,0,0,0.2)]">
+
+                    <AutoFormSubmit className='mr-2 w-40'>
+                        Salvar
+                    </AutoFormSubmit>
+                    {item &&
+                        <Button type="button" className="bg-red-500 hover:bg-red-700 text-white mr-2" onClick={handleDelete}>Remover Item</Button>
+                    }
+                    {/* <Button type="button" className="bg-gray-500 hover:bg-gray-700 text-white" onClick={handleReset}>Reiniciar</Button> */}
+                </div>
             </AutoForm>
         </motion.div >
     );
@@ -208,7 +200,7 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
         }
 
         console.log(result);
-        return [key, result.files];
+        return [key, (result as any).files];
     })));
 
     console.log(integratedImages);
@@ -222,4 +214,65 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
     console.log(newObject);
 
     return newObject;
-}; 
+};
+
+const getFieldConfig = (columns: any[]) => {
+
+    let config: any = {}
+
+    columns.forEach(col => {
+
+        switch (col.name) {
+            case 'image':
+            case 'images':
+                config[col.name] = {
+                    inputProps: {
+                        accept: 'image/*',
+                        multiple: col.isList,
+                    },
+                    fieldType: AutoFormFiles,
+                }
+                return;
+            case 'password':
+                config[col.name] = {
+                    inputProps: {
+                        type: 'password',
+                    },
+                    label: 'Senha',
+                    description: 'Insira a senha',
+                }
+                return;
+            default:
+                break;
+        }
+
+        switch (col.type) {
+            case 'Int':
+            case 'Float':
+            case 'bigint':
+                config[col.name] = {
+                    inputProps: {
+                        type: 'number',
+                    },
+                    fieldType: AutoFormInput,
+                }
+                break;
+        }
+
+        if (col.isList) {
+            console.log(col)
+            config[col.name] = {
+                fieldType: AutoFormComplete,
+                inputProps: {
+                    multiple: col.isList,
+                    type: col.type,
+                },
+            }
+        }
+
+
+    })
+
+    return config
+
+}

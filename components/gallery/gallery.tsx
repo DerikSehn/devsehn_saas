@@ -1,6 +1,6 @@
 import repeatPattern from '@/lib/repeat-pattern';
 import { cn } from '@/lib/utils';
-import { handleApiRequest } from '@/pages/api/crud';
+import { handleApiRequest } from '@/pages/api/protected/crud';
 import types from '@prisma/client';
 import { OpenInNewWindowIcon } from '@radix-ui/react-icons';
 import { get } from 'http';

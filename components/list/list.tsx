@@ -1,5 +1,5 @@
 import { cn } from '@/lib/utils';
-import { CrudRequest, handleApiRequest } from '@/pages/api/crud';
+import { CrudRequest, handleApiRequest } from '@/pages/api/protected/crud';
 import { PlusIcon } from 'lucide-react';
 import { cloneElement, ReactElement, useEffect, useState } from 'react';
 import { twMerge } from 'tailwind-merge';
@@ -10,7 +10,7 @@ import { Button } from '../ui/button';
 import ListItem, { Item } from './list-item';
 import ListItemWrapper from './list-item-wrapper';
 import ListPagination from './list-pagination';
-import TableItemEditor from './table-item-editor';
+import TableItemEditor, { TableItemEditorProps } from './table-item-editor';
 
 interface Option {
     value: string;
@@ -26,6 +26,7 @@ interface ListProps<T> {
     sortOptions?: Option[];
     filterOptions?: Option[];
     className?: string;
+    customEditor?: ReactElement<TableItemEditorProps>;
     tableName?: CrudRequest["table"];
     header?: {
         title: string;
@@ -35,13 +36,14 @@ interface ListProps<T> {
     children?: ReactElement<T>;
 }
 
-const List = <T,>({
+const List = <T extends Item | undefined,>({
     items = [],
     itemsPerPage = 10,
     sortOptions = [],
     filterOptions = [],
     onClick,
     onSubmit,
+    customEditor,
     enableEditor,
     className,
     tableName,
@@ -62,10 +64,10 @@ const List = <T,>({
                 setList(pvSt => [...pvSt, itemData])
                 break;
             case 'update':
-                setList(pvSt => pvSt.map(item => item.id === itemData.id ? itemData : item))
+                setList(pvSt => pvSt.map(item => item!.id === itemData.id ? itemData : item))
                 break;
             case 'delete':
-                setList(pvSt => pvSt.filter(item => item.id !== itemData.id))
+                setList(pvSt => pvSt.filter(item => item!.id !== itemData.id))
                 break;
         }
         if (typeof onSubmit === 'function') {
@@ -80,14 +82,12 @@ const List = <T,>({
         }
     }
     const handleItemDelete = async (id: number) => {
-        console.log(tableName)
         const where = { id }
-        console.log(where)
         const res = await handleApiRequest({ where }, tableName!, 'delete');
         if (res.error) {
-            notify({ message: res.error, type: 'error' })
+            notify(res.error, { type: 'error' })
         }
-        setList(pvSt => pvSt.filter(item => item.id !== id))
+        setList(pvSt => pvSt.filter(item => item!.id !== id))
     }
 
 
@@ -129,7 +129,7 @@ const List = <T,>({
                 {enableEditor ?
                     <ListItemWrapper onSubmit={handleSubmit}
                         clickArea={
-                            <Button variant={'outline'} className="absolute  right-4 top-4 rounded-3xl flex justify-between space-x-2">
+                            <Button variant={'outline'} className="absolute  right-2 top-2 rounded-3xl flex justify-between space-x-2">
                                 <PlusIcon className=" w-6 h-6 text-neutral-800" />
                             </Button>
                         }
@@ -174,14 +174,17 @@ const List = <T,>({
             {enableEditor ? <>
                 {paginatedItems.map((item) =>
                     <ListItemWrapper key={item?.id} onSubmit={handleSubmit} disableClickArea={isSelected} clickArea={
-                        <ListItem onDelete={() => handleItemDelete(item?.id)} onClick={handleItemClick} item={item} >
-                            {children ? cloneElement(children, { item }) : null}
+                        <ListItem onDelete={() => handleItemDelete(item!.id)} onClick={handleItemClick} item={item!} >
+                            {children ? cloneElement(children, { item } as any) : null}
                         </ListItem>}
                     >
-                        <TableItemEditor method={'update'} onClose={handleSubmit} tableName={tableName!} item={item} />
+                        {customEditor ?
+                            cloneElement(customEditor, { method: 'update', onClose: handleSubmit, tableName: tableName!, item: item })
+                            : <TableItemEditor method="update" onClose={handleSubmit} tableName={tableName!} item={item} />
+                        }
                     </ListItemWrapper>
                 )}</> : paginatedItems.map((item) =>
-                    <ListItem key={item.id} onClick={handleItemClick} item={item} />)
+                    <ListItem key={item!.id} onClick={handleItemClick} item={item!} />)
             }
 
 

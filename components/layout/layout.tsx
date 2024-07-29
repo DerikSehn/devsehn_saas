@@ -8,12 +8,12 @@ import AdminLayout from './admin-layout'
 
 
 const navItems = [
-    { name: "Início", link: "#", icon: <Home /> },
-    { name: "A Empresa", link: "company", icon: <Workflow /> },
-    { name: "A Paisagista", link: "author", icon: <User /> },
-    { name: "Contato", link: "contact", icon: <Contact /> },
-    { name: "Projetos", link: "projects", icon: <Projector /> },
-    { name: "Produtos", link: "products", icon: <ShoppingBag /> },
+    { name: "Início", link: "/", icon: <Home /> },
+    { name: "A Empresa", link: "/section/a-empresa", icon: <Workflow /> },
+    { name: "A Paisagista", link: "/section/a-paisagista", icon: <User /> },
+    { name: "Contato", link: "/contact", icon: <Contact /> },
+    { name: "Projetos", link: "/projects", icon: <Projector /> },
+    { name: "Produtos", link: "/products", icon: <ShoppingBag /> },
 ]
 
 

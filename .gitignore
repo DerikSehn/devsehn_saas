@@ -14,7 +14,6 @@ next-env.d.ts
 
 # next.js
 /.next/
-/public/uploads/
 
 # production
 /build

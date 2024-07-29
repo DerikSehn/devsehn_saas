@@ -38,6 +38,12 @@ export default NextAuth({
             }
         }),
     ],
+    pages: {
+        signIn: '/auth/sign-in',
+        signOut: '/teste',
+        error: '/auth/error'
+    },
+
     callbacks: {
         async jwt({ token, user }) {
             if (user) {
@@ -54,6 +60,8 @@ export default NextAuth({
             session.user = token.user;
             return session;
         },
+
     },
+
     secret: process.env.NEXTAUTH_SECRET,
 });

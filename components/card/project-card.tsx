@@ -20,7 +20,6 @@ const cardVariants = {
 
 export const ProjectCard = ({ item, className }: { item: ModelWithImages<Project>, className?: string }) => {
 
-  console.log(item);
 
   return (
     <motion.div
@@ -30,13 +29,14 @@ export const ProjectCard = ({ item, className }: { item: ModelWithImages<Project
       whileTap={{
         scale: 0.99
       }}
-      className={cn("grid md:grid-cols-2 justify-center relative overflow-hidden rounded-lg bg-neutral-200/50 hover:bg-neutral-50 transition-colors  dark:bg-gray-800",
+      className={cn("grid md:grid-cols-2 border-t justify-center relative overflow-hidden rounded-lg bg-neutral-200/50 hover:bg-neutral-50 transition-colors  dark:bg-gray-800",
+        className
       )}>
       <div className="p-6">
         <div>
-          <h4 className="font-semibold">{item?.title}</h4>
+          <h4 className="font-semibold  line-clamp-2">{item?.title}</h4>
         </div>
-        <p className="text-gray-500 dark:text-gray-400 whitespace-nowrap overflow-hidden text-ellipsis">
+        <p className="text-gray-500 dark:text-gray-400 line-clamp-4">
           {item.description}
         </p>
       </div>

@@ -1,5 +1,5 @@
 import prisma from "@/lib/prisma";
-import { Project, Service, Testimonial } from "@prisma/client";
+import { Partner, Project, Service, Testimonial } from "@prisma/client";
 import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
@@ -17,6 +17,9 @@ import Image from "next/image";
 import Link from "next/link";
 import Polaroid from "@/components/ui/polaroid/polaroid";
 import { ServiceCard } from "@/components/card/service-card";
+import { ImageCard } from "@/components/card/image-card";
+import { cn } from "@/lib/utils";
+import { PartnerCard } from "@/components/card/partner-card";
 
 
 const grids = [
@@ -47,18 +50,25 @@ const grids = [
 export async function getServerSideProps() {
 
     const projects = await prisma.project.findMany({
+        orderBy: {
+            id: 'asc',
+        },
         include: {
-            images: true
+            images: {
+                orderBy: {
+                    id: 'asc'
+                }
+            },
+
         }
     });
     console.log(projects);
     const services = await prisma.service.findMany({
+
         include: {
             image: true
         }
     });
-    const images = await prisma.image.findMany();
-    const users = await prisma.user.findMany();
     const testimonials = await prisma.testimonial.findMany(
         {
             include: {
@@ -66,6 +76,24 @@ export async function getServerSideProps() {
             }
         }
     );
+
+    const partners = await prisma.partner.findMany(
+        {
+            include: {
+                image: true
+            }
+        }
+    );
+
+    const notifications = await prisma.receivedEmail.findMany({
+        where: {
+            isRead: false
+        }
+    });
+
+    const imagesCount = await prisma.image.count();
+    const usersCount = await prisma.user.count();
+
     const session = await getSession();
 
     const metrics: Metric[] = [
@@ -76,16 +104,35 @@ export async function getServerSideProps() {
             icon: 'projects'
         },
         {
-            quantity: images.length,
+            quantity: imagesCount,
             title: 'Imagens',
             table_name: 'image',
             icon: 'images'
         },
         {
-            quantity: users.length,
+            quantity: usersCount,
             title: 'Usuários',
             table_name: 'user',
             icon: 'users'
+        },
+        {
+            quantity: notifications.length,
+            title: 'Notificações',
+            table_name: 'receivedEmail',
+            icon: 'notifications',
+            link: '/admin/notifications'
+        },
+        {
+            quantity: services.length,
+            title: 'Serviços',
+            table_name: 'service',
+            icon: 'services'
+        },
+        {
+            quantity: partners.length,
+            title: 'Parceiros',
+            table_name: 'partner',
+            icon: 'partners'
         },
         {
             quantity: testimonials.length,
@@ -93,16 +140,10 @@ export async function getServerSideProps() {
             table_name: 'testimonial',
             icon: 'testimonials'
         },
-        /*    {
-               quantity: services.length,
-               title: 'Serviços',
-               table_name: 'service',
-               icon: 'services'
-           } */
 
     ]
 
-    return { props: { projects, session, metrics, testimonials, services } };
+    return { props: { projects, session, metrics, testimonials, services, partners } };
 }
 
 const icons = {
@@ -118,33 +159,37 @@ interface Metric {
     title: string;
     table_name: string;
     icon: string;
+    link?: string;
 }
 
-export default function AdminDashboard({ metrics, projects, testimonials, services }: { metrics: Metric[], projects: ModelWithImage<Project>[], session: Session, testimonials: Testimonial[], services: ModelWithImage<Service>[] }) {
+export default function AdminDashboard({ metrics, projects, testimonials, services, partners }: { metrics: Metric[], projects: ModelWithImage<Project>[], session: Session, testimonials: Testimonial[], services: ModelWithImage<Service>[], partners: Partner[] }) {
 
     return (
 
         <div className="col-span-12 ">
             <div className="lg:mt-32 md:grid grid-cols-2 lg:grid-cols-4  gap-6">
-                {metrics?.map((metric, index) =>
-                    <MetricCard key={index} className=''>
-                        <div className="flex justify-between">
-                            <div className="relative z-10 font-bold text-md text-neutral-700/60 uppercase flex flex-col">
-                                <span>
-                                    {metric.title}
-                                </span>
-                                <b>
-                                    {metric.quantity}
-                                </b>
+                {metrics?.slice(0, 4)?.map((metric, index) =>
+                    <Link title={metric.link ? 'Clique para ver' : ''} className={cn(!metric.link && "cursor-default")} href={metric.link ? metric.link : ''}>
+
+                        <MetricCard key={index} className=''>
+                            <div className="flex justify-between">
+                                <div className="relative z-10 font-bold text-md text-neutral-700/60 uppercase flex flex-col">
+                                    <span>
+                                        {metric.title}
+                                    </span>
+                                    <b>
+                                        {metric.quantity}
+                                    </b>
+                                </div>
+
+                                <GradientCircle className="h-12" index={index}>
+                                    {/* @ts-ignore */}
+                                    {icons[metric.table_name]}
+                                </GradientCircle>
                             </div>
 
-                            <GradientCircle className="h-12" index={index}>
-                                {/* @ts-ignore */}
-                                {icons[metric.table_name]}
-                            </GradientCircle>
-                        </div>
-
-                    </MetricCard>
+                        </MetricCard>
+                    </Link>
                 )}
             </div>
             <ul className="grid md:grid-cols-2 mb-8 gap-6 my-6  ">
@@ -154,7 +199,7 @@ export default function AdminDashboard({ metrics, projects, testimonials, servic
                         itemsPerPage={8}
                         enableEditor
                         tableName={'project'}
-                        className='grid md:grid-cols-1 gap-3'
+                        className='grid md:grid-cols-2 gap-3'
                         items={projects}
                         header={{
                             title: 'Lista de Projetos',
@@ -184,66 +229,37 @@ export default function AdminDashboard({ metrics, projects, testimonials, servic
                         itemsPerPage={10}
                         enableEditor
                         tableName={'service'}
-                        className='space-y-5'
+                        className='grid md:grid-cols-2 gap-3'
+
                         items={services}
                         header={{
                             title: 'Serviços',
                         }}
                     >
                         {/* @ts-ignore */}
-                        <ServiceCard />
+                        <ServiceCard className='min-h-[200px]' />
+                    </List>
+                </li>
+                <li className="space-y-4 p-4 border border-neutral-200 rounded-3xl bg-neutral-100 shadow-md">
+                    <List
+                        itemsPerPage={10}
+                        enableEditor
+                        tableName={'partner'}
+                        className='grid md:grid-cols-4 gap-3'
+
+                        items={partners}
+                        header={{
+                            title: 'Parceiros',
+                        }}
+                    >
+                        {/* @ts-ignore */}
+                        <PartnerCard className='min-h-[200px]' />
                     </List>
                 </li>
             </ul>
-            {/*  <div className="col-span-12 gap-8 gap-y-2 md:grid grid-cols-3 cursor-default">
-                <BentoGrid className="col-span-3">
-                    {grids?.map((grid, index) =>
-                        <BentoGridItem
-                            key={index}
-                            variant="static"
-                            className={"md:col-span-2  bg-neutral-200  w-full max-h-96 pb-4"}
-                        >
-                            {grid}
-                        </BentoGridItem>
-                    )}
-                </BentoGrid>
 
-            </div>
- */}
 
         </div>
-    )
-}
-
-const Cards = ({ metrics }: { metrics: any }) => {
-
-
-    return (<div className=" w-full lg:grid grid-cols-2 place-content-start ">{
-        metrics?.map((item: any, index: number) =>
-            <Link key={index} className='grow max-w-1/2 px-4 ' href={`admin/account/${item.name}?description=${item.table_description}`}>
-                <Card className="group w-full h-32 cursor-pointer hover:scale-[.98] hover:shadow-2xl shadow-neutral-500/50 transition-all duration-500 my-4 text-neutral-500"
-                    title={item.table_description} >
-                    <Image fill alt={'imagem do card'} src={'/template.jpeg'}
-                        className=' z-1 transition-all hover:scale-[1.02] duration-500   brightness-75 object-cover blur-[2px] saturate-50' />
-                    <OpenInNewWindowIcon
-                        className="group-hover:opacity-100 group-hover:scale-[3] duration-500 z-10 opacity-0 group-hover:-translate-y-1/2 group-hover:-translate-x-1/2  -translate-y-1/4 -translate-x-1/4 absolute left-1/2 top-1/2 transition-all"
-                    />
-                    <p className=" absolute bottom-2 left-4 leading-none flex space-x-1 items-center font-normal text-neutral-600">
-                        <span className="text-md font-thin flex ">
-                            Total:
-                        </span>
-                        <br />
-                        <span className="text-2xl font-bold">
-                            {item.record_count}
-                        </span>
-                    </p>
-                    <p className="font-normal text-base my-4 max-w-lg text-neutral-200">
-
-                    </p>
-                </Card>
-            </Link>
-        )
-    }</div>
     )
 }
 

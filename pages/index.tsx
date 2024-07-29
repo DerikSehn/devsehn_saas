@@ -1,16 +1,44 @@
-import Contact from "@/components/contact";
-import About from "@/components/landingpage/about";
 import Hero from "@/components/landingpage/hero";
 import HeroCards from "@/components/landingpage/hero-cards";
+import Partners from "@/components/landingpage/partners";
 import Projects from "@/components/landingpage/projects";
+import Sections from "@/components/landingpage/sections";
 import Testimonials from "@/components/landingpage/testimonials";
 import Page from "@/components/page";
+import ScrollSectionReveal from "@/components/ui/scroll/scroll-section-reveal";
 import prisma from "@/lib/prisma";
 import { ModelWithImage, ModelWithImages } from "@/prisma/prisma-utils";
-import { Project, Service, Testimonial } from "@prisma/client";
-import { useSession } from "next-auth/react";
+import { Partner, Project, Section, Service, Testimonial } from "@prisma/client";
 import { Prata, Yeseva_One } from 'next/font/google';
-import { useState } from "react";
+import Contact from "./contact";
+
+
+
+export default function Home({ projects, testimonials, services, partners, sections }: { projects: ModelWithImages<Project>[], testimonials: ModelWithImage<Testimonial>[], services: ModelWithImage<Service>[], partners: ModelWithImage<Partner>[], sections: ModelWithImages<Section>[] }) {
+
+  return (<div className="relative z-0">
+    <Page className={`relative z-1  ${yeseva_one.className} ${prata.className}`}>
+      <div className="flex flex-col w-full min-h-[100vh] bg-primary-300">
+        <Hero />
+        <HeroCards services={services} />
+        <Projects projects={projects} />
+        {/* <About /> */}
+        <ScrollSectionReveal content={
+          <Sections sections={sections} />
+        }>
+          <ScrollSectionReveal content={
+            <Partners partners={partners} />
+          }>
+            <Testimonials testimonials={testimonials} />
+          </ScrollSectionReveal>
+        </ScrollSectionReveal>
+      </div>
+      <Contact />
+    </Page>
+  </div>
+  );
+}
+
 
 const yeseva_one = Yeseva_One({
   weight: '400',
@@ -26,41 +54,36 @@ const prata = Prata({
 
 export const getServerSideProps = (async () => {
 
-  const projects = await prisma.project.findMany({ take: 5, include: { images: true } });
+  const projects = await prisma.project.findMany({
+    orderBy: {
+      id: 'asc'
+    },
+    take: 5,
+    include: {
+      images: {
+        orderBy: {
+          id: 'asc'
+        }
+      }
+    }
+  });
+  const sections = await prisma.section.findMany({
+    orderBy: {
+      id: 'asc'
+    },
+    take: 3,
+    include: {
+      images: {
+        orderBy: {
+          id: 'asc'
+        }
+      }
+    }
+  });
+  const partners = await prisma.partner.findMany({ include: { image: true } });
   const testimonials = await prisma.testimonial.findMany({ take: 10, include: { image: true } });
   const services = await prisma.service.findMany({ take: 5, include: { image: true } });
-  console.log(services)
+  console.log(projects)
 
-  return { props: { projects, testimonials, services } }
+  return { props: { projects, testimonials, services, partners, sections } }
 })
-
-
-export default function Home({ projects, testimonials, services }: { projects: ModelWithImages<Project>[], testimonials: ModelWithImage<Testimonial>[], services: ModelWithImage<Service>[] }) {
-
-  return (<div className="relative z-0">
-    <Page className={`relative z-1  ${yeseva_one.className} ${prata.className}`}>
-      <div className="flex flex-col w-full min-h-[100vh] bg-primary-300">
-        <Hero />
-        <HeroCards services={services} />
-        <Projects projects={projects} />
-        <About />
-        <Testimonials testimonials={testimonials} />
-      </div>
-      <section id="projects" className="relative z-10 w-full overflow-hidden py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800 flex flex-col justify-center">
-        <div className="flex flex-col items-center justify-center space-y-4 text-center">
-          <div className="space-y-2">
-            <div className="inline-block rounded-lg bg-gray-100 px-3 py-1 text-sm dark:bg-gray-800">
-              Projetos recentes
-            </div>
-            <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">Registros das nossas últimas transformações</h2>
-
-          </div>
-        </div>
-
-      </section>
-
-      <Contact />
-    </Page>
-  </div>
-  );
-}

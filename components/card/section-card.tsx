@@ -8,7 +8,6 @@ import { BentoGrid, BentoGridItem } from "../bento-grid";
 
 export const SectionCard = ({ item, className }: { item: ModelWithImages<Section>, className?: string }) => {
 
-    console.log(item);
 
     return (
         <motion.div

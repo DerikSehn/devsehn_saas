@@ -1,22 +1,8 @@
 import { Comment } from "@prisma/client";
 import { motion } from "framer-motion";
 
-const cardVariants = {
-    initial: {
-        scale: 1,
-        rotate: 0,
-        transition: {
-            duration: 0.5,
-        }
-    },
-    animate: {
-        scale: 1.1,
-        rotate: 2,
-    },
-};
 
 const CommentCard = ({ item }: { item: Comment }) => {
-    console.log(item)
 
     return (
         <motion.div

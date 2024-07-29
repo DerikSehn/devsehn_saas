@@ -1,10 +1,11 @@
 import Image from "next/image"
+import { Section } from "./landingpage/section/section"
 import { Button } from "./ui/button"
 import { Input } from "./ui/input"
 import { Textarea } from "./ui/textarea"
 
 export default function Contact() {
-    return (<section id="contact" className="relative z-10 w-full overflow-hidden py-12 md:py-24 lg:py-32 bg-gray-100 dark:bg-gray-800 flex justify-center">
+    return (<Section id="contact" className="bg-jet-900">
         <Image
             alt="Contact"
             className="object-cover object-center z-0 opacity-10"
@@ -29,5 +30,5 @@ export default function Contact() {
                 </form>
             </div>
         </div>
-    </section>)
+    </Section >)
 }

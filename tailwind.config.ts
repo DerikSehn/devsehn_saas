@@ -85,6 +85,7 @@ const config: Config = {
     "./pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/onborda/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     extend: {
@@ -97,6 +98,9 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       keyframes: {
+        marquee: {
+          to: { transform: "translateX(-50%)" },
+        },
         "modal-fade-in": {
           "0%": { opacity: "0" },
           "100%": { opacity: "1" },
@@ -112,6 +116,8 @@ const config: Config = {
       },
       //Adjust duration as your needs
       animation: {
+        marquee: "marquee var(--duration, 30s) linear infinite",
+
         "logo-carousel": "logo-carousel 16s linear infinite",
         "modal-fade-in": "modal-fade-in 500ms ease-out",
         "modal-fade-out": "modal-fade-out 500ms ease-in",
