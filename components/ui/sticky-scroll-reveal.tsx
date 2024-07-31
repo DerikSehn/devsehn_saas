@@ -81,7 +81,7 @@ const StickyScrollReveal = ({
                     className="absolute inset-0 opacity-70 z-0" />
                 <div className="max-w-2xl space-y-10">
                     {content.map((item, index) => (
-                        <div key={item.title + index} className="flex flex-col justify-center h-screen relative z-10 ">
+                        <div key={item.title + index} className="flex flex-col justify-center h-screen relative z-10 p-4 ">
                             <motion.h2
                                 initial={{
                                     opacity: 0,
@@ -89,7 +89,7 @@ const StickyScrollReveal = ({
                                 animate={{
                                     opacity: activeCard === index ? 1 : 0.3,
                                 }}
-                                className="text-7xl font-moglan text-slate-100"
+                                className="text-4xl lg:text-7xl font-moglan text-slate-100"
                             >
                                 {item.title}
                             </motion.h2>
