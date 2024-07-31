@@ -1,4 +1,3 @@
-import Logo from "@/app/hero/Logo";
 import Link from "next/link";
 import { twMerge } from "tailwind-merge";
 

@@ -5,6 +5,9 @@ import { NextApiRequest, NextApiResponse } from "next";
  * @swagger
  * /api/contact:
  *   post:
+ *     summary: Envia um email para o desenvolvedor
+ *     tags:
+ *       - contact
  *     description: Endpoint para enviar um email.
  *     requestBody:
  *       content:
@@ -31,7 +34,6 @@ export default async function handler(
 ) {
   try {
     const { email, name, message } = req.body;
-    console.log(email, name, message);
 
     /* prisma model ReceivedEmail */
     await prisma.receivedEmail.create({

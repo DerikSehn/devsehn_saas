@@ -1,13 +1,14 @@
 // pages/contact.tsx
 
 import Page from "@/components/page"
+import { useToast } from "@/components/providers/toast-provider"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
+import { useMutation } from '@tanstack/react-query'
 import Image from "next/image"
 import { useState } from 'react'
-import { useMutation } from '@tanstack/react-query'
 
 async function sendEmail(email: string, name: string, message: string) {
     const res = await fetch('/api/contact', {
@@ -25,6 +26,9 @@ async function sendEmail(email: string, name: string, message: string) {
 }
 
 export default function Contact() {
+
+    const notify = useToast()
+
     const [email, setEmail] = useState('')
     const [name, setName] = useState('')
     const [message, setMessage] = useState('')
@@ -32,10 +36,10 @@ export default function Contact() {
     const mutation = useMutation({
         mutationFn: () => sendEmail(email, name, message),
         onSuccess: (data) => {
-            console.log("Email enviado com sucesso:", data)
+            notify("Email enviado com sucesso:", { type: 'success' })
         },
         onError: (error) => {
-            console.error("Erro ao enviar email:", error)
+            notify("Erro ao enviar email:", { type: 'error' })
         },
     })
 

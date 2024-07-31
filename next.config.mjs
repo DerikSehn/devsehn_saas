@@ -34,6 +34,24 @@ const nextConfig = {
       }
     ],
   },
+  webpack: (config) => {
+    config.resolve.fallback = {
+      ...config.resolve.fallback,
+      fs: false,
+      path: false,
+      os: false,
+    };
+    return config;
+  },
+
+  async rewrites() {
+    return [
+      {
+        source: '/uploads/:path*',
+        destination: '/public/uploads/:path*',
+      },
+    ];
+  },
 };
 
 export default nextConfig;

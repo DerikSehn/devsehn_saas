@@ -1,7 +1,6 @@
-import React, { FC, useRef, useState } from "react";
-import { motion, useTransform, useScroll, useMotionValueEvent, useSpring } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
+import React, { FC, useRef } from "react";
 
-import { cn } from "@/lib/utils";
 interface Props {
     className?: string;
     children: React.ReactNode;

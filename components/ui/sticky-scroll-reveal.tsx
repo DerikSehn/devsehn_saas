@@ -1,9 +1,7 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
-import { AnimatePresence, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
-import { motion } from "framer-motion";
 import { cn, getIsMobile } from "@/lib/utils";
-import Image from "next/image";
+import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
+import React, { useEffect, useRef, useState } from "react";
 
 const StickyScrollReveal = ({
     content,
@@ -21,12 +19,9 @@ const StickyScrollReveal = ({
     const [activeCard, setActiveCard] = React.useState(0);
     const ref = useRef<any>(null);
     const { scrollYProgress } = useScroll({
-        // uncomment line 22 and comment line 23 if you DONT want the overflow container and want to have it change on the entire page scroll
-        // target: ref
         target: ref,
         offset: ["start start", "end end"],
     });
-
 
     const cardLength = content.length;
 
@@ -45,7 +40,8 @@ const StickyScrollReveal = ({
         setActiveCard(closestBreakpointIndex);
     });
 
-    const imageY = getIsMobile(768) ? null : useTransform(scrollYProgress, [0, 1], [`${0}%`, `${100 - 100 / cardLength}%`])
+    // eslint-disable-react-hooks/rules-of-hooks
+    const imageY = getIsMobile(768) ? null : useTransform(scrollYProgress, [0, 1], [`${0}%`, `${100 - 100 / cardLength}%`]);
 
     const backgroundColors = bgColors || [
         "var(--primary-200)",
@@ -64,6 +60,7 @@ const StickyScrollReveal = ({
 
     useEffect(() => {
         setBackgroundGradient(linearGradients[activeCard % linearGradients.length]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [activeCard]);
 
     return (
@@ -71,7 +68,7 @@ const StickyScrollReveal = ({
             animate={{
                 backgroundColor: backgroundColors[activeCard % backgroundColors.length],
             }}
-            className={cn("w-full overflow-y-clip grid md:grid-cols-2 justify-center relative   overflow-hidden",
+            className={cn("w-full overflow-y-clip grid md:grid-cols-2 justify-center relative overflow-hidden",
                 `h-[${cardLength * 100}vh]`,
             )}
             ref={ref}
@@ -120,11 +117,10 @@ const StickyScrollReveal = ({
 
                 </div>
             </div>
-            <AnimatePresence mode="popLayout" >
+            <AnimatePresence mode="popLayout">
                 <motion.div
                     initial={{
                         opacity: 0,
-
                     }}
                     animate={{
                         opacity: 1,
@@ -134,12 +130,11 @@ const StickyScrollReveal = ({
                     }}
                     transition={{
                         duration: 0.5,
-
                     }}
                     key={activeCard}
-                    style={{ top: imageY! }}
+                    style={{ top: imageY ?? undefined }}
                     className={cn(
-                        "relative hidden md:flex h-screen items-center overflow-hidden  ",
+                        "relative hidden md:flex h-screen items-center overflow-hidden",
                         contentClassName
                     )}
                 >
@@ -149,6 +144,5 @@ const StickyScrollReveal = ({
         </motion.div>
     );
 };
-
 
 export default StickyScrollReveal;

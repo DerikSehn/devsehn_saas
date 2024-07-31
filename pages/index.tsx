@@ -83,7 +83,6 @@ export const getServerSideProps = (async () => {
   const partners = await prisma.partner.findMany({ include: { image: true } });
   const testimonials = await prisma.testimonial.findMany({ take: 10, include: { image: true } });
   const services = await prisma.service.findMany({ take: 5, include: { image: true } });
-  console.log(projects)
 
   return { props: { projects, testimonials, services, partners, sections } }
 })

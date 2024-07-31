@@ -25,18 +25,20 @@ export default function Scene() {
         }
     })
 
+    const ref = useRef<HTMLDivElement>(null)
     const { scrollYProgress } = useScroll({
-        target: '#hero',
+        target: ref,
         offset: []
-     })
+    })
 
-     const distance = useTransform(scrollYProgress, [0, 1], [0, 10])
+    const distance = useTransform(scrollYProgress, [0, 1], [0, 10])
 
     return (
         <>
+            <div ref={ref}></div>
             <Canvas camera={{ position: [10, 3, 10], near: 0.1, far: 100, fov: 40 }}>
                 <Environment files="/background/night.hdr" />
-                <directionalLight position={[10, 10, 10]} intensity={0.5} shadow={{ mapSize: 1024 }} />
+                <directionalLight position={[10, 10, 10]} intensity={0.5} shadow={{ mapSize: 1024 } as any} />
                 <motion.group position={[0, 0, distance]}>
                     <Model url={Models[Models.findIndex((m) => m.title === title)].url} />
                 </motion.group>

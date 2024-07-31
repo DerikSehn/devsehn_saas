@@ -1,8 +1,9 @@
+import CategoryCard from "@/components/card/category-card"
 import { ProductCard } from "@/components/card/product-card"
 import List from "@/components/list/list"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import prisma from "@/lib/prisma"
-import { Product } from "@prisma/client"
+import { Category, Product } from "@prisma/client"
 
 export async function getServerSideProps() {
     const categories = await prisma.category.findMany({
@@ -45,10 +46,13 @@ export default function AdminProducts({ products, categories }: { products: Prod
                 <TabsContent value="category">
                     <List items={categories} tableName={'category'}
                         className=' grid md:grid-cols-2 lg:grid-cols-4 gap-3 bg-neutral-100 shadow-lg rounded-lg p-4'
-                        itemsPerPage={18}
+                        itemsPerPage={8}
                         enableEditor
                         header={{ title: 'Categorias' }}
-                    />
+                    >
+                        {/* @ts-ignore */}
+                        <CategoryCard className=" " isStatic />
+                    </List>
                 </TabsContent>
             </Tabs>
         </div>

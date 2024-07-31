@@ -65,11 +65,11 @@ export default function ForgotPassword() {
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
-                                disabled={mutation.isLoading}
+                                disabled={mutation.isPending}
                             />
                         </div>
-                        <Button type="submit" className="w-full" disabled={mutation.isLoading}>
-                            {mutation.isLoading ? 'Enviando...' : 'Enviar'}
+                        <Button type="submit" className="w-full" disabled={mutation.isPending}>
+                            {mutation.isPending ? 'Enviando...' : 'Enviar'}
                         </Button>
                         {successMessage && (
                             <p className="text-green-500 text-sm text-center">{successMessage}</p>

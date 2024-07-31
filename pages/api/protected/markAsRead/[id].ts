@@ -1,12 +1,15 @@
-// pages/api/markAsRead/[id].ts
+// pages/api/protected/markAsRead/[id].ts
 
-import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * @swagger
- * /api/markAsRead/{id}:
+ * /api/protected/markAsRead/{id}:
  *   patch:
+ *     summary: Marca um email como lido
+ *     tags:
+ *       - email
  *     description: Endpoint para marcar um email como lido.
  *     parameters:
  *       - in: path
@@ -29,8 +32,6 @@ export default async function handler(
     query: { id },
     method,
   } = req;
-
-  console.log(req.body);
 
   if (method === "PATCH") {
     try {

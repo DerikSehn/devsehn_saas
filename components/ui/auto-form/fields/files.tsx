@@ -4,11 +4,9 @@ import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
 import { Image as ImageType } from "@prisma/client";
 import { isArray, isObject } from "lodash";
-import { Trash2 } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ImageEditor from "../../image/image-editor";
-import { Textarea } from "../../textarea";
 import AutoFormLabel from "../common/label";
 import AutoFormTooltip from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
@@ -25,7 +23,6 @@ export default function AutoFormFiles({
     field,
 }: AutoFormInputComponentProps) {
     const { showLabel: _showLabel, ...fieldPropsWithoutShowLabel } = fieldProps;
-    console.log(fieldProps)
     const showLabel = _showLabel === undefined ? true : _showLabel;
     const [files, setFiles] = useState<FileWithDescription[] | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -42,7 +39,9 @@ export default function AutoFormFiles({
             ));
             setFiles(res);
         } else if (isObject(field.value)) {
+            /* @ts-ignore */
             res = await createFileFromUrl(field.value.url, field.value.name);
+            /* @ts-ignore */
             setFiles({ file: res, image: field.value });
         }
 
@@ -50,22 +49,13 @@ export default function AutoFormFiles({
 
     useEffect(() => {
         convertImagesToItem();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
 
-    const handleRemoveClick = (index: number) => {
-        const newFiles = files.filter((_, i) => i !== index);
-        setFiles(newFiles);
-        field.onChange(newFiles.map((f) => f.file));
-    };
-    console.log(files)
-
     const handleAddFile = (e: ChangeEvent<HTMLInputElement>) => {
 
-        console.log(e.target.files)
         const file = e.target.files?.[0];
-        console.log(file)
-        console.log(files)
 
         if (fieldProps.multiple) {
             setFiles(pvSt => {
@@ -75,13 +65,12 @@ export default function AutoFormFiles({
             });
 
         } else {
-            console.log({ file })
-            setFiles({ file });
+            setFiles({ file } as any);
             field.onChange({
                 file, image: {
-                    name: file.name,
+                    name: file!.name,
                     description: "",
-                    url: URL.createObjectURL(file)
+                    url: URL.createObjectURL(file!)
                 }
             });
 
@@ -90,10 +79,9 @@ export default function AutoFormFiles({
 
     };
 
-    const handleImageClick = (e) => {
+    const handleImageClick = (e: any) => {
         e.preventDefault();
         e.stopPropagation();
-        console.log(fileInputRef.current)
         if (fileInputRef.current) {
             fileInputRef.current.click();
         }
@@ -102,31 +90,27 @@ export default function AutoFormFiles({
     const handleSingleChange = (index: number) => (
         props: OnSubmitProps
     ) => {
-        console.log(props)
         const { item: { file, image }, method } = props;
 
-        let newFiles = [...files];
+        let newFiles = [...(files || [])];
         switch (method) {
             case 'create':
-                newFiles = [...files, { file, image }];
+                newFiles = [...(files || []), { file, image }];
                 break;
             case 'update':
                 newFiles[index] = { file, image } as any;
                 break;
             case 'delete':
-                newFiles = files.filter((f) => f.file.name !== file.name);
+                newFiles = (files || []).filter((f) => f.file.name !== file.name);
                 break;
         }
 
-        console.log(newFiles)
         setFiles(newFiles);
         field.onChange(newFiles);
     };
 
-    console.log(files)
 
     const FcFirstImage = ({ onClick, src, className }: { onClick: any, src?: string, className?: string }) => {
-        console.log(src)
         return (
             <Image
                 alt="Product image"
@@ -170,7 +154,7 @@ export default function AutoFormFiles({
                                 >
                                     <ImageEditor isRequired={isRequired} label={fieldConfigItem?.label || label} file={files[0]?.file} image={files[0]?.image} onClose={handleSingleChange(0)} />
                                 </TableItemWrapper>
-                                : <FcFirstImage src={!fieldProps.multiple && (files?.file ? (isObject(files?.file) && URL.createObjectURL(files?.file)) : files?.image?.url)} onClick={handleImageClick} />
+                                : <FcFirstImage src={!fieldProps.multiple && ((files as any)?.file ? (isObject((files as any)?.file) && URL.createObjectURL((files as any)?.file)) : (files as any)?.image?.url)} onClick={handleImageClick} />
                             }
                         </div>
                         <div className="grid grid-cols-3 gap-2">

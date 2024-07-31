@@ -1,14 +1,15 @@
 import prisma from "@/lib/prisma";
 import { NextApiRequest, NextApiResponse } from "next";
-import { generatePassword } from "./[id]/password";
-
+import { getServerSession } from "next-auth";
+import Nextauth from "../auth/[...nextauth]";
+import { generatePassword } from "../users/[id]/password";
 /**
  * @swagger
- * /api/users/{id}:
+ * /api/protected/users/{id}:
  *   post:
  *     summary: cria um usuário
  *     tags:
- *       - user
+ *       - users
  *     requestBody:
  *       required: true
  *       content:
@@ -30,6 +31,8 @@ import { generatePassword } from "./[id]/password";
  *         description: User created successfully
  *       400:
  *         description: No parameter was passed
+ *       401:
+ *         description: You are not signed in
  *       500:
  *         description: Error while creating user
  *
@@ -40,7 +43,11 @@ export default async function handler(
 ) {
   const { name, email, password, emailVerified } = req.body;
 
-  console.log(email, password);
+  const session = await getServerSession(req, res, Nextauth);
+
+  if (!session) {
+    return res.status(401).json({ message: "You are not signed in." });
+  }
   if (!name || !email || !password) {
     return res.status(400).json({ message: "No parameter was passed." });
   }

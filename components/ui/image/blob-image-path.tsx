@@ -9,7 +9,7 @@ interface BlobImageProps {
     className: string;
 }
 
-const BlobImage: React.FC<BlobImageProps> = ({ src, alt = "blob image", className }) => {
+const BlobImage: React.FC<BlobImageProps> = ({ src, className }) => {
     return (
         <div className={cn("relative w-full h-full mx-auto", className)}>
             <svg
@@ -30,7 +30,7 @@ const BlobImage: React.FC<BlobImageProps> = ({ src, alt = "blob image", classNam
                     preserveAspectRatio="xMidYMid slice"
                     href={src}
                     className="object-cover"
-                    alt={alt!}
+
                 />
             </svg>
         </div>

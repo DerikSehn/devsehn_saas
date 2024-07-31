@@ -1,10 +1,25 @@
-import NextAuth from "next-auth";
 import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcrypt";
+import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 
 const prisma = new PrismaClient();
 
+/**
+ * @swagger
+ * /api/auth/[...nextauth]:
+ *   get:
+ *     summary: Login
+ *     tags:
+ *       - users
+ *     description: Endpoint para login.
+ *     responses:
+ *       200:
+ *         description: returns the object according to the method provided.
+ *       500:
+ *         description: failed to load data.
+ *
+ */
 export default NextAuth({
     session: {
         strategy: "jwt",

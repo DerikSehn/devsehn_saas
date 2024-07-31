@@ -1,12 +1,12 @@
+import { driver } from "driver.js";
 import { motion } from "framer-motion";
-import { File, Home, InfoIcon, LandPlot, LogOut, ProjectorIcon, Search, Settings, Tags, BellDot, ShoppingBasket } from "lucide-react";
+import { BellDot, File, Home, InfoIcon, LandPlot, LogOut, ProjectorIcon, Search, Settings, ShoppingBasket, Tags } from "lucide-react";
 import Image from "next/image";
+import { useEffect } from "react";
 import Container from "../container";
 import TableItemWrapper from "../list/list-item-wrapper";
 import Sidebar from "../sidebar/sidebar";
 import SidebarLinks from "../sidebar/sidebar-links";
-import { useEffect } from "react";
-import { driver } from "driver.js";
 
 
 const LINKS = [
@@ -35,7 +35,7 @@ const LINKS = [
         {
             icon: <BellDot />,
             name: "Notificações",
-            href: "admin/notifications"
+            href: "/admin/notifications"
         }]
     },
     {

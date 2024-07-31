@@ -1,6 +1,28 @@
-import { NextApiRequest, NextApiResponse } from "next";
 import prisma from "@/lib/prisma";
+import { NextApiRequest, NextApiResponse } from "next";
 
+/**
+ * @swagger
+ * /api/products:
+ *   get:
+ *     summary: Busca produtos
+ *     description: Endpoint para buscar produtos.
+ *     tags:
+ *       - products
+ *     parameters:
+ *       - name: category
+ *         in: query
+ *         description: Categoria do produto
+ *         required: false
+ *         schema:
+ *           type: string
+ *     responses:
+ *       200:
+ *         description: returns the object according to the method provided.
+ *       500:
+ *         description: failed to load data.
+ *
+ */
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
@@ -15,7 +37,7 @@ export default async function handler(
           })
         : await prisma.product.findMany({
             where: {
-              categories: { some: { category: { name: category as string } } },
+              categories: { some: { name: category as string } },
             },
             include: { images: true },
           });

@@ -8,6 +8,9 @@ const nodemailer = require("nodemailer");
  * @swagger
  * /api/email/send:
  *   post:
+ *     summary: Envia um email
+ *     tags:
+ *       - email
  *     description: Endpoint para enviar um email.
  *     requestBody:
  *       content:

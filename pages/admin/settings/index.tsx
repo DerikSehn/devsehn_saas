@@ -30,8 +30,6 @@ export default function AdminSettings({ comments, images, users }: { users: User
         method?: keyof Prisma.AccountDelegate<DefaultArgs> | undefined;
     }) => {
 
-        console.log(updatedUser)
-        console.log(method)
         switch (method) {
             case "update":
                 setUserList((prev) => prev.map((user) => (user.id === updatedUser.id ? updatedUser : user)));

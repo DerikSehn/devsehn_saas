@@ -32,10 +32,10 @@ const ImageEditor = ({ image, onClose, file }: ImageEditorProps) => {
         let current = newValue;
 
         for (let i = 0; i < keys.length - 1; i++) {
-            current = current[keys[i]];
+            current = (current as any)[keys[i]];
         }
 
-        current[keys[keys.length - 1]] = e.target?.files?.[0] || value;
+        (current as any)[keys[keys.length - 1]] = e.target?.files?.[0] || value;
         setValues(newValue);
     };
 
@@ -63,7 +63,7 @@ const ImageEditor = ({ image, onClose, file }: ImageEditorProps) => {
                     </div>
                     <div className="form-item">
                         Descrição
-                        <Textarea name="image.description" value={values.image.description} onChange={handleChange} />
+                        <Textarea name="image.description" value={values.image.description || ''} onChange={handleChange} />
                     </div>
                     <Button onClick={handleSaveClick} className="w-full">Salvar</Button>
                 </div>

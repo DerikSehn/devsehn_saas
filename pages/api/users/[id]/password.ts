@@ -1,6 +1,6 @@
 import prisma from "@/lib/prisma";
-import { NextApiRequest, NextApiResponse } from "next";
 import bcrypt from "bcrypt";
+import { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * @swagger
@@ -8,7 +8,7 @@ import bcrypt from "bcrypt";
  *   put:
  *     summary: Atualiza a senha de um usuário
  *     tags:
- *       - user
+ *       - users
  *     requestBody:
  *       required: true
  *       content:
@@ -52,9 +52,7 @@ export default async function handler(
       return res.status(404).json({ message: "User not found." });
     }
 
-    console.log(user.password);
     const hashedPassword = await generatePassword(user.email, password);
-    console.log(hashedPassword);
     await prisma.user.update({
       where: {
         id,

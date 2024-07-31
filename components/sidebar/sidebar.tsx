@@ -1,8 +1,6 @@
 "use client"
 
 import { cn } from "@/lib/utils";
-import Logo from "../logo/logo";
-import { HeaderLogo } from "../logo/sidebar-logo";
 import { motion } from "framer-motion";
 
 

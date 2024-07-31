@@ -1,10 +1,13 @@
-import prisma, { handleGetColumns, isColumnRestrict } from "@/lib/prisma";
+import prisma from "@/lib/prisma";
 import { Prisma } from "@prisma/client";
 
 /**
  * @swagger
- * /api/columns:
+ * /api/protected/columns:
  *   post:
+ *     summary: Obtém as colunas de um determinado modelo
+ *     tags:
+ *       - columns
  *     description: Endpoint para obter as colunas de um determinado modelo.
  *     requestBody:
  *       content:

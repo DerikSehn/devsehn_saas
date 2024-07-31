@@ -10,6 +10,9 @@ const nodemailer = require("nodemailer");
  * @swagger
  * /api/auth/forgot-password:
  *   post:
+ *     summary: Envia um email para recuperar a senha
+ *     tags:
+ *       - users
  *     description: Endpoint para enviar um email de recuperação de senha.
  *     requestBody:
  *       content:
@@ -28,8 +31,6 @@ const nodemailer = require("nodemailer");
  */
 export default async function handler(req: any, res: any) {
   const { email: to } = req.body;
-
-  console.log(to);
 
   try {
     const isEmailValid =
@@ -75,8 +76,6 @@ export default async function handler(req: any, res: any) {
 
     const resetLink = `${process.env.FRONTEND_URL}/auth/reset-password?token=${token}`; // Link com o token
 
-    console.log(process.env.FRONTEND_URL);
-    console.log(resetLink);
     const emailBody = await renderAsync(
       EmailTemplate({
         ...emailTemplate,
@@ -87,7 +86,6 @@ export default async function handler(req: any, res: any) {
       })
     );
 
-    console.log(emailBody);
     const transporter = nodemailer.createTransport({
       host: "smtp.zoho.com",
       port: 465,
@@ -96,15 +94,12 @@ export default async function handler(req: any, res: any) {
         pass: process.env.SMTP_EMAIL_PASS,
       },
     });
-    console.log(process.env.SMTP_EMAIL);
     const mailOptions = {
       from: process.env.SMTP_EMAIL,
       to,
       subject: "Recuperação de senha",
       html: emailBody,
     };
-
-    console.log(mailOptions);
 
     try {
       await transporter.sendMail(mailOptions);
@@ -113,7 +108,6 @@ export default async function handler(req: any, res: any) {
       return res.status(500).json({ error: "Failed to send email" });
     }
   } catch (error: any) {
-    console.log(error);
     return res.status(500).json({ error: "Failed to send email" });
   }
 }

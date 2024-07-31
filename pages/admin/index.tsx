@@ -4,49 +4,18 @@ import { Session } from "next-auth";
 import { getSession } from "next-auth/react";
 
 import GradientCircle from "@/components/box/gradient-circle";
-import Card from "@/components/card/card";
 import MetricCard from "@/components/card/MetricCard";
-import { ProjectCard } from "@/components/card/project-card";
-import { TestimonialCard } from "@/components/card/testimonial-card";
-import Chart from "@/components/charts/chart";
-import List from "@/components/list/list";
-import { ModelWithImage } from "@/prisma/prisma-utils";
-import { OpenInNewWindowIcon } from "@radix-ui/react-icons";
-import { FilesIcon, ImagesIcon, StarIcon, UsersIcon } from "lucide-react";
-import Image from "next/image";
-import Link from "next/link";
-import Polaroid from "@/components/ui/polaroid/polaroid";
-import { ServiceCard } from "@/components/card/service-card";
-import { ImageCard } from "@/components/card/image-card";
-import { cn } from "@/lib/utils";
 import { PartnerCard } from "@/components/card/partner-card";
+import { ProjectCard } from "@/components/card/project-card";
+import { ServiceCard } from "@/components/card/service-card";
+import { TestimonialCard } from "@/components/card/testimonial-card";
+import List from "@/components/list/list";
+import { cn } from "@/lib/utils";
+import { ModelWithImage } from "@/prisma/prisma-utils";
+import { FilesIcon, ImagesIcon, StarIcon, UsersIcon } from "lucide-react";
+import Link from "next/link";
 
 
-const grids = [
-    <Chart />,
-    <Chart />,
-    <Polaroid
-        className="shadow-md shadow-neutral-900"
-        alt="photos"
-        height={400}
-        width={400}
-        src={'/template.jpeg'}
-    />,
-    <Polaroid
-        className="shadow-md shadow-neutral-900"
-        alt="photos"
-        height={400}
-        width={400}
-        src={'/template.jpeg'}
-    />,
-
-    <Polaroid
-        className="shadow-md shadow-neutral-900"
-        alt="photos"
-        height={400}
-        width={400}
-        src={'/template.jpeg'} />
-]
 export async function getServerSideProps() {
 
     const projects = await prisma.project.findMany({
@@ -62,9 +31,7 @@ export async function getServerSideProps() {
 
         }
     });
-    console.log(projects);
     const services = await prisma.service.findMany({
-
         include: {
             image: true
         }
@@ -169,7 +136,7 @@ export default function AdminDashboard({ metrics, projects, testimonials, servic
         <div className="col-span-12 ">
             <div className="lg:mt-32 md:grid grid-cols-2 lg:grid-cols-4  gap-6">
                 {metrics?.slice(0, 4)?.map((metric, index) =>
-                    <Link title={metric.link ? 'Clique para ver' : ''} className={cn(!metric.link && "cursor-default")} href={metric.link ? metric.link : ''}>
+                    <Link key={index} title={metric.link ? 'Clique para ver' : ''} className={cn(!metric.link && "cursor-default")} href={metric.link ? metric.link : ''}>
 
                         <MetricCard key={index} className=''>
                             <div className="flex justify-between">

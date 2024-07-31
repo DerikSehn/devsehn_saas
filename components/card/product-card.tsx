@@ -1,13 +1,12 @@
-import { cn } from "@/lib/utils"
-import Image from "next/image"
-import Link from "next/link"
 import { Button } from "@/components/ui/button"
-import { Badge } from "../ui/badge"
+import { cn } from "@/lib/utils"
 import { Coins } from "lucide-react"
+import Image from "next/image"
+import { Badge } from "../ui/badge"
 
 export const ProductCard = ({ item, className }: { item: any, className?: string }) => {
     return (
-        <div className={cn("group relative rounded-md shadow-md shadow-neutral-200 bg-neutral-200 overflow-hidden   transition-all   grid grid-cols-4 ", className)}>
+        <div className={cn("group relative rounded-md shadow-md shadow-neutral-200 bg-neutral-200 overflow-hidden transition-all grid grid-cols-4 ", className)}>
 
             <div className="relative aspect-square col-span-full  m-1 mb-2" >
                 <Image
@@ -24,7 +23,7 @@ export const ProductCard = ({ item, className }: { item: any, className?: string
                 </Button>
                 <div>
 
-                    <p className="text-sm text-muted-foreground line-clamp-2 ">{item.categories?.[0].name}</p>
+                    <p className="text-sm text-muted-foreground line-clamp-2 ">{item.categories?.[0]?.name}</p>
 
                     <h3 className="text-lg font-semibold group-hover:text-primary">{item.name}</h3>
                     <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>

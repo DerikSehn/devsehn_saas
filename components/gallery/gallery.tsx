@@ -2,12 +2,9 @@ import repeatPattern from '@/lib/repeat-pattern';
 import { cn } from '@/lib/utils';
 import { handleApiRequest } from '@/pages/api/protected/crud';
 import types from '@prisma/client';
-import { OpenInNewWindowIcon } from '@radix-ui/react-icons';
-import { get } from 'http';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useEffect, useState } from 'react';
-import { BentoGrid, BentoGridItem } from '../bento-grid';
+import { BentoGrid } from '../bento-grid';
 
 
 export default function Gallery({ images }: { images: types.Image[] }) {
@@ -23,7 +20,7 @@ export default function Gallery({ images }: { images: types.Image[] }) {
         if (images.length === 0) {
             getImages()
         }
-    }, [])
+    }, [images.length])
 
     const repeatedPattern = repeatPattern(values?.length, [1, 2, 1, 2, 2]);
 

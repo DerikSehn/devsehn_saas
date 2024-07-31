@@ -17,7 +17,7 @@ const LogoMarquee = ({ children, className }: { children: React.ReactNode[], cla
 }
 
 
-export const Marquee: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const Marquee: React.FC<{ children: any }> = ({ children }) => {
     const reorderedChildren = children.slice(children.length / 2, children.length).concat(children.slice(0, children.length / 2))
     return (
         <div className="w-full overflow-hidden sm:mt-24 mt-10 z-10">

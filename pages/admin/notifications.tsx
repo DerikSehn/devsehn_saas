@@ -1,22 +1,17 @@
 import prisma from "@/lib/prisma";
 import { ReceivedEmail } from "@prisma/client";
 
-import GradientCircle from "@/components/box/gradient-circle";
 import Card from "@/components/card/card";
 import MetricCard from "@/components/card/MetricCard";
-import Chart from "@/components/charts/chart";
 import TableItemWrapper from "@/components/list/list-item-wrapper";
+import { useToast } from "@/components/providers/toast-provider";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-import Polaroid from "@/components/ui/polaroid/polaroid";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { cn } from "@/lib/utils";
-import { BellDotIcon, CopyIcon, Mail } from "lucide-react";
-import { Separator } from "@/components/ui/separator";
+import { BellDotIcon, Mail } from "lucide-react";
 import { useState } from "react";
-import SectionHeader from "@/components/landingpage/section/section-header";
-import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { useToast } from "@/components/providers/toast-provider";
 
 export async function getServerSideProps() {
     const receivedEmails = await prisma.receivedEmail.findMany({
@@ -35,7 +30,6 @@ const Notifications = ({ receivedEmails = [] }: { receivedEmails: ReceivedEmail[
 
     // Função para marcar o e-mail como lido
     const markAsRead = async (emailId: number) => {
-        console.log(emailId);
         try {
             const response = await fetch(`/api/protected/markAsRead/${emailId}`, {
                 method: 'PATCH', // Método PATCH para atualização
@@ -110,7 +104,7 @@ const Notifications = ({ receivedEmails = [] }: { receivedEmails: ReceivedEmail[
                                     </TableRow>
                                 }
                             >
-                                <ReceivedEmail receivedEmail={receivedEmail} />
+                                <ReceivedEmailCard receivedEmail={receivedEmail} />
                             </TableItemWrapper>
                         ))}
                     </TableBody>
@@ -125,7 +119,7 @@ const Notifications = ({ receivedEmails = [] }: { receivedEmails: ReceivedEmail[
 export default Notifications;
 
 /* Received Email Component. Its like reading a mail from inbox */
-const ReceivedEmail = ({ receivedEmail }: { receivedEmail: ReceivedEmail }) => {
+const ReceivedEmailCard = ({ receivedEmail }: { receivedEmail: ReceivedEmail }) => {
     const notify = useToast();
     const handleCopy = () => {
         navigator.clipboard.writeText(receivedEmail.email);

@@ -5,8 +5,11 @@ import type { NextApiRequest, NextApiResponse } from "next";
 
 /**
  * @swagger
- * /api/crud:
+ * /api/protected/crud:
  *   post:
+ *     summary: CRUD de um ou vários registros
+ *     tags:
+ *       - crud
  *     description: Endpoint para fazer crud de um ou vários registros.
  *     requestBody:
  *       content:
@@ -53,9 +56,9 @@ async function handleCrudRequest(
 ) {
   try {
     let res: any;
-    console.log(data)
-    console.log(table)
-    console.log(method)
+    /* console.log(data); */
+    /* console.log(table); */
+    /* console.log(method); */
     switch (method) {
       case "create":
         /* @ts-ignore */
@@ -65,7 +68,8 @@ async function handleCrudRequest(
         /* @ts-ignore */
         const { command, nestedItems } = formatUpdateCommand(table, data);
         /* @ts-ignore */
-        res = await prisma[table][method](command);
+        /* console.log(nestedItems); */
+        res = await (prisma as any)[table][method](command);
         if (Object.keys(nestedItems).length) {
           Object.entries(nestedItems).forEach(async ([key, value]) => {
             const nestedTable = key.substring(0, key.length - 1);
@@ -149,67 +153,64 @@ export async function handleCreateImage(data: RawFileProps): Promise<Image[]> {
     throw new Error("Não foi possível criar a imagem");
   }
 }
-
 function formatUpdateCommand(
-  table: CrudRequest["table"],
-  data: CrudRequest["data"]
+  table: string,
+  data: { id: string | number; [key: string]: any }
 ): { command: Prisma.ProjectUpdateArgs; nestedItems: any[] } {
   const { id, ...fields } = data;
 
   const updateData: any = {};
-  const nestedItems: any = {};
+  const nestedItems: any[] = [];
 
-  function handleNestedUpdates(value: any, enableId?: boolean) {
+  function handleNestedUpdates(value: any, table: string, enableId?: boolean) {
     return value.map((item: any) => {
-      let { id: nestedId, ...nestedData } = item;
-
+      const { id: nestedId, ...nestedData } = item;
       if (enableId) {
         return {
           where: { id: nestedId },
-          data: {
-            [`${String(table)}Id`]: id,
-          },
+          data: { [`${table}Id`]: id },
         };
       }
-      delete nestedData[String(table) + "Id"];
+      delete nestedData[`${table}Id`];
       return {
         where: { id: nestedId },
-        data: {
-          ...nestedData,
-        },
+        data: nestedData,
       };
     });
   }
 
-  let fkId;
   Object.entries(fields).forEach(([key, value]) => {
     if (Array.isArray(value)) {
       const isList = Prisma.dmmf.datamodel.models
-        .find((m) => m.name.toLowerCase() === String(table).toLowerCase())
-        ?.fields.find((f) => f.name === key)?.isList;
+        .find((model) => model.name.toLowerCase() === table.toLowerCase())
+        ?.fields.find((field) => field.name === key)?.isList;
 
-      const method = isList ? "updateMany" : "update";
-
-      if (method === "updateMany") {
+      if (isList) {
+        nestedItems.push({
+          key,
+          updates: handleNestedUpdates(value, key, true),
+        });
         updateData[key] = {
-          [method]: handleNestedUpdates(value),
+          updateMany: handleNestedUpdates(value, key),
         };
-        nestedItems[key] = handleNestedUpdates(value, true);
       } else {
-        fkId = { [`${String([key])}Id`]: value[0].id };
+        updateData[key] = {
+          connect: { id: value[0].id },
+        };
       }
     } else if (isObject(value)) {
-      /* @ts-ignore */
-      fkId = { [`${String([key])}Id`]: value.id };
+      updateData[key] = {
+        connect: { id: (value as any).id },
+      };
     } else {
-      // Handle direct fields
       updateData[key] = value;
     }
   });
+
   return {
     command: {
-      where: { id },
-      data: { ...updateData, ...(fkId || {}) },
+      where: { id: id as any },
+      data: updateData,
     },
     nestedItems,
   };
@@ -221,9 +222,11 @@ function formatCreateCommand(
 ): Prisma.ProjectCreateArgs {
   /* connect lists to the parent prisma model */
   const { id, ...fields } = data;
-
+  /*   { name: 'test', description: 'test', products: [ 1 ] }
+   */
   Object.entries(fields).forEach(([key, value]) => {
     if (Array.isArray(value)) {
+      /* console.log(value); */
       const isList = Prisma.dmmf.datamodel.models
         .find((m) => m.name.toLowerCase() === String(table).toLowerCase())
         ?.fields.find((f) => f.name === key)?.isList;

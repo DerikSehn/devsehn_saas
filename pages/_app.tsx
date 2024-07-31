@@ -1,6 +1,5 @@
 import { Layout } from "@/components/layout/layout";
 import "@/styles/globals.css";
-import { ReactLenis } from '@studio-freight/react-lenis';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { SessionProvider } from "next-auth/react";
@@ -10,6 +9,7 @@ import { useRouter } from "next/router";
 
 import { ToastProvider } from "@/components/providers/toast-provider";
 import { useState } from "react";
+import { ReactLenis } from '@studio-freight/react-lenis'
 
 import "driver.js/dist/driver.css";
 

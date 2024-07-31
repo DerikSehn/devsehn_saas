@@ -18,7 +18,9 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
     });
 
     const isMobile = getIsMobile()
-
+    const yTransforms = services.slice(0, 4).map((service, index) =>
+        isMobile ? null : useTransform(scrollYProgress, [0, 0.5], [`${(((index + 1) * -10) + 5)}vw`, `0vw`])
+    );
     return (
         <div ref={ref} className="relative z-10 w-full flex flex-col justify-center text-center items-center  -translate-y-[5%] rounded-[64px] lg:rounded-[3dvw] lg:rounded-b-none bg-primary-300 py-5 lg:p-0 lg:h-[80vh] ">
 
@@ -38,9 +40,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
 
                 {services.slice(0, 4)?.map((service, index) =>
                     <motion.div
-                        style={isMobile ? {} : {
-                            y: useTransform(scrollYProgress, [0, 0.5], [`${(((index + 1) * -10) + 5)}vw`, `0vw`])
-                        }}
+                        style={isMobile ? {} : { y: yTransforms[index] } as any}
                         key={index}
                     >
                         <HeroCard key={index} service={service} />

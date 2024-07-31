@@ -1,12 +1,9 @@
 import { Section } from "@/components/landingpage/section/section"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import BlobImage from "@/components/ui/image/blob-image-path"
 import StickyScrollReveal from "@/components/ui/sticky-scroll-reveal"
 import prisma from "@/lib/prisma"
-import { cn } from "@/lib/utils"
 import { ModelWithImages } from "@/prisma/prisma-utils"
-import { Section as SectionType, Image as ImageType } from "@prisma/client"
-import { Separator } from "@radix-ui/react-separator"
+import { Section as SectionType } from "@prisma/client"
 import Image from "next/image"
 
 const SectionPage = ({ section }: { section: ModelWithImages<SectionType> }) => {
@@ -34,7 +31,7 @@ const SectionPage = ({ section }: { section: ModelWithImages<SectionType> }) => 
                 <div className="relative z-10 w-full md:-translate-y-1/4">
                     <BlobImage
                         className="max-w-full max-h-full "
-                        src={section.images[0].url} alt={section.images[0].name} />
+                        src={section.images[0].url} />
                 </div>
             </div>
             <div />
@@ -51,7 +48,6 @@ const SectionPage = ({ section }: { section: ModelWithImages<SectionType> }) => 
 
 
 export const getServerSideProps = async (context: any) => {
-    console.log(context.params)
     const slug = context.params.slug
     const section = await prisma.section.findUnique({
         where: {

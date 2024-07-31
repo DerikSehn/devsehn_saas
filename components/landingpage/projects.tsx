@@ -2,8 +2,6 @@ import { cn } from "@/lib/utils";
 import { ModelWithImages } from "@/prisma/prisma-utils";
 import { Project } from "@prisma/client";
 import Image from "next/image";
-import Link from "next/link";
-import { Fragment } from "react";
 import Card from "../card/card";
 import { CardDescription, CardHeader, CardTitle } from "../ui/card";
 import ZoomParallax from "../ui/scroll/zoom-parallax";
@@ -36,6 +34,7 @@ export default function Projects({ projects }: { projects: ModelWithImages<Proje
                 {projects.slice(0, 5)?.map((project, index) =>
 /*                     <Link className="relative z-50" key={project.title + index} href={`/project/${project.id}`}>
  */                        <Card
+                        key={project.title + index}
                         isStatic
                         className={cn("group w-full h-72 bg-primary-100  aspect-[3/4] rounded-none transition-all duration-500 overflow-hidden ",
                         )}>
@@ -72,7 +71,7 @@ const ProjectShowcase = ({ project }: { project: ModelWithImages<Project> }) => 
         <Section id="project-showcase" className="bg-primary-200 h-auto flex-col">
             <StickyScrollReveal content={project.images.map((image, index) => ({
                 title: index ? image.name : project.title,
-                description: index ? image.description : project.description,
+                description: (index ? image.description : project.description) as string,
                 content: <Image src={image.url} alt={image.name} fill className="sticky top-0 object-cover" />
             }))} />
 

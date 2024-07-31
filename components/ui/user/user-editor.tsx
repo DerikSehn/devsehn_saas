@@ -1,14 +1,14 @@
-import { useState } from 'react';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { TableItemEditorProps } from '@/components/list/table-item-editor';
+import { useToast } from '@/components/providers/toast-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { TableItemEditorProps } from '@/components/list/table-item-editor';
-import { useToast } from '@/components/providers/toast-provider';
-import { isFunction } from 'lodash';
-import { Switch } from '../switch';
 import { cn } from '@/lib/utils';
+import { useMutation } from '@tanstack/react-query';
+import { isFunction } from 'lodash';
+import { useState } from 'react';
 import zxcvbn from 'zxcvbn';
+import { Switch } from '../switch';
 
 interface User {
     id: string;
@@ -49,7 +49,6 @@ async function updateUser(user: User) {
 }
 
 async function updatePassword(user: User) {
-    console.log(user)
     const res = await fetch(`/api/protected/users/${user.id}/password`, {
         method: 'PUT',
         headers: {
@@ -99,9 +98,11 @@ const UserEditor: React.FC<UserEditorProps> = ({ item, method, onClose }) => {
         passwordMutation.mutate(user);
     };
 
-    console.log(passwordStrength)
+    const handleDelete = () => {
+        isFunction(onClose) && onClose({ item: user as any, method: 'delete' });
+    };
+
     const passwordScore = checkPasswordStrength(newPassword);
-    console.log(passwordScore)
     return (
         <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid gap-2">
@@ -131,7 +132,6 @@ const UserEditor: React.FC<UserEditorProps> = ({ item, method, onClose }) => {
                         className='bg-red text-white my-2'
                         checked={!!user.emailVerified}
                         onCheckedChange={(checked) => {
-                            console.log(checked)
                             setUser({ ...user, emailVerified: checked ? new Date() : undefined })
                         }}
                     />
@@ -170,6 +170,11 @@ const UserEditor: React.FC<UserEditorProps> = ({ item, method, onClose }) => {
             <Button type="submit" className="w-full">
                 {mutation.isPending ? 'Salvando...' : 'Salvar'}
             </Button>
+            {item ? <Button onClick={handleDelete} variant="destructive" className="w-full">
+                {mutation.isPending ? 'Removendo...' : 'Remover'}
+            </Button>
+                : null
+            }
         </form>
     );
 };

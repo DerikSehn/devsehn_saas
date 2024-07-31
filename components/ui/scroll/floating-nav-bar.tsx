@@ -1,7 +1,6 @@
 "use client";
 import { Dropdown, Tab, Tabs, Trigger, TriggerWrapper } from "@/components/dropdown/dropdown-menu";
 import { cn } from "@/lib/utils";
-import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -134,7 +133,9 @@ export const FloatingNavBar = ({
                                 </div>
                                 <div className={'flex flex-col  justify-between'}>
                                     {navItems.map((navItem, idx: number) => (
-                                        <Link href={navItem.link} className="flex items-center justify-start space-x-4 active:bg-primary-800/40 p-2 w-full rounded-lg">
+                                        <Link
+                                            key={`link=${idx}`}
+                                            href={navItem.link} className="flex items-center justify-start space-x-4 active:bg-primary-800/40 p-2 w-full rounded-lg">
                                             <h3 className={'dark:text-white text-secondary-800'}>{navItem.icon}</h3>
 
                                             <p className={'text-jet-900 text-xl '}>

@@ -60,7 +60,7 @@ const HorizontalScrollCarousel: FC<Props> = ({ children, className, content }) =
                             key={index}
                             className="group relative apect-square overflow-hidden"
                         >
-                            {React.cloneElement(child, { active: activeItem === index })}
+                            {React.cloneElement(child as any, { active: activeItem === index })}
                         </div>
                     ))}
                 </motion.div>

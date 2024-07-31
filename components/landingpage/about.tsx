@@ -1,7 +1,6 @@
 import { PlayCircle } from "lucide-react";
 import Image from "next/image";
-import { Button } from "../ui/button";
-import { VideoModal, VideoModalTrigger, VideoModalContent, VideoModalTitle, VideoModalDescription, VideoModalVideo, VideoPreview, VideoPlayButton, VideoPlayer } from "../ui/video-modal";
+import { VideoModal, VideoModalContent, VideoModalDescription, VideoModalTitle, VideoModalTrigger, VideoModalVideo, VideoPlayButton, VideoPlayer, VideoPreview } from "../ui/video-modal";
 import { Section } from "./section/section";
 
 
@@ -21,8 +20,9 @@ export default function About() {
                     </VideoModalDescription>
                     <VideoModalVideo>
                         <VideoPlayer>
-                            <VideoPreview>
-                                <img
+                            <VideoPreview className="relative">
+                                <Image
+                                    fill
                                     src="https://cdn.dribbble.com/userupload/4145843/file/original-c7a2c9a768450460259f232259d103d2.png?resize=1600x1200"
                                     alt="Video preview"
                                 />

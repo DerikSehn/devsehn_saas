@@ -392,21 +392,23 @@ async function main() {
             {
               title: "Seção 1",
               description: "Descrição da seção 1",
+              slug: "seção-1",
             },
             {
               title: "Seção 2",
               description: "Descrição da seção 2",
+              slug: "seção-2",
             },
             {
               title: "Seção 3",
               description: "Descrição da seção 3",
+              slug: "seção-3",
             },
           ],
         });
       }
     } catch (e) {}
   }
- 
 }
 
 /* run  with prisma db seed */

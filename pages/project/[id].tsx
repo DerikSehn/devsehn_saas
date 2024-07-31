@@ -1,13 +1,9 @@
 import { Section } from "@/components/landingpage/section/section"
 import ReturnToPage from "@/components/return-to-page"
-import { Card, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import BlobImage from "@/components/ui/image/blob-image-path"
 import StickyScrollReveal from "@/components/ui/sticky-scroll-reveal"
 import prisma from "@/lib/prisma"
-import { cn } from "@/lib/utils"
 import { ModelWithImages } from "@/prisma/prisma-utils"
-import { Project as ProjectType, Image as ImageType } from "@prisma/client"
-import { Separator } from "@radix-ui/react-separator"
+import { Project as ProjectType } from "@prisma/client"
 import Image from "next/image"
 
 const ProjectPage = ({ project }: { project: ModelWithImages<ProjectType> }) => {
@@ -23,7 +19,6 @@ const ProjectPage = ({ project }: { project: ModelWithImages<ProjectType> }) => 
             <div className="relative w-full grid md:grid-cols-2  p-8 overflow-visible text-neutral-50">
                 <ReturnToPage href="/projects" className="text-white left-6 -top-8" />
                 <div>
-
                     <h2 className="z-10 flex flex-col font-moglan uppercase font-thin  justify-center text-left  text-5xl  md:text-6xl">
                         {project.title}
                     </h2>
@@ -58,7 +53,6 @@ const ProjectPage = ({ project }: { project: ModelWithImages<ProjectType> }) => 
 
 
 export const getServerSideProps = async (context: any) => {
-    console.log(context.params)
     const id = context.params.id
     const project = await prisma.project.findUnique({
         where: {
@@ -72,7 +66,6 @@ export const getServerSideProps = async (context: any) => {
             }
         }
     });
-    console.log(project)
     return { props: { project } }
 }
 

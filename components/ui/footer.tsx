@@ -1,5 +1,6 @@
+import { generateWhatsAppLink } from "@/lib/utils";
 import Logo from "@/public/logo.svg";
-import { Facebook, Instagram, Twitter } from "lucide-react";
+import { Facebook, Instagram } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -7,17 +8,17 @@ const LINKS = [
     {
         title: "Sobre Nós",
         items: [
-            {
-                name: "Galeria",
-                href: '#Projects',
-            },
+            /*  {
+                 name: "Galeria",
+                 href: '#Projects',
+             }, */
             {
                 name: "Informações",
-                href: '#contact',
+                href: '/section/a-empresa',
             },
             {
                 name: "Contato",
-                href: '#contact',
+                href: '/contact',
             },
         ],
     },
@@ -26,11 +27,11 @@ const LINKS = [
         items: [
             {
                 name: "Início",
-                href: '#hero',
+                href: '/#hero',
             },
             {
                 name: "Produtos",
-                href: '#services',
+                href: '/products',
             },
             {
                 name: "Entrar no Sistema",
@@ -40,9 +41,15 @@ const LINKS = [
     },
 ];
 
+
+const phoneNumber = "(51) 99626-1079";
+const message = "Olá, gostaria de saber mais sobre os serviços de paisagismo e fitoterapia. Estou interessado em transformar meu espaço em um local de tranquilidade e bem-estar. Vocês podem me fornecer mais informações?";
+
+const whatsAppLink = generateWhatsAppLink({ phoneNumber, message });
 const currentYear = new Date().getFullYear();
 
 export function Footer() {
+
     return (
         <footer className="relative w-full py-20 min-h-[600px] h-[50dvh] bg-primary-200">
             <div className="mx-auto w-full max-w-screen-2xl px-8 text-neutral-400">
@@ -87,17 +94,14 @@ export function Footer() {
                 <div className="mt-12 flex w-full flex-col items-center justify-between border-t border-neutral-50 py-4 md:flex-row">
                     <div className="flex gap-2">
                         {/* TODO ADD DYNAMIC LINKS */}
-                        <Link href={''} className="border p-2 rounded-3xl transition-all aspec-square bg-primary/20 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50"
+                        <Link href={whatsAppLink} className="border p-2 rounded-3xl transition-all aspec-square bg-primary/20 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50"
                         >
                             <WhatsApp />
                         </Link>
-                        <Link href={''} className="border p-2 rounded-3xl transition-all aspec-square bg-primary/20 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">
-                            <Twitter />
-                        </Link>
-                        <Link href={''} className="border p-2 rounded-3xl transition-all aspec-square bg-primary/20 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">
+                        <Link href={'https://www.facebook.com/culturaverders/?locale=pt_BR'} className="border p-2 rounded-3xl transition-all aspec-square bg-primary/20 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">
                             <Facebook />
                         </Link>
-                        <Link href={''} className="border p-2 rounded-3xl transition-all aspec-square bg-primary/20 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">
+                        <Link href={'https://www.instagram.com/cultura_verde/'} className="border p-2 rounded-3xl transition-all aspec-square bg-primary/20 hover:bg-gray-100 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50">
                             <Instagram />
                         </Link>
                     </div>

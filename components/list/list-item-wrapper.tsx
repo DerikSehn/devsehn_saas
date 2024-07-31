@@ -68,7 +68,6 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
 
 
     const handleSave = async (props: OnSubmitProps) => {
-        console.log(props)
         if (typeof onSubmit === 'function') {
             try {
                 await onSubmit(props);
@@ -82,7 +81,7 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
                         notify('Alterações Concluídas', { type: 'success' })
                         break;
                     case 'delete':
-                        notify('Item Removido', { type: 'success' })
+                        notify('Item Removido', { type: 'info' })
                         break;
 
                 }

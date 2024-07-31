@@ -69,7 +69,7 @@ const SectionItem = ({ section, className }: { section: ModelWithImages<SectionT
                     className="object-cover object-top  group-hover:brightness-75 transition-all duration-1000 group-hover:scale-105 group-hover:translate-x-4 shadow-xl rounded-md"
                 />
                 <div className="absolute w-full h-full z-10 top-0 left-0 bg-gradient-to-r from-primary-600 to-primary-500  blur-3xl transition-opacity opacity-0 group-hover:opacity-10 duration-500" />
-                <OpenInNewWindowIcon size={80} className="absolute bottom-1/2 -translate-x-1/2 left-1/4 z-20 w-40 h-40 text-jet-800 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100    transition-all duration-500 " />
+                <OpenInNewWindowIcon fontSize={'80px'} className="absolute bottom-1/2 -translate-x-1/2 left-1/4 z-20 w-40 h-40 text-jet-800 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100    transition-all duration-500 " />
             </motion.div>
             <div className="relative z-10 md:pl-[24%] space-y-10">
                 <h2 className="  text-3xl font-light tracking-wide sm:text-5xl lg:text-7xl max-w-screen-md text-neutral-100 "

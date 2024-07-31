@@ -2,7 +2,6 @@ import { cn } from '@/lib/utils';
 import { motion } from 'framer-motion';
 import { X } from 'lucide-react';
 import { ConfirmDialog } from '../ui/dialog/confirm-dialog';
-import TableItemWrapper from './list-item-wrapper';
 
 export interface Item {
     id: number;
@@ -18,8 +17,12 @@ interface ListItemProps {
     onDelete?(): any;
 }
 
-const ListItem: React.FC<ListItemProps> = ({ item, onClick, onDelete, children }) => {
+const handleStop = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    e.preventDefault()
+}
 
+const ListItem: React.FC<ListItemProps> = ({ item, onClick, onDelete, children }) => {
     const handleDelete = async () => {
         if (typeof onDelete === 'function') {
             onDelete()
@@ -32,7 +35,14 @@ const ListItem: React.FC<ListItemProps> = ({ item, onClick, onDelete, children }
             onClick={() => onClick && onClick(item)}
             className={cn('group/item relative z-[0]')} >
             {children ||
-                <p>{item.description}</p>
+                <div>
+                    <h3>
+                        {(item as any)?.name || item?.title}
+                    </h3>
+                    <p>
+                        {item.description}
+                    </p>
+                </div>
             }
             {onDelete ?
                 <span onClick={handleStop}>
@@ -57,8 +67,3 @@ const ListItem: React.FC<ListItemProps> = ({ item, onClick, onDelete, children }
 
 export default ListItem;
 
-
-const handleStop = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation()
-    e.preventDefault()
-}   

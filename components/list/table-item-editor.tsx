@@ -9,6 +9,7 @@ import { z } from 'zod';
 import AutoFormComplete from "../ui/auto-form/fields/auto-complete";
 import AutoFormFiles from "../ui/auto-form/fields/files";
 import AutoFormInput from "../ui/auto-form/fields/input";
+import AutoFormTextarea from "../ui/auto-form/fields/textarea";
 import { Button } from '../ui/button';
 import { Item } from './list-item';
 
@@ -46,7 +47,6 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
     const canShowColumn = (col: Column) => {
 
         if (['updatedAt', 'createdAt'].includes(col.name)
-            || col.isUnique
             || col.isId
             || col.isReadOnly
         ) {
@@ -61,26 +61,26 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
     }
 
     const onSubmit = async (data: FormData) => {
-        console.log(data.id)
+        /* console.log(data.id) */
 
-        console.log(data)
+        /* console.log(data) */
 
         const integratedImages = await handleImageIntegration(item, data)
 
-        console.log(integratedImages)
+        /* console.log(integratedImages) */
         const newData = {
             ...data,
             ...integratedImages
         };
 
         const res = await handleApiRequest(newData, tableName, method);
-        console.log(res)
+        /* console.log(res) */
 
         onClose({ item: res, method });
     };
     const handleDelete = async () => {
-        console.log(item)
-        console.log(tableName)
+        /* console.log(item) */
+        /* console.log(tableName) */
         const where = item!.id ? { id: item!.id } : {};
         const res = await handleApiRequest({ where }, tableName, 'delete');
         onClose({ item: res, method: 'delete' });
@@ -90,12 +90,14 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
     useEffect(() => {
         getColumns();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const generateZodSchema = () => {
         const schema: any = {};
+        /* console.log(columns) */
         columns.filter(canShowColumn).forEach(col => {
-            console.log({ [col.name]: col.type })
+            /* console.log({ [col.name]: col.type }) */
             switch (col.type) {
                 case 'text':
                 case 'character varying':
@@ -116,8 +118,11 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
                 case 'Images':
                     schema[col.name] = z.any().optional()
                     break;
+                case 'String':
+                    schema[col.name] = z.string()
+                    break;
                 default:
-                    schema[col.name] = z.string().optional()
+                    schema[col.name] = z.any().optional()
                     break;
             }
             if (!col.isRequired) {
@@ -162,12 +167,12 @@ export default TableItemEditor;
 
 
 const handleImageIntegration = async (defaultForm: FormData, form: FormData) => {
-    console.log(form);
+    /* console.log(form); */
 
     // Filter out changed images that do not have an 'id'
     let changedImages = Object.entries(form).filter(([key, value]) => {
-        console.log(key)
-        console.log(value)
+        /* console.log(key) */
+        /* console.log(value) */
         return key.startsWith('image')
     }
     )
@@ -175,21 +180,21 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
         changedImages = changedImages.filter(([key, value], index) => !isEqual(value, defaultForm[key]?.[index]));
     }
 
-    console.log(changedImages);
+    /* console.log(changedImages); */
 
     // Process images: create new images only if they don't have an 'id'
     const integratedImages = Object.fromEntries(await Promise.all(changedImages.map(async ([key, value]) => {
-        console.log(value);
+        /* console.log(value); */
         let result;
 
         // Check if value is an array or a single object
         const images = Array.isArray(value) ? value : [value];
-        console.log(images)
+        /* console.log(images) */
 
 
         // Filter out images without 'id' for creation
         const imagesWithoutId = images.filter((item: any) => !item.image?.id);
-        console.log(imagesWithoutId)
+        /* console.log(imagesWithoutId) */
 
         if (imagesWithoutId.length > 0) {
             // Handle creation for images without 'id'
@@ -199,11 +204,11 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
             result = { files: [] };
         }
 
-        console.log(result);
+        /* console.log(result); */
         return [key, (result as any).files];
     })));
 
-    console.log(integratedImages);
+    /* console.log(integratedImages); */
 
     // Merge new integrated images with default form
     const newObject = {
@@ -211,13 +216,14 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
         ...form,
         ...integratedImages
     };
-    console.log(newObject);
+    /* console.log(newObject); */
 
     return newObject;
 };
 
 const getFieldConfig = (columns: any[]) => {
 
+    /* console.log(columns) */
     let config: any = {}
 
     columns.forEach(col => {
@@ -231,6 +237,25 @@ const getFieldConfig = (columns: any[]) => {
                         multiple: col.isList,
                     },
                     fieldType: AutoFormFiles,
+                }
+                return;
+            case 'name':
+                config[col.name] = {
+                    inputProps: {
+                        type: 'text',
+                    },
+                    fieldType: AutoFormInput,
+                    label: 'Nome',
+                }
+                return;
+            case 'description':
+                config[col.name] = {
+                    inputProps: {
+                        type: 'text',
+                    },
+                    fieldType: AutoFormTextarea,
+                    label: 'Descrição',
+                    description: 'Insira a descrição',
                 }
                 return;
             case 'password':
@@ -260,12 +285,15 @@ const getFieldConfig = (columns: any[]) => {
         }
 
         if (col.isList) {
-            console.log(col)
+
+            const relatedTable = col.relationToFields.length > 0 ? col.relationToFields[0] : col.type;
+
+            /* console.log(relatedTable) */
             config[col.name] = {
                 fieldType: AutoFormComplete,
                 inputProps: {
                     multiple: col.isList,
-                    type: col.type,
+                    type: relatedTable,
                 },
             }
         }
