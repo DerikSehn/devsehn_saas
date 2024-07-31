@@ -13,7 +13,7 @@ export default function Partners({ partners }: { partners: ModelWithImage<Partne
                 <h3 className="inline-block rounded-lg bg-primary-600 px-3 py-1 text-sm dark:bg-primary-600 text-primary-900 ">
                     Parcerias
                 </h3>
-                <div className="text-3xl font-light tracking-wide sm:text-5xl lg:text-7xl max-w-screen-md text-primary-300 font-moglan">
+                <div className="text-md sm:text-3xl lg:text-4xl font-light tracking-wide  max-w-screen-md text-primary-300 font-moglan">
                     Levando a
                     <h2 className="text-primary-600 text-5xl lg:text-8xl font-sans"
                         style={{ textShadow: "0 0 1px #000, 0 0 2px #000" }}>

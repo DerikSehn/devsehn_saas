@@ -1,198 +1,185 @@
-
 import Page from "@/components/page";
 import Image from "next/image";
 
 export default function PrivacyPolicy() {
     return (
         <span className="relative w-full h-full bg-primary-200 ">
-            <div className="absolute w-full h-full bg-primary-200 z-0">
+            <div className="absolute w-full h-40 bg-primary-200 z-0">
 
                 <Image
                     className="z-0 blur object-cover saturate-50 brightness-[.25] bg-primary-200 "
                     src={"/uploads/dashboard/background.jpeg"} alt={'background'} fill />
 
             </div>
-            <Page className="w-full max-w-3xl mx-auto py-12 md:py-20 flex flex-col justify-center items-center relative z-10 text-jet-900 bg-transparent">
-                <h1>Privacy Policy</h1>
-                <p>Last updated: July 28, 2024</p>
-                <p>This Privacy Policy describes Our policies and procedures on the collection, use and disclosure of Your information when You use the Service and tells You about Your privacy rights and how the law protects You.</p>
-                <p>We use Your Personal data to provide and improve the Service. By using the Service, You agree to the collection and use of information in accordance with this Privacy Policy. This Privacy Policy has been created with the help of the <a href="https://www.freeprivacypolicy.com/free-privacy-policy-generator/" target="_blank">Free Privacy Policy Generator</a>.</p>
-                <h2>Interpretation and Definitions</h2>
-                <h3>Interpretation</h3>
-                <p>The words of which the initial letter is capitalized have meanings defined under the following conditions. The following definitions shall have the same meaning regardless of whether they appear in singular or in plural.</p>
-                <h3>Definitions</h3>
-                <p>For the purposes of this Privacy Policy:</p>
+            <Page className="w-full max-w-3xl mx-auto py-12 md:py-56 flex flex-col justify-center items-center relative z-10 bg-primary-100  bg-transparent">
+                <h1>Política de Privacidade</h1>
+                <p>Última atualização: 28 de julho de 2024</p>
+                <p>Esta Política de Privacidade descreve nossas políticas e procedimentos sobre a coleta, uso e divulgação das suas informações quando você usa o serviço e informa sobre seus direitos de privacidade e como a lei te protege.</p>
+                <p>Utilizamos seus dados pessoais para fornecer e melhorar o serviço. Ao usar o serviço, você concorda com a coleta e uso de informações de acordo com esta Política de Privacidade. Esta Política de Privacidade foi criada com a ajuda do <a href="https://www.freeprivacypolicy.com/free-privacy-policy-generator/" target="_blank">Free Privacy Policy Generator</a>.</p>
+                <h2>Interpretação e Definições</h2>
+                <h3>Interpretação</h3>
+                <p>As palavras cujas letras iniciais são maiúsculas têm significados definidos nas seguintes condições. As seguintes definições têm o mesmo significado, independentemente de aparecerem no singular ou no plural.</p>
+                <h3>Definições</h3>
+                <p>Para os fins desta Política de Privacidade:</p>
                 <ul>
                     <li>
-                        <p><strong>Account</strong> means a unique account created for You to access our Service or parts of our Service.</p>
+                        <p><strong>Conta</strong> significa uma conta única criada para você acessar nosso serviço ou partes de nosso serviço.</p>
                     </li>
                     <li>
-                        <p><strong>Affiliate</strong> means an entity that controls, is controlled by or is under common control with a party, where &quot;control&quot; means ownership of 50% or more of the shares, equity interest or other securities entitled to vote for election of directors or other managing authority.</p>
+                        <p><strong>Afiliada</strong> significa uma entidade que controla, é controlada por, ou está sob controle comum com uma parte, onde "controle" significa a propriedade de 50% ou mais das ações, participação acionária ou outros títulos com direito a voto para eleição de diretores ou outra autoridade de gestão.</p>
                     </li>
                     <li>
-                        <p><strong>Company</strong> (referred to as either &quot;the Company&quot;, &quot;We&quot;, &quot;Us&quot; or &quot;Our&quot; in this Agreement) refers to Cultura Verde, &quot;R. Ceriaco Jerônimo de Souza, 817 - Guará, Xangri-lá - RS, 95588-000, Brasil&quot;.</p>
+                        <p><strong>Empresa</strong> (referida como "a Empresa", "Nós", "Nos" ou "Nosso" neste Acordo) refere-se à Cultura Verde, "R. Ceriaco Jerônimo de Souza, 817 - Guará, Xangri-lá - RS, 95588-000, Brasil".</p>
                     </li>
                     <li>
-                        <p><strong>Cookies</strong> are small files that are placed on Your computer, mobile device or any other device by a website, containing the details of Your browsing history on that website among its many uses.</p>
+                        <p><strong>Cookies</strong> são pequenos arquivos que são colocados no seu computador, dispositivo móvel ou qualquer outro dispositivo por um site, contendo os detalhes do seu histórico de navegação nesse site, entre seus muitos usos.</p>
                     </li>
                     <li>
-                        <p><strong>Country</strong> refers to:  Brazil</p>
+                        <p><strong>País</strong> refere-se ao Brasil.</p>
                     </li>
                     <li>
-                        <p><strong>Device</strong> means any device that can access the Service such as a computer, a cellphone or a digital tablet.</p>
+                        <p><strong>Dispositivo</strong> significa qualquer dispositivo que pode acessar o serviço, como um computador, um celular ou um tablet digital.</p>
                     </li>
                     <li>
-                        <p><strong>Personal Data</strong> is any information that relates to an identified or identifiable individual.</p>
+                        <p><strong>Dados Pessoais</strong> são quaisquer informações que se referem a um indivíduo identificado ou identificável.</p>
                     </li>
                     <li>
-                        <p><strong>Service</strong> refers to the Website.</p>
+                        <p><strong>Serviço</strong> refere-se ao site.</p>
                     </li>
                     <li>
-                        <p><strong>Service Provider</strong> means any natural or legal person who processes the data on behalf of the Company. It refers to third-party companies or individuals employed by the Company to facilitate the Service, to provide the Service on behalf of the Company, to perform services related to the Service or to assist the Company in analyzing how the Service is used.</p>
+                        <p><strong>Provedor de Serviços</strong> significa qualquer pessoa física ou jurídica que processa os dados em nome da empresa. Refere-se a empresas ou indivíduos terceirizados empregados pela empresa para facilitar o serviço, fornecer o serviço em nome da empresa, realizar serviços relacionados ao serviço ou auxiliar a empresa na análise de como o serviço é utilizado.</p>
                     </li>
                     <li>
-                        <p><strong>Usage Data</strong> refers to data collected automatically, either generated by the use of the Service or from the Service infrastructure itself (for example, the duration of a page visit).</p>
+                        <p><strong>Dados de Uso</strong> refere-se a dados coletados automaticamente, seja gerados pelo uso do serviço ou da própria infraestrutura do serviço (por exemplo, a duração de uma visita a uma página).</p>
                     </li>
                     <li>
-                        <p><strong>Website</strong> refers to Cultura Verde, accessible from <a href="culturaverde.com.br" rel="external nofollow noopener" target="_blank">culturaverde.com.br</a></p>
+                        <p><strong>Site</strong> refere-se à Cultura Verde, acessível a partir de <a href="culturaverde.com.br" rel="external nofollow noopener" target="_blank">culturaverde.com.br</a></p>
                     </li>
                     <li>
-                        <p><strong>You</strong> means the individual accessing or using the Service, or the company, or other legal entity on behalf of which such individual is accessing or using the Service, as applicable.</p>
+                        <p><strong>Você</strong> significa o indivíduo acessando ou usando o serviço, ou a empresa, ou outra entidade jurídica em nome da qual esse indivíduo está acessando ou usando o serviço, conforme aplicável.</p>
                     </li>
                 </ul>
-                <h2>Collecting and Using Your Personal Data</h2>
-                <h3>Types of Data Collected</h3>
-                <h4>Personal Data</h4>
-                <p>While using Our Service, We may ask You to provide Us with certain personally identifiable information that can be used to contact or identify You. Personally identifiable information may include, but is not limited to:</p>
+                <h2>Coleta e Uso dos Seus Dados Pessoais</h2>
+                <h3>Tipos de Dados Coletados</h3>
+                <h4>Dados Pessoais</h4>
+                <p>Ao usar nosso serviço, podemos pedir que você nos forneça certas informações de identificação pessoal que podem ser usadas para entrar em contato ou identificar você. Informações de identificação pessoal podem incluir, mas não estão limitadas a:</p>
                 <ul>
                     <li>
-                        <p>Email address</p>
+                        <p>Endereço de email</p>
                     </li>
                     <li>
-                        <p>First name and last name</p>
+                        <p>Nome e sobrenome</p>
                     </li>
                     <li>
-                        <p>Usage Data</p>
+                        <p>Dados de uso</p>
                     </li>
                 </ul>
-                <h4>Usage Data</h4>
-                <p>Usage Data is collected automatically when using the Service.</p>
-                <p>Usage Data may include information such as Your Device's Internet Protocol address (e.g. IP address), browser type, browser version, the pages of our Service that You visit, the time and date of Your visit, the time spent on those pages, unique device identifiers and other diagnostic data.</p>
-                <p>When You access the Service by or through a mobile device, We may collect certain information automatically, including, but not limited to, the type of mobile device You use, Your mobile device unique ID, the IP address of Your mobile device, Your mobile operating system, the type of mobile Internet browser You use, unique device identifiers and other diagnostic data.</p>
-                <p>We may also collect information that Your browser sends whenever You visit our Service or when You access the Service by or through a mobile device.</p>
-                <h4>Tracking Technologies and Cookies</h4>
-                <p>We use Cookies and similar tracking technologies to track the activity on Our Service and store certain information. Tracking technologies used are beacons, tags, and scripts to collect and track information and to improve and analyze Our Service. The technologies We use may include:</p>
+                <h4>Dados de Uso</h4>
+                <p>Os dados de uso são coletados automaticamente ao usar o serviço.</p>
+                <p>Os dados de uso podem incluir informações como o endereço de Protocolo de Internet (por exemplo, endereço IP) do seu dispositivo, tipo de navegador, versão do navegador, as páginas do nosso serviço que você visita, a data e a hora da sua visita, o tempo gasto nessas páginas, identificadores exclusivos de dispositivos e outros dados de diagnóstico.</p>
+                <p>Quando você acessa o serviço por ou através de um dispositivo móvel, podemos coletar certas informações automaticamente, incluindo, mas não se limitando a, o tipo de dispositivo móvel que você usa, seu ID exclusivo do dispositivo móvel, o endereço IP do seu dispositivo móvel, seu sistema operacional móvel, o tipo de navegador de Internet móvel que você usa, identificadores exclusivos de dispositivos e outros dados de diagnóstico.</p>
+                <p>Também podemos coletar informações que seu navegador envia sempre que você visita nosso serviço ou quando você acessa o serviço por ou através de um dispositivo móvel.</p>
+                <h4>Tecnologias de Rastreamento e Cookies</h4>
+                <p>Utilizamos cookies e tecnologias de rastreamento semelhantes para rastrear a atividade em nosso serviço e armazenar certas informações. As tecnologias de rastreamento usadas são beacons, tags e scripts para coletar e rastrear informações e para melhorar e analisar nosso serviço. As tecnologias que usamos podem incluir:</p>
                 <ul>
-                    <li><strong>Cookies or Browser Cookies.</strong> A cookie is a small file placed on Your Device. You can instruct Your browser to refuse all Cookies or to indicate when a Cookie is being sent. However, if You do not accept Cookies, You may not be able to use some parts of our Service. Unless you have adjusted Your browser setting so that it will refuse Cookies, our Service may use Cookies.</li>
-                    <li><strong>Web Beacons.</strong> Certain sections of our Service and our emails may contain small electronic files known as web beacons (also referred to as clear gifs, pixel tags, and single-pixel gifs) that permit the Company, for example, to count users who have visited those pages or opened an email and for other related website statistics (for example, recording the popularity of a certain section and verifying system and server integrity).</li>
+                    <li><strong>Cookies ou Cookies de Navegador.</strong> Um cookie é um pequeno arquivo colocado no seu dispositivo. Você pode instruir seu navegador a recusar todos os cookies ou a indicar quando um cookie está sendo enviado. No entanto, se você não aceitar cookies, pode não ser capaz de usar algumas partes do nosso serviço. A menos que você tenha ajustado a configuração do seu navegador para recusar cookies, nosso serviço pode usar cookies.</li>
+                    <li><strong>Web Beacons.</strong> Certas seções do nosso serviço e nossos emails podem conter pequenos arquivos eletrônicos conhecidos como web beacons (também chamados de gifs claros, pixel tags e gifs de um pixel único) que permitem à empresa, por exemplo, contar os usuários que visitaram aquelas páginas ou abriram um email e para outras estatísticas de sites relacionadas (por exemplo, registrando a popularidade de uma seção específica e verificando a integridade do sistema e do servidor).</li>
                 </ul>
-                <p>Cookies can be &quot;Persistent&quot; or &quot;Session&quot; Cookies. Persistent Cookies remain on Your personal computer or mobile device when You go offline, while Session Cookies are deleted as soon as You close Your web browser. Learn more about cookies on the <a href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/#Use_Of_Cookies_And_Tracking" target="_blank">Free Privacy Policy website</a> article.</p>
-                <p>We use both Session and Persistent Cookies for the purposes set out below:</p>
+                <p>Os cookies podem ser "persistentes" ou "de sessão". Cookies persistentes permanecem no seu computador pessoal ou dispositivo móvel quando você vai offline, enquanto cookies de sessão são excluídos assim que você fecha seu navegador da web. Saiba mais sobre cookies no <a href="https://www.freeprivacypolicy.com/blog/sample-privacy-policy-template/#Use_Of_Cookies_And_Tracking" target="_blank">site Free Privacy Policy</a>.</p>
+                <p>Usamos ambos os cookies de sessão e persistentes para os propósitos descritos abaixo:</p>
                 <ul>
                     <li>
-                        <p><strong>Necessary / Essential Cookies</strong></p>
-                        <p>Type: Session Cookies</p>
-                        <p>Administered by: Us</p>
-                        <p>Purpose: These Cookies are essential to provide You with services available through the Website and to enable You to use some of its features. They help to authenticate users and prevent fraudulent use of user accounts. Without these Cookies, the services that You have asked for cannot be provided, and We only use these Cookies to provide You with those services.</p>
+                        <p><strong>Cookies Necessários / Essenciais</strong></p>
+                        <p>Tipo: Cookies de Sessão</p>
+                        <p>Administrado por: Nós</p>
+                        <p>Propósito: Esses cookies são essenciais para fornecer serviços disponíveis através do site e para permitir que você use algumas de suas funcionalidades. Eles ajudam a autenticar usuários e prevenir o uso fraudulento de contas de usuários. Sem esses cookies, os serviços que você solicitou não podem ser fornecidos, e nós apenas usamos esses cookies para fornecer esses serviços a você.</p>
                     </li>
                     <li>
-                        <p><strong>Cookies Policy / Notice Acceptance Cookies</strong></p>
-                        <p>Type: Persistent Cookies</p>
-                        <p>Administered by: Us</p>
-                        <p>Purpose: These Cookies identify if users have accepted the use of cookies on the Website.</p>
+                        <p><strong>Cookies de Política / Notificação de Aceitação de Cookies</strong></p>
+                        <p>Tipo: Cookies Persistentes</p>
+                        <p>Administrado por: Nós</p>
+                        <p>Propósito: Esses cookies identificam se os usuários aceitaram o uso de cookies no site.</p>
                     </li>
                     <li>
-                        <p><strong>Functionality Cookies</strong></p>
-                        <p>Type: Persistent Cookies</p>
-                        <p>Administered by: Us</p>
-                        <p>Purpose: These Cookies allow us to remember choices You make when You use the Website, such as remembering your login details or language preference. The purpose of these Cookies is to provide You with a more personal experience and to avoid You having to re-enter your preferences every time You use the Website.</p>
-                    </li>
-                </ul>
-                <p>For more information about the cookies we use and your choices regarding cookies, please visit our Cookies Policy or the Cookies section of our Privacy Policy.</p>
-                <h3>Use of Your Personal Data</h3>
-                <p>The Company may use Personal Data for the following purposes:</p>
-                <ul>
-                    <li>
-                        <p><strong>To provide and maintain our Service</strong>, including to monitor the usage of our Service.</p>
-                    </li>
-                    <li>
-                        <p><strong>To manage Your Account:</strong> to manage Your registration as a user of the Service. The Personal Data You provide can give You access to different functionalities of the Service that are available to You as a registered user.</p>
-                    </li>
-                    <li>
-                        <p><strong>For the performance of a contract:</strong> the development, compliance and undertaking of the purchase contract for the products, items or services You have purchased or of any other contract with Us through the Service.</p>
-                    </li>
-                    <li>
-                        <p><strong>To contact You:</strong> To contact You by email, telephone calls, SMS, or other equivalent forms of electronic communication, such as a mobile application's push notifications regarding updates or informative communications related to the functionalities, products or contracted services, including the security updates, when necessary or reasonable for their implementation.</p>
-                    </li>
-                    <li>
-                        <p><strong>To provide You</strong> with news, special offers and general information about other goods, services and events which we offer that are similar to those that you have already purchased or enquired about unless You have opted not to receive such information.</p>
-                    </li>
-                    <li>
-                        <p><strong>To manage Your requests:</strong> To attend and manage Your requests to Us.</p>
-                    </li>
-                    <li>
-                        <p><strong>For business transfers:</strong> We may use Your information to evaluate or conduct a merger, divestiture, restructuring, reorganization, dissolution, or other sale or transfer of some or all of Our assets, whether as a going concern or as part of bankruptcy, liquidation, or similar proceeding, in which Personal Data held by Us about our Service users is among the assets transferred.</p>
-                    </li>
-                    <li>
-                        <p><strong>For other purposes</strong>: We may use Your information for other purposes, such as data analysis, identifying usage trends, determining the effectiveness of our promotional campaigns and to evaluate and improve our Service, products, services, marketing and your experience.</p>
+                        <p><strong>Cookies de Funcionalidade</strong></p>
+                        <p>Tipo: Cookies Persistentes</p>
+                        <p>Administrado por: Nós</p>
+                        <p>Propósito: Esses cookies nos permitem lembrar escolhas que você faz quando usa o site, como lembrar seus dados de login ou preferência de idioma. O propósito desses cookies é fornecer uma experiência mais pessoal a você e evitar que você tenha que reinserir suas preferências toda vez que usar o site.</p>
                     </li>
                 </ul>
-                <p>We may share Your personal information in the following situations:</p>
-                <ul>
-                    <li><strong>With Service Providers:</strong> We may share Your personal information with Service Providers to monitor and analyze the use of our Service,  to contact You.</li>
-                    <li><strong>For business transfers:</strong> We may share or transfer Your personal information in connection with, or during negotiations of, any merger, sale of Company assets, financing, or acquisition of all or a portion of Our business to another company.</li>
-                    <li><strong>With Affiliates:</strong> We may share Your information with Our affiliates, in which case we will require those affiliates to honor this Privacy Policy. Affiliates include Our parent company and any other subsidiaries, joint venture partners or other companies that We control or that are under common control with Us.</li>
-                    <li><strong>With business partners:</strong> We may share Your information with Our business partners to offer You certain products, services or promotions.</li>
-                    <li><strong>With other users:</strong> when You share personal information or otherwise interact in the public areas with other users, such information may be viewed by all users and may be publicly distributed outside.</li>
-                    <li><strong>With Your consent</strong>: We may disclose Your personal information for any other purpose with Your consent.</li>
-                </ul>
-                <h3>Retention of Your Personal Data</h3>
-                <p>The Company will retain Your Personal Data only for as long as is necessary for the purposes set out in this Privacy Policy. We will retain and use Your Personal Data to the extent necessary to comply with our legal obligations (for example, if we are required to retain your data to comply with applicable laws), resolve disputes, and enforce our legal agreements and policies.</p>
-                <p>The Company will also retain Usage Data for internal analysis purposes. Usage Data is generally retained for a shorter period of time, except when this data is used to strengthen the security or to improve the functionality of Our Service, or We are legally obligated to retain this data for longer time periods.</p>
-                <h3>Transfer of Your Personal Data</h3>
-                <p>Your information, including Personal Data, is processed at the Company's operating offices and in any other places where the parties involved in the processing are located. It means that this information may be transferred to — and maintained on — computers located outside of Your state, province, country or other governmental jurisdiction where the data protection laws may differ than those from Your jurisdiction.</p>
-                <p>Your consent to this Privacy Policy followed by Your submission of such information represents Your agreement to that transfer.</p>
-                <p>The Company will take all steps reasonably necessary to ensure that Your data is treated securely and in accordance with this Privacy Policy and no transfer of Your Personal Data will take place to an organization or a country unless there are adequate controls in place including the security of Your data and other personal information.</p>
-                <h3>Delete Your Personal Data</h3>
-                <p>You have the right to delete or request that We assist in deleting the Personal Data that We have collected about You.</p>
-                <p>Our Service may give You the ability to delete certain information about You from within the Service.</p>
-                <p>You may update, amend, or delete Your information at any time by signing in to Your Account, if you have one, and visiting the account settings section that allows you to manage Your personal information. You may also contact Us to request access to, correct, or delete any personal information that You have provided to Us.</p>
-                <p>Please note, however, that We may need to retain certain information when we have a legal obligation or lawful basis to do so.</p>
-                <h3>Disclosure of Your Personal Data</h3>
-                <h4>Business Transactions</h4>
-                <p>If the Company is involved in a merger, acquisition or asset sale, Your Personal Data may be transferred. We will provide notice before Your Personal Data is transferred and becomes subject to a different Privacy Policy.</p>
-                <h4>Law enforcement</h4>
-                <p>Under certain circumstances, the Company may be required to disclose Your Personal Data if required to do so by law or in response to valid requests by public authorities (e.g. a court or a government agency).</p>
-                <h4>Other legal requirements</h4>
-                <p>The Company may disclose Your Personal Data in the good faith belief that such action is necessary to:</p>
-                <ul>
-                    <li>Comply with a legal obligation</li>
-                    <li>Protect and defend the rights or property of the Company</li>
-                    <li>Prevent or investigate possible wrongdoing in connection with the Service</li>
-                    <li>Protect the personal safety of Users of the Service or the public</li>
-                    <li>Protect against legal liability</li>
-                </ul>
-                <h3>Security of Your Personal Data</h3>
-                <p>The security of Your Personal Data is important to Us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While We strive to use commercially acceptable means to protect Your Personal Data, We cannot guarantee its absolute security.</p>
-                <h2>Children's Privacy</h2>
-                <p>Our Service does not address anyone under the age of 13. We do not knowingly collect personally identifiable information from anyone under the age of 13. If You are a parent or guardian and You are aware that Your child has provided Us with Personal Data, please contact Us. If We become aware that We have collected Personal Data from anyone under the age of 13 without verification of parental consent, We take steps to remove that information from Our servers.</p>
-                <p>If We need to rely on consent as a legal basis for processing Your information and Your country requires consent from a parent, We may require Your parent's consent before We collect and use that information.</p>
-                <h2>Links to Other Websites</h2>
-                <p>Our Service may contain links to other websites that are not operated by Us. If You click on a third party link, You will be directed to that third party's site. We strongly advise You to review the Privacy Policy of every site You visit.</p>
-                <p>We have no control over and assume no responsibility for the content, privacy policies or practices of any third party sites or services.</p>
-                <h2>Changes to this Privacy Policy</h2>
-                <p>We may update Our Privacy Policy from time to time. We will notify You of any changes by posting the new Privacy Policy on this page.</p>
-                <p>We will let You know via email and/or a prominent notice on Our Service, prior to the change becoming effective and update the &quot;Last updated&quot; date at the top of this Privacy Policy.</p>
-                <p>You are advised to review this Privacy Policy periodically for any changes. Changes to this Privacy Policy are effective when they are posted on this page.</p>
-                <h2>Contact Us</h2>
-                <p>If you have any questions about this Privacy Policy, You can contact us:</p>
+                <h2>Uso dos Seus Dados Pessoais</h2>
+                <p>A empresa pode usar dados pessoais para os seguintes propósitos:</p>
                 <ul>
                     <li>
-                        <p>By email: contato@culturaverde.com.br</p>
+                        <p><strong>Para fornecer e manter nosso serviço</strong>, incluindo monitorar o uso do nosso serviço.</p>
                     </li>
                     <li>
-                        <p>By visiting this page on our website: <a href="https://culturaverde.com.br/contact" rel="external nofollow noopener" target="_blank">https://culturaverde.com.br/contact</a></p>
+                        <p><strong>Para gerenciar sua conta:</strong> para gerenciar seu registro como um usuário do serviço. Os dados pessoais que você fornece podem dar a você acesso a diferentes funcionalidades do serviço que estão disponíveis para você como um usuário registrado.</p>
                     </li>
+                    <li>
+                        <p><strong>Para a execução de um contrato:</strong> o desenvolvimento, cumprimento e realização do contrato de compra dos produtos, itens ou serviços que você adquiriu ou de qualquer outro contrato conosco através do serviço.</p>
+                    </li>
+                    <li>
+                        <p><strong>Para entrar em contato com você:</strong> Para entrar em contato com você por email, chamadas telefônicas, SMS ou outras formas equivalentes de comunicação eletrônica, como notificações push de um aplicativo móvel em relação a atualizações ou comunicações informativas relacionadas às funcionalidades, produtos ou serviços contratados, incluindo as atualizações de segurança, quando necessário ou razoável para sua implementação.</p>
+                    </li>
+                    <li>
+                        <p><strong>Para fornecer a você</strong> notícias, ofertas especiais e informações gerais sobre outros bens, serviços e eventos que oferecemos que são semelhantes àqueles que você já adquiriu ou perguntou, a menos que você tenha optado por não receber tais informações.</p>
+                    </li>
+                    <li>
+                        <p><strong>Para gerenciar seus pedidos:</strong> Para atender e gerenciar seus pedidos para nós.</p>
+                    </li>
+                    <li>
+                        <p><strong>Para transferências de negócios:</strong> Podemos usar suas informações para avaliar ou conduzir uma fusão, alienação, reestruturação, reorganização, dissolução ou outra venda ou transferência de alguns ou todos os nossos ativos, seja como uma empresa em funcionamento ou como parte de falência, liquidação ou processo semelhante, nos quais os dados pessoais mantidos por nós sobre os usuários do nosso serviço estão entre os ativos transferidos.</p>
+                    </li>
+                    <li>
+                        <p><strong>Para outros propósitos:</strong> Podemos usar suas informações para outros propósitos, como análise de dados, identificação de tendências de uso, determinação da eficácia de nossas campanhas promocionais e para avaliar e melhorar nosso serviço, produtos, serviços, marketing e sua experiência.</p>
+                    </li>
+                </ul>
+                <p>Podemos compartilhar suas informações pessoais nas seguintes situações:</p>
+                <ul>
+                    <li><strong>Com provedores de serviços:</strong> Podemos compartilhar suas informações pessoais com provedores de serviços para monitorar e analisar o uso de nosso serviço, para entrar em contato com você.</li>
+                    <li><strong>Para transferências de negócios:</strong> Podemos compartilhar ou transferir suas informações pessoais em conexão com, ou durante negociações de, qualquer fusão, venda de ativos da empresa, financiamento ou aquisição de toda ou uma parte de nosso negócio para outra empresa.</li>
+                    <li><strong>Com afiliadas:</strong> Podemos compartilhar suas informações com nossas afiliadas, caso em que exigiremos que essas afiliadas honrem esta Política de Privacidade. Afiliadas incluem nossa empresa-mãe e quaisquer outras subsidiárias, parceiros de joint venture ou outras empresas que controlamos ou que estão sob controle comum conosco.</li>
+                    <li><strong>Com parceiros de negócios:</strong> Podemos compartilhar suas informações com nossos parceiros de negócios para oferecer a você certos produtos, serviços ou promoções.</li>
+                    <li><strong>Com outros usuários:</strong> quando você compartilha informações pessoais ou interage de outra forma nas áreas públicas com outros usuários, tais informações podem ser visualizadas por todos os usuários e podem ser publicamente distribuídas externamente.</li>
+                    <li><strong>Com o seu consentimento:</strong> Podemos divulgar suas informações pessoais para qualquer outro propósito com o seu consentimento.</li>
+                </ul>
+                <h2>Retenção dos Seus Dados Pessoais</h2>
+                <p>A empresa reterá seus dados pessoais apenas pelo tempo necessário para os propósitos estabelecidos nesta Política de Privacidade. Reteremos e usaremos seus dados pessoais na medida necessária para cumprir nossas obrigações legais (por exemplo, se formos obrigados a reter seus dados para cumprir com as leis aplicáveis), resolver disputas e fazer cumprir nossos acordos e políticas legais.</p>
+                <p>A empresa também reterá dados de uso para fins de análise interna. Os dados de uso geralmente são retidos por um período de tempo mais curto, exceto quando esses dados são usados para fortalecer a segurança ou para melhorar a funcionalidade do nosso serviço, ou quando somos legalmente obrigados a reter esses dados por períodos de tempo mais longos.</p>
+                <h2>Transferência dos Seus Dados Pessoais</h2>
+                <p>Suas informações, incluindo dados pessoais, são processadas nos escritórios operacionais da empresa e em quaisquer outros lugares onde as partes envolvidas no processamento estejam localizadas. Isso significa que essas informações podem ser transferidas para — e mantidas em — computadores localizados fora do seu estado, província, país ou outra jurisdição governamental onde as leis de proteção de dados podem diferir das leis da sua jurisdição.</p>
+                <p>Seu consentimento para esta Política de Privacidade seguido pelo envio dessas informações representa sua concordância com essa transferência.</p>
+                <p>A empresa tomará todas as medidas razoavelmente necessárias para garantir que seus dados sejam tratados com segurança e de acordo com esta Política de Privacidade e nenhuma transferência de seus dados pessoais ocorrerá para uma organização ou um país, a menos que existam controles adequados em vigor, incluindo a segurança de seus dados e outras informações pessoais.</p>
+                <h2>Divulgação dos Seus Dados Pessoais</h2>
+                <h3>Transações comerciais</h3>
+                <p>Se a empresa estiver envolvida em uma fusão, aquisição ou venda de ativos, seus dados pessoais podem ser transferidos. Forneceremos aviso antes de seus dados pessoais serem transferidos e se tornarem sujeitos a uma Política de Privacidade diferente.</p>
+                <h3>Aplicação da lei</h3>
+                <p>Em certas circunstâncias, a empresa pode ser obrigada a divulgar seus dados pessoais se for exigido por lei ou em resposta a solicitações válidas por autoridades públicas (por exemplo, um tribunal ou uma agência governamental).</p>
+                <h3>Outros requisitos legais</h3>
+                <p>A empresa pode divulgar seus dados pessoais na crença de boa fé de que tal ação é necessária para:</p>
+                <ul>
+                    <li>Cumprir uma obrigação legal</li>
+                    <li>Proteger e defender os direitos ou propriedade da empresa</li>
+                    <li>Prevenir ou investigar possíveis atos ilícitos em conexão com o serviço</li>
+                    <li>Proteger a segurança pessoal dos usuários do serviço ou do público</li>
+                    <li>Proteger contra responsabilidade legal</li>
+                </ul>
+                <h2>Segurança dos Seus Dados Pessoais</h2>
+                <p>A segurança dos seus dados pessoais é importante para nós, mas lembre-se de que nenhum método de transmissão pela Internet ou método de armazenamento eletrônico é 100% seguro. Embora nos esforcemos para usar meios comercialmente aceitáveis para proteger seus dados pessoais, não podemos garantir sua segurança absoluta.</p>
+                <h1>Links para Outros Sites</h1>
+                <p>Nosso serviço pode conter links para outros sites que não são operados por nós. Se você clicar em um link de terceiros, será direcionado para o site desse terceiro. Recomendamos fortemente que você reveja a Política de Privacidade de cada site que visitar.</p>
+                <p>Não temos controle e não assumimos responsabilidade pelo conteúdo, políticas de privacidade ou práticas de sites ou serviços de terceiros.</p>
+                <h1>Alterações a Esta Política de Privacidade</h1>
+                <p>Podemos atualizar nossa Política de Privacidade de tempos em tempos. Notificaremos você de quaisquer alterações publicando a nova Política de Privacidade nesta página.</p>
+                <p>Informaremos você por email e/ou um aviso em destaque em nosso serviço, antes que a alteração se torne efetiva e atualizaremos a data da "Última atualização" no topo desta Política de Privacidade.</p>
+                <p>Recomenda-se revisar esta Política de Privacidade periodicamente para quaisquer alterações. As alterações a esta Política de Privacidade são efetivas quando publicadas nesta página.</p>
+                <h1>Entre em Contato Conosco</h1>
+                <p>Se você tiver alguma dúvida sobre esta Política de Privacidade, entre em contato conosco:</p>
+                <ul>
+                    <li>Por email: contato@culturaverde.com.br</li>
+                    <li>Visitando esta página em nosso site: culturaverde.com.br/contato</li>
+                    <li>Por telefone: +55 51 99999-9999</li>
                 </ul>
             </Page>
         </span>

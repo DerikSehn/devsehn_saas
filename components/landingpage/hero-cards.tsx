@@ -17,7 +17,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
         offset: ['start end', 'end start']
     });
 
-    const isMobile = getIsMobile()
+    const isMobile = getIsMobile(1200)
     const yTransforms = services.slice(0, 4).map((service, index) =>
         isMobile ? null : useTransform(scrollYProgress, [0, 0.5], [`${(((index + 1) * -10) + 5)}vw`, `0vw`])
     );

@@ -67,7 +67,9 @@ export function Footer() {
                         </Link>
                         <p>
 
-                            Cultura Verde é uma empresa dedicada à produção de paisagismo na sua mais alta qualidade.
+                            Cultura Verde é Uma empresa especializada em paisagismo e jardins fitoterápicos.
+                            De criações próprias e espírito empreendedor.
+
                         </p>
                     </div>
                     <div className="flex flex-col gap-2">

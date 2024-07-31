@@ -21,8 +21,6 @@ export default function App({ Component,
   const router = useRouter();
   const [queryClient] = useState(() => new QueryClient())
 
-
-
   return (<QueryClientProvider client={queryClient}>
     <SessionProvider session={pageProps.session}>
       <div key={router.pathname}>
@@ -35,7 +33,7 @@ export default function App({ Component,
         </ToastProvider>
       </div>
     </SessionProvider>
-    <ReactQueryDevtools initialIsOpen={false} />
+    {/* <ReactQueryDevtools initialIsOpen={false} /> */}
 
   </QueryClientProvider>
   );

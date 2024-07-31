@@ -32,7 +32,12 @@ export default function Sections({ sections }: { sections: ModelWithImages<Secti
                     Quem Somos?
                 </h2>
             </div>
+            <small className="text-neutral-100 text-sm">
+                Uma empresa especializada em paisagismo e jardins fitoterápicos.
+                <br />
+                De criações próprias e espírito empreendedor.
 
+            </small>
         </div>
         <div className="flex flex-col md:grid md:grid-cols-2 w-full    ">
             <SectionItem section={sections[0]} className="col-span-1 h-dvh" />
