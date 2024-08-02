@@ -47,7 +47,7 @@ npm install
 Create a `.env` file in the root directory and add your environment variables:
 
 ```env
-DATABASE_URL=your_database_url
+POSTGRES_PRISMA_URL=your_POSTGRES_PRISMA_URL
 NEXTAUTH_URL=your_nextauth_url
 ```
 
