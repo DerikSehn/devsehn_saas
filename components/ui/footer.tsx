@@ -35,7 +35,7 @@ const LINKS = [
             },
             {
                 name: "Entrar no Sistema",
-                href: '/admin',
+                href: '/auth/sign-in',
             },
         ],
     },
