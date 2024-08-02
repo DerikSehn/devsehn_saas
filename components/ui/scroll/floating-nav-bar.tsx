@@ -1,6 +1,6 @@
 "use client";
 import { Dropdown, Tab, Tabs, Trigger, TriggerWrapper } from "@/components/dropdown/dropdown-menu";
-import { cn } from "@/lib/utils";
+import { cn, generateWhatsAppLink } from "@/lib/utils";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
@@ -40,6 +40,9 @@ export const FloatingNavBar = ({
             }
         }
     });
+    const phoneNumber = "(51) 99626-1079";
+    const message = "Olá, gostaria de saber mais sobre os serviços de paisagismo e fitoterapia. Estou interessado em transformar meu espaço em um local de tranquilidade e bem-estar. Poderia me fornecer mais informações?";
+    const whatsAppLink = generateWhatsAppLink({ phoneNumber, message });
 
     return (
 
@@ -97,7 +100,7 @@ export const FloatingNavBar = ({
                             {navItem.name}</motion.span>
                     </Link>
                 ))}
-                <Link href="#contato" className="flex items-center justify-center  ">
+                <Link href={whatsAppLink} target="_blank" className="flex items-center justify-center  ">
                     <Button
                         variant={'swipe'}
                         className="text-md"

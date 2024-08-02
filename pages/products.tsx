@@ -55,7 +55,7 @@ const ProductPage = ({ categories, initialProducts }: { categories: CategoryType
                     className="z-0 blur object-cover saturate-50 brightness-[.25] bg-primary-200"
                     src={"/uploads/dashboard/background.jpeg"} alt={'background'} fill />
             </div>
-            <Section className="bg-transparent grid md:grid-cols-4 gap-8 pt-40 overflow-visible max-h-none h-auto text-neutral-50 border-b border-neutral-300 w-full max-w-screen-2xl mx-auto">
+            <Section className="bg-transparent grid md:grid-cols-4 gap-8 pt-40 overflow-visible h-full  text-neutral-50 border-b border-neutral-300 w-full max-w-screen-2xl mx-auto">
                 <div className="col-span-full text-neutral-700 border-b border-neutral">
                     <div>
                         <h2 className="z-10 flex flex-col font-moglan uppercase font-thin text-left text-7xl">Produtos</h2>

@@ -27,6 +27,14 @@ interface SidebarItem {
     icon?: React.ReactNode;
 }
 
+const getLink = async (href: string) => {
+
+    if (href === 'logout') {
+        await signOut({ callbackUrl: "/api/auth/logout", });
+
+    }
+}
+
 const SidebarLinks = ({ links, variants = { liVariants, itemVariants, iconVariants } }: { links: SidebarLink[], variants?: { liVariants: Variants, itemVariants: Variants, iconVariants: Variants } }) => {
     return (
         <motion.div
@@ -48,7 +56,7 @@ const SidebarLinks = ({ links, variants = { liVariants, itemVariants, iconVarian
                         className=' flex flex-col'
                     >
                         {items.map(({ href, name, icon }, index) => (
-                            <Link key={index} href={href !== 'logout' ? href : '/'} onClick={href === 'logout' ? () => signOut() : undefined} className='flex justify-center w-full items-center content-center hover:bg-neutral-200 p-2'>
+                            <Link key={index} href={href !== 'logout' ? href : '/'} onClick={() => getLink(href)} className='flex justify-center w-full items-center content-center hover:bg-neutral-200 p-2'>
                                 <motion.div
                                     variants={variants.iconVariants}
                                     className='text-neutral-800'>
