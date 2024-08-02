@@ -17,7 +17,7 @@ export default function Hero() {
             <Image
                 alt="Hero Vector"
                 fill
-                className="object-cover object-center z-10 lg:scale-[1.4] brightness-90 select-none translate-x-1/8 -translate-y-1/8  blur-md"
+                className="object-cover object-center z-10  scale-[1.4] brightness-90 select-none md:translate-x-1/8 -translate-y-1/8  blur-md"
                 src="/hero/vector.png" />
             <span className="absolute inset-0 z-[11] bg-gradient-to-b from-primary-100/60 to-70%" />
             <div className="container px-4 md:px-6 relative z-20 text-white">
