@@ -33,8 +33,8 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
             <Image
                 alt="Hero Image"
                 fill
-                className="object-cover object-center z-0 -scale-x-100 -scale-y-100 select-none rounded-[64px] lg:rounded-none"
-                src="/hero/vector.svg" />
+                className="object-cover object-center z-0 -scale-x-100 -scale-y-100 select-none rounded-[64px] lg:rounded-none blur-sm"
+                src="/hero/vector.png" />
             <div className=" absolute inset-0 bg-gradient-to-t from-primary-300 from-20% z-10" />
             <div className=" relative max-w-screen-2xl w-full z-20 min-h-[400px]  grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center space-y-10 lg:space-y-0 gap-4 lg:gap-6 px-4 ">
 

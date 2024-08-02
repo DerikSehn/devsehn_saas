@@ -19,13 +19,6 @@ export default function Projects({ projects }: { projects: ModelWithImages<Proje
         <div className=" relative  z-40 w-full   min-h-[600px] flex justify-center text-center items-center sm:text-left  h-[200vh]">
             <div className="absolute inset-0 bottom-0  bg-gradient-to-b from-transparent  via-30% via-primary-300 to-primary-200 z-[10]" />
 
-            <Image
-
-                alt="Hero Image"
-                fill
-                className="object-cover object-center z-0 -scale-x-100"
-
-                src="/hero/vector.svg" />
             <div className=" absolute inset-0 bg-gradient-to-b from-primary-300 from-10% to-20%  z-[1]" />
 
             <ZoomParallax

@@ -24,7 +24,7 @@ export const Layout = ({ children }: any) => {
     const isAdmin = router.pathname.startsWith("/admin")
 
     const session = useSession()
-    if (session?.status === 'unauthenticated' && isAdmin) return signOut()
+    if (session?.status === 'unauthenticated' && isAdmin) signOut()
 
     return (
         router.pathname.startsWith("/auth") ? <>{children}</> :

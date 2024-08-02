@@ -26,7 +26,7 @@ export default function App({ Component,
       <div key={router.pathname}>
         <ToastProvider>
           <Layout>
-            <ReactLenis root options={{ touchMultiplier: 0, syncTouch: false }}>
+            <ReactLenis root options={{ syncTouch: false }}>
               <Component {...pageProps} />
             </ReactLenis>
           </Layout>
