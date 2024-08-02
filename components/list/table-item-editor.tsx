@@ -190,8 +190,7 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
         // Check if value is an array or a single object
         const images = Array.isArray(value) ? value : [value];
         /* console.log(images) */
-
-
+        
         // Filter out images without 'id' for creation
         const imagesWithoutId = images.filter((item: any) => !item.image?.id);
         /* console.log(imagesWithoutId) */
