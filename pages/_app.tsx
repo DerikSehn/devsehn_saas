@@ -20,7 +20,6 @@ export default function App({ Component,
   const router = useRouter();
   const [queryClient] = useState(() => new QueryClient())
 
-
   return (<QueryClientProvider client={queryClient}>
     <SessionProvider session={pageProps.session}>
       <div key={router.pathname}>

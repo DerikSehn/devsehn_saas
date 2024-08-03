@@ -62,6 +62,20 @@ async function updatePassword(user: User) {
     return res.json();
 }
 
+async function deleteUserFn(user: User) {
+    const res = await fetch(`/api/protected/users`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: user.id }),
+    });
+    if (!res.ok) {
+        throw new Error('Erro ao excluir usuário.');
+    }
+    return res.json();
+}
+
 const UserEditor: React.FC<UserEditorProps> = ({ item, method, onClose }) => {
     const [user, setUser] = useState<User>(item as any || {
         name: '',
@@ -95,11 +109,20 @@ const UserEditor: React.FC<UserEditorProps> = ({ item, method, onClose }) => {
     });
 
     const handleChangePassword = () => {
-        passwordMutation.mutate(user);
+        passwordMutation.mutate({ ...user, password: newPassword });
     };
 
-    const handleDelete = () => {
-        isFunction(onClose) && onClose({ item: user as any, method: 'delete' });
+    const deleteUser = useMutation({
+        mutationFn: deleteUserFn,
+        onSuccess: () => {
+            isFunction(onClose) && onClose({ item: user as any, method: 'delete' });
+        },
+        onError: () => notify(`Erro ao excluir usuário.`, { type: 'error' }),
+    });
+
+    const handleDelete = (e: any) => {
+        e.preventDefault();
+        deleteUser.mutate(user);
     };
 
     const passwordScore = checkPasswordStrength(newPassword);
@@ -171,7 +194,7 @@ const UserEditor: React.FC<UserEditorProps> = ({ item, method, onClose }) => {
                 {mutation.isPending ? 'Salvando...' : 'Salvar'}
             </Button>
             {item ? <Button onClick={handleDelete} variant="destructive" className="w-full">
-                {mutation.isPending ? 'Removendo...' : 'Remover'}
+                {deleteUser.isPending ? 'Removendo...' : 'Remover'}
             </Button>
                 : null
             }
