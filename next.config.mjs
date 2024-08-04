@@ -1,5 +1,10 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  env: {
+    NEXTAUTH_SECRET: process.env.NEXTAUTH_SECRET,
+    SMTP_EMAIL: process.env.SMTP_EMAIL,
+    SMTP_EMAIL_PASS: process.env.SMTP_EMAIL_PASS,
+  },
   reactStrictMode: true,
   experimental: {
     swcPlugins: [

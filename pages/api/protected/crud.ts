@@ -226,6 +226,7 @@ function formatCreateCommand(
         .find((m) => m.name.toLowerCase() === String(table).toLowerCase())
         ?.fields.find((f) => f.name === key)?.isList;
 
+      // if the item is a valid array, It shoud be connected depending on the isList flag
       if (value.length > 0) {
         fields[key] = {
           connect: isList
@@ -234,6 +235,9 @@ function formatCreateCommand(
               }))
             : { id: value[0].id },
         };
+      } else {
+        // if the item is not a valid array, It shoud be removed from the fields object
+        delete fields[key];
       }
     } else if (isObject(value)) {
       fields[key] = {

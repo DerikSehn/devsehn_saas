@@ -244,9 +244,8 @@ model Setting {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  value       Float?
+  value       String?
   imageId     Int?
-  token       String?
   image       Image?   @relation(fields: [imageId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt

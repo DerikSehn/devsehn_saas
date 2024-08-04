@@ -22,7 +22,7 @@ export async function getServerSideProps() {
     return { props: { users, images, comments } };
 }
 
-export default function AdminSettings({ comments, images, users }: { users: User[], images: Image[], comments: Comment[] }) {
+export default function AdminUserPage({ comments, images, users }: { users: User[], images: Image[], comments: Comment[] }) {
     const [userList, setUserList] = useState<User[]>(users);
 
     const handleChangeUser = async ({ item: updatedUser, method }: {
@@ -102,7 +102,6 @@ export default function AdminSettings({ comments, images, users }: { users: User
                             <TableHead>E-mail</TableHead>
                             <TableHead>Verificado</TableHead>
                         </TableRow>
-
                     </TableHeader>
                     <TableBody>
                         {userList.map((user) => (
@@ -129,7 +128,7 @@ export default function AdminSettings({ comments, images, users }: { users: User
                 </Table>
                 {userList.length === 0 && (
                     <div className="flex justify-center items-center text-center text-md font-bold h-40">
-                        Nenhum e-mail encontrado
+                        Nenhum usuário encontrado
                     </div>
                 )}
             </li>

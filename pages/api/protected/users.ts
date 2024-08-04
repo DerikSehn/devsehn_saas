@@ -53,7 +53,7 @@ import { generatePassword } from "../users/[id]/password";
  *       200:
  *         description: User deleted successfully
  *       400:
- *         description: No parameter was passed
+ *         description: Condition not met
  *       401:
  *         description: You are not signed in
  *       500:
@@ -65,11 +65,19 @@ export default async function handler(
 ) {
   const { name, email, password, emailVerified } = req.body;
 
-  const session = await getServerSession(req, res, Nextauth);
+  const session = (await getServerSession(req, res, Nextauth)) as any;
 
   const method = req.method as string;
   if (method === "DELETE") {
     try {
+      if (session.user.id === req.body.id) {
+        return res.status(400).json({ message: "You can't delete yourself." });
+      }
+      if ((await prisma.user.count()) === 1) {
+        return res
+          .status(400)
+          .json({ message: "You can't delete the last user." });
+      }
       await prisma.user.delete({
         where: {
           id: req.body.id as string,
