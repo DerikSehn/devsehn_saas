@@ -4,7 +4,7 @@ The `devsehn` project is a sophisticated web application built with Next.js, lev
 
 # 🌟 devsehn
 
-![Project Banner](public/logo.png)
+![Project Banner](public/)
 
 ## 📖 Description
 
