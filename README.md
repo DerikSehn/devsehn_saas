@@ -1,4 +1,3 @@
-```markdown
 ### Summary of the Next.js System
 
 The `devsehn` project is a sophisticated web application built with Next.js, leveraging a variety of modern web development technologies and libraries. This system includes features such as user authentication, dynamic forms, data visualization, and E-commerce. It is designed to be a comprehensive platform that integrates smoothly with a PostgreSQL database using Prisma and offers a robust UI with Tailwind CSS and Radix UI components.
@@ -150,4 +149,3 @@ For any inquiries, please contact us at [derikbosing@gmail.com](derikbosing@gmai
 Devsehn is more than just a project; it is a significant milestone in my career as a web developer. Through this project, I have honed my skills in modern web development practices and explored the integration of various advanced technologies. The knowledge and experience gained from building Devsehn have equipped me with the expertise to tackle complex web development challenges and deliver high-quality solutions. This project serves as a testament to my commitment to continuous learning and professional growth in the ever-evolving field of web development.
 
 Made with ❤️ by devsehn
-```
