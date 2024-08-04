@@ -43,26 +43,25 @@ export default async function handler(req: any, res: any) {
     },
     include: { links: true, contents: true },
   });
-
-  const emailBody = await renderAsync(EmailTemplate(emailTemplate as any));
-
-  const transporter = nodemailer.createTransport({
-    host: "smtp.zoho.com",
-    port: 465,
-    auth: {
-      user: process.env.SMTP_EMAIL,
-      pass: process.env.SMTP_EMAIL_PASS,
-    },
-  });
-
-  const mailOptions = {
-    from: process.env.SMTP_EMAIL,
-    to,
-    subject,
-    html: emailBody,
-  };
-
   try {
+    const emailBody = await renderAsync(EmailTemplate(emailTemplate as any));
+
+    const transporter = nodemailer.createTransport({
+      host: "smtp.zoho.com",
+      port: 465,
+      auth: {
+        user: process.env.SMTP_EMAIL,
+        pass: process.env.SMTP_EMAIL_PASS,
+      },
+    });
+
+    const mailOptions = {
+      from: process.env.SMTP_EMAIL,
+      to,
+      subject,
+      html: emailBody,
+    };
+
     const createdEmail = await prisma.receivedEmail.create({
       data: {
         email: to,
