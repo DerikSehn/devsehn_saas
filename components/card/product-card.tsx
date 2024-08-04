@@ -78,24 +78,19 @@ const ReadOnly = ({ item, className }: { item: ModelWithImages<Product>, classNa
             className={cn("flex flex-col justify-center border-t bg-neutral-200/50 hover:bg-neutral-50 transition-colors  dark:bg-gray-800 p-4 rounded-lg", className)}
 
         >
-            <div className="flex justify-start ">
-                <div className="flex items-start min-w-12 max-w-12">
-                    {item?.images[0]?.url ?
+            <div className="grid grid-cols-4 gap-2">
+                {item?.images[0]?.url ?
+                    <span className="relative aspect-square" >
                         <Image
                             alt={`product-${item.name}`}
-                            className="min-w-24 aspect-square object-center"
-                            width={40}
-                            height={40}
+                            className="object-center"
+                            fill
                             src={item?.images[0]?.url}
-                            style={{
-                                aspectRatio: "40/40",
-                                objectFit: "cover",
-                            }}
                         />
-                        : null}
+                    </span>
+                    : null}
 
-                </div>
-                <div className={cn("flex flex-col")}>
+                <div className={cn("col-span-full flex flex-col")}>
 
                     <div>
                         <h4 className="font-semibold">{item.name}</h4>
