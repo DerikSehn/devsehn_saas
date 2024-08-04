@@ -36,7 +36,7 @@ export default function InputCTA({ description }: { description: string }) {
                     },
                 }),
             });
-
+            console.log(response);
             if (response.ok) {
                 notify('Email enviado com sucesso!', { type: 'success' });
                 setEmail('');
