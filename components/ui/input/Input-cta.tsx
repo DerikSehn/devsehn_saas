@@ -35,8 +35,8 @@ export default function InputCTA({ description }: { description: string }) {
                         template: 'MESSAGE_RECEIVED',
                     },
                 }),
-            });
-            console.log(response);
+            }).then((response) => response.json());
+            console.log(response.data);
             if (response.ok) {
                 notify('Email enviado com sucesso!', { type: 'success' });
                 setEmail('');
