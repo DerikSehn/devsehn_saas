@@ -12,6 +12,7 @@ import AutoFormInput from "../ui/auto-form/fields/input";
 import AutoFormTextarea from "../ui/auto-form/fields/textarea";
 import { Button } from '../ui/button';
 import { Item } from './list-item';
+import { driver } from "driver.js";
 
 type FormData = any
 
@@ -41,6 +42,54 @@ interface Column {
 }
 
 const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: TableItemEditorProps) => {
+
+    useEffect(() => {
+        const tourSeen = localStorage.getItem('tourSeenEditor');
+        if (!tourSeen) {
+            driver({
+                animate: true,
+                doneBtnText: 'Fechar',
+                nextBtnText: 'Próximo',
+                prevBtnText: 'Anterior',
+                steps: [
+                    {
+                        element: '#step-item-editor',
+                        popover: {
+                            title: 'Bem vindo ao editor de itens',
+                            description: 'Este será o lugar onde você poderá modificar informações sobre o conteúdo do seu site.',
+                        }
+                    },
+                    {
+                        element: '#step-item-editor-form',
+                        popover: {
+                            title: 'Formulário de itens',
+                            description: 'Aqui você pode editar os itens selecionados, de forma simples e dinâmica.',
+                        }
+                    },
+                    {
+                        element: '#step-delete',
+                        popover: {
+                            title: 'Excluir itens',
+                            description: 'Caso esteja editando um item, clique no botão de exclusão para excluí-lo.',
+                        }
+                    },
+                    {
+                        element: '#step-submit',
+                        popover: {
+                            title: 'Salvar as alterações',
+                            description: 'Clique no botão de salvar para salvar as alterações.',
+                        }
+                    }
+                ],
+                onDestroyed: () => {
+                    localStorage.setItem('tourSeenEditor', 'true');
+                }
+            }).drive()
+
+
+        }
+    }, []);
+
     const [columns, setColumns] = useState<Column[]>([]);
 
 
@@ -55,38 +104,31 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
         return true;
     }
 
+
     const getColumns = async () => {
         const columns = await getAsyncColumns(tableName);
         setColumns(columns);
     }
 
     const onSubmit = async (data: FormData) => {
-        /* console.log(data.id) */
 
-        /* console.log(data) */
 
         const integratedImages = await handleImageIntegration(item, data)
 
-        /* console.log(integratedImages) */
         const newData = {
             ...data,
             ...integratedImages
         };
 
         const res = await handleApiRequest(newData, tableName, method);
-        /* console.log(res) */
 
         onClose({ item: res, method });
     };
     const handleDelete = async () => {
-        /* console.log(item) */
-        /* console.log(tableName) */
         const where = item!.id ? { id: item!.id } : {};
         const res = await handleApiRequest({ where }, tableName, 'delete');
         onClose({ item: res, method: 'delete' });
     }
-
-
 
     useEffect(() => {
         getColumns();
@@ -95,9 +137,7 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
     const generateZodSchema = () => {
         const schema: any = {};
-        /* console.log(columns) */
         columns.filter(canShowColumn).forEach(col => {
-            /* console.log({ [col.name]: col.type }) */
             switch (col.type) {
                 case 'text':
                 case 'character varying':
@@ -139,22 +179,22 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
 
     return (
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="md:p-4 pb-20 border-l shadow-inner max-h-[calc(100dvh-140px)] h-[calc(100dvh-140px)] overflow-y-auto border-neutral-200 w-full  ">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} id="step-item-editor" className="md:p-4 pb-20 border-l shadow-inner max-h-[calc(100dvh-140px)] h-[calc(100dvh-140px)] overflow-y-auto border-neutral-200 w-full  ">
             <AutoForm
                 formSchema={formSchema}
                 className="static "
-
+                id="step-item-editor-form"
                 values={item}
                 onSubmit={onSubmit}
                 fieldConfig={getFieldConfig(columns.filter(canShowColumn))}
             >
                 <div className="absolute bottom-0 right-0 left-0 w-full bg-neutral-100 border-t p-4 flex flex-row justify-start shadow-[-20px_0px_10px_rgba(0,0,0,0.2)]">
 
-                    <AutoFormSubmit className='mr-2 w-40'>
+                    <AutoFormSubmit id="step-submit" className='mr-2 w-40'>
                         Salvar
                     </AutoFormSubmit>
                     {item &&
-                        <Button type="button" className="bg-red-500 hover:bg-red-700 text-white mr-2" onClick={handleDelete}>Remover Item</Button>
+                        <Button id="step-delete" type="button" className="bg-red-500 hover:bg-red-700 text-white mr-2" onClick={handleDelete}>Remover Item</Button>
                     }
                     {/* <Button type="button" className="bg-gray-500 hover:bg-gray-700 text-white" onClick={handleReset}>Reiniciar</Button> */}
                 </div>
@@ -167,12 +207,9 @@ export default TableItemEditor;
 
 
 const handleImageIntegration = async (defaultForm: FormData, form: FormData) => {
-    /* console.log(form); */
 
     // Filter out changed images that do not have an 'id'
     let changedImages = Object.entries(form).filter(([key, value]) => {
-        /* console.log(key) */
-        /* console.log(value) */
         return key.startsWith('image')
     }
     )
@@ -180,20 +217,16 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
         changedImages = changedImages.filter(([key, value], index) => !isEqual(value, defaultForm[key]?.[index]));
     }
 
-    /* console.log(changedImages); */
 
     // Process images: create new images only if they don't have an 'id'
     const integratedImages = Object.fromEntries(await Promise.all(changedImages.map(async ([key, value]) => {
-        /* console.log(value); */
         let result;
 
         // Check if value is an array or a single object
         const images = Array.isArray(value) ? value : [value];
-        /* console.log(images) */
-        
-        // Filter out images without 'id' for creation
-        const imagesWithoutId = images.filter((item: any) => !item.image?.id);
-        /* console.log(imagesWithoutId) */
+
+        // Filter out VALID images without 'id' for creation
+        const imagesWithoutId = images.filter((item: any) => (item?.file || item?.image) && !item.image?.id);
 
         if (imagesWithoutId.length > 0) {
             // Handle creation for images without 'id'
@@ -203,11 +236,10 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
             result = { files: [] };
         }
 
-        /* console.log(result); */
         return [key, (result as any).files];
     })));
 
-    /* console.log(integratedImages); */
+
 
     // Merge new integrated images with default form
     const newObject = {
@@ -215,14 +247,12 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
         ...form,
         ...integratedImages
     };
-    /* console.log(newObject); */
 
     return newObject;
 };
 
 const getFieldConfig = (columns: any[]) => {
 
-    /* console.log(columns) */
     let config: any = {}
 
     columns.forEach(col => {
@@ -287,7 +317,6 @@ const getFieldConfig = (columns: any[]) => {
 
             const relatedTable = col.relationToFields.length > 0 ? col.relationToFields[0] : col.type;
 
-            /* console.log(relatedTable) */
             config[col.name] = {
                 fieldType: AutoFormComplete,
                 inputProps: {

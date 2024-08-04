@@ -20,13 +20,15 @@ export function AutoFormSubmit({
   children,
   className,
   disabled,
+  id,
 }: {
   children?: React.ReactNode;
   className?: string;
   disabled?: boolean;
+  id?: string;
 }) {
   return (
-    <Button type="submit" disabled={disabled} className={className}>
+    <Button id={id} type="submit" disabled={disabled} className={className}>
       {children ?? "Submit"}
     </Button>
   );
@@ -42,6 +44,7 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   children,
   className,
   dependencies,
+  id,
 }: {
   formSchema: SchemaType;
   values?: Partial<z.infer<SchemaType>>;
@@ -54,6 +57,7 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
   | ((formState: FormState<z.infer<SchemaType>>) => React.ReactNode);
   className?: string;
   dependencies?: Dependency<z.infer<SchemaType>>[];
+  id?: string;
 }) {
   const objectFormSchema = getObjectFormSchema(formSchema);
   const defaultValues: DefaultValues<z.infer<typeof objectFormSchema>> | null =
@@ -91,7 +95,7 @@ function AutoForm<SchemaType extends ZodObjectOrWrapped>({
       : children;
 
   return (
-    <div className="w-full">
+    <div className="w-full" id={id}>
       <Form {...form}>
         <form
           onSubmit={(e) => {

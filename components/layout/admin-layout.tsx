@@ -2,11 +2,13 @@ import { driver } from "driver.js";
 import { motion } from "framer-motion";
 import { BellDot, File, Home, InfoIcon, LandPlot, LogOut, ProjectorIcon, Search, Settings, ShoppingBasket, Tags } from "lucide-react";
 import Image from "next/image";
-import { useEffect } from "react";
+import Link from "next/link";
+import { useEffect, useState } from "react";
 import Container from "../container";
 import TableItemWrapper from "../list/list-item-wrapper";
 import Sidebar from "../sidebar/sidebar";
 import SidebarLinks from "../sidebar/sidebar-links";
+import { CommandInput, CommandEmpty, CommandGroup, CommandItem, CommandList, CommandDialog } from "../ui/command";
 
 
 const LINKS = [
@@ -20,7 +22,7 @@ const LINKS = [
         {
             icon: <InfoIcon />,
             name: "Informações",
-            href: '/admin/editor'
+            href: '/admin/info'
         },
         {
             icon: <Settings />,
@@ -90,26 +92,33 @@ export default function AdminLayout({
                 prevBtnText: 'Anterior',
                 steps: [
                     {
-                        element: '#intro-step-1',
+                        element: '#step-sidebar',
                         popover: {
-                            title: 'Menu Lateral',
-                            description: 'Aqui você pode acessar as diferentes seções do painel administrativo.',
+                            title: 'Bem vindo ao painel administrativo',
+                            description: 'Aqui você pode modificar e acompanhar tudo sobre o seu site. Você pode modicar seus projetos, produtos, parcerias, serviços, etc.',
                         }
                     },
                     {
-                        element: '#intro-step-2',
+                        element: '#step-search',
                         popover: {
                             title: 'Campo de Pesquisa',
                             description: 'Utilize este campo para buscar por informações no sistema.',
                         }
                     },
                     {
-                        element: '#intro-step-3',
+                        element: '#step-content',
                         popover: {
                             title: 'Conteúdo Principal',
                             description: 'Esta área mostra o conteúdo principal da seção selecionada.',
                         }
-                    }
+                    },
+                    {
+                        element: '#step-customize',
+                        popover: {
+                            title: 'Conferir seus registros',
+                            description: 'Para cada parte do seu site, você terá a opção de customizar o conteúdo, adicionar novos registros e visualizar os registros existentes.',
+                        }
+                    },
                 ],
                 onDestroyed: () => {
                     localStorage.setItem('tourSeen', 'true');
@@ -125,10 +134,10 @@ export default function AdminLayout({
             <div className="absolute z-0 inset-x-0 bg-gradient-to-b  from-neutral-400 to-primary-100 h-[300px]" >
                 <Image fill src={backgroundImage} className='brightness-50 object-cover' alt='enterprise-background' />
             </div>
-            <Sidebar id="intro-step-1" className="hidden md:block hover:w-[15dvw] w-[9dvw] md:w-[8dvw] lg:w-[7dvw]  xl:w-[6dvw] space-y-4 py-2 z-50 group/sidebar bg-neutral-100">
+            <Sidebar id="step-sidebar" className="hidden md:block hover:w-[15dvw] w-[9dvw] md:w-[8dvw] lg:w-[7dvw]  xl:w-[6dvw] space-y-4 py-2 z-50 group/sidebar bg-neutral-100">
                 <SidebarLinks links={LINKS} />
             </Sidebar>
-            <div id="intro-step-3" className="grid grid-cols-12 transition-all peer-hover:pl-[15dvw] peer-hover:lg:pl-[15dvw] md:pl-[15dvw] lg:pl-24 peer p-4 pr-0 gap-6 w-full content-center text-neutral-700">
+            <div id="step-content" className="grid grid-cols-12 transition-all peer-hover:pl-[15dvw] peer-hover:lg:pl-[15dvw] md:pl-[15dvw] lg:pl-24 peer p-4 pr-0 gap-6 w-full content-center text-neutral-700">
                 <section className="col-span-12 relative z-1 p-4 xl:pl-10 2xl: pl-8">
                     <Container className='mt-0 max-w-[1700px]'>
                         <div className="col-span-8 h-16 px-4 md:-translate-y-5">
@@ -136,20 +145,8 @@ export default function AdminLayout({
                                 Painel Administrativo
                             </p>
                         </div>
-                        <TableItemWrapper
-                            variant="modal"
-                            clickArea={
-                                <div id="intro-step-2" className="col-span-4 flex items-center justify-end h-16 px-4 md:-translate-y-5">
-                                    <motion.input
-                                        className="bg-neutral-300 h-12 rounded-xl focus:bg-neutral-100 text-primary px-2"
-                                    />
-                                    <span className="bg-primary p-2 -ml-11 text-white rounded-xl flex items-center">
-                                        <Search />
-                                    </span>
-                                </div>
-                            }>
-                            <SiteMapSearch />
-                        </TableItemWrapper>
+
+                        <SiteMapSearch />
                         <div className="col-span-12 min-h-[600px]">
                             {children}
                         </div>
@@ -161,10 +158,42 @@ export default function AdminLayout({
 }
 
 const SiteMapSearch = () => {
-    return (
-        <div className="flex items-center gap-2">
-            <Search className="h-5 w-5" />
-            <div className="text-lg font-semibold">Pesquisar</div>
+
+    const [isOpen, setIsOpen] = useState(false);
+
+    return (<>
+        <div onClick={() => setIsOpen(true)} id="step-search" className="col-span-4 flex items-center justify-end h-16 px-4 md:-translate-y-5">
+            <motion.input
+                className="bg-neutral-300 h-12 rounded-xl focus:bg-neutral-100 text-primary px-2"
+            />
+            <span className="bg-primary p-2 -ml-11 text-white rounded-xl flex items-center">
+                <Search />
+            </span>
         </div>
-    )
+        <CommandDialog open={isOpen} onOpenChange={setIsOpen}>
+            <CommandInput placeholder="O que você está procurando?" />
+            <CommandList>
+                <CommandEmpty>No results found.</CommandEmpty>
+
+                {LINKS.map((link, idx) => (
+                    <CommandGroup key={idx} heading={link.title}>
+                        {link.items.map((item, idx) => (
+                            <Link key={idx} href={item.href} >
+                                <CommandItem className="cursor-pointer flex gap-2 hover:bg-neutral-200 transition-colors duration-75">
+                                    {item.icon}
+                                    <span>{item.name}</span>
+                                </CommandItem>
+                            </Link>
+                        ))}
+                    </CommandGroup>
+                ))}
+
+                {/*  <CommandGroup heading="Suggestions">
+                    <CommandItem> Calendar</CommandItem>
+                    <CommandItem>Search Emoji</CommandItem>
+                    <CommandItem>Calculator</CommandItem>
+                </CommandGroup> */}
+            </CommandList>
+        </CommandDialog>
+    </>)
 }

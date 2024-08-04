@@ -40,7 +40,7 @@ export default function AdminProducts({ products, categories }: { products: Prod
                     >
 
                         {/* @ts-ignore */}
-                        <ProductCard className=" " isStatic />
+                        <ProductCard className="" readOnly />
                     </List>
                 </TabsContent>
                 <TabsContent value="category">
@@ -51,7 +51,7 @@ export default function AdminProducts({ products, categories }: { products: Prod
                         header={{ title: 'Categorias' }}
                     >
                         {/* @ts-ignore */}
-                        <CategoryCard className=" " isStatic />
+                        <CategoryCard className="min-h-28" isStatic />
                     </List>
                 </TabsContent>
             </Tabs>

@@ -90,6 +90,7 @@ model Image {
   sectionId   Int?
   Partner     Partner[]
   Product     Product[]
+  Info        Setting[]
 }
 
 model Testimonial {
@@ -237,4 +238,16 @@ model Address {
   userId  String
   user    User    @relation(fields: [userId], references: [id])
   orders  Order[]
+}
+
+model Setting {
+  id          Int      @id @default(autoincrement())
+  title       String
+  description String
+  value       Float?
+  imageId     Int?
+  token       String?
+  image       Image?   @relation(fields: [imageId], references: [id])
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }

@@ -1,6 +1,8 @@
 import Page from "@/components/page";
 import Image from "next/image";
 
+const url = process.env.NEXT_PUBLIC_URL;
+
 export default function PrivacyPolicy() {
     return (
         <span className="relative w-full h-full bg-primary-200 ">
@@ -53,7 +55,7 @@ export default function PrivacyPolicy() {
                         <p><strong>Dados de Uso</strong> refere-se a dados coletados automaticamente, seja gerados pelo uso do serviço ou da própria infraestrutura do serviço (por exemplo, a duração de uma visita a uma página).</p>
                     </li>
                     <li>
-                        <p><strong>Site</strong> refere-se à Cultura Verde, acessível a partir de <a href="culturaverde.com.br" rel="external nofollow noopener" target="_blank">culturaverde.com.br</a></p>
+                        <p><strong>Site</strong> refere-se à Cultura Verde, acessível a partir de <a href={url} rel="external nofollow noopener" target="_blank">{url}</a></p>
                     </li>
                     <li>
                         <p><strong>Você</strong> significa o indivíduo acessando ou usando o serviço, ou a empresa, ou outra entidade jurídica em nome da qual esse indivíduo está acessando ou usando o serviço, conforme aplicável.</p>
@@ -177,8 +179,8 @@ export default function PrivacyPolicy() {
                 <h1>Entre em Contato Conosco</h1>
                 <p>Se você tiver alguma dúvida sobre esta Política de Privacidade, entre em contato conosco:</p>
                 <ul>
-                    <li>Por email: contato@culturaverde.com.br</li>
-                    <li>Visitando esta página em nosso site: culturaverde.com.br/contato</li>
+                    <li>Por email: contato@{url}</li>
+                    <li>Visitando esta página em nosso site: {url}/contato</li>
                     <li>Por telefone: +55 51 99999-9999</li>
                 </ul>
             </Page>

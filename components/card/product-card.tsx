@@ -1,11 +1,13 @@
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { ModelWithImages } from "@/prisma/prisma-utils"
+import { Product } from "@prisma/client"
 import { Coins } from "lucide-react"
 import Image from "next/image"
 import { Badge } from "../ui/badge"
 
-export const ProductCard = ({ item, className }: { item: any, className?: string }) => {
-    return (
+export const ProductCard = ({ item, className, readOnly }: { item: any, className?: string, readOnly?: boolean }) => {
+    return readOnly ? <ReadOnly item={item} className={className} /> : (
         <div className={cn("group relative rounded-md shadow-md shadow-neutral-200 bg-neutral-200 overflow-hidden transition-all grid grid-cols-4 ", className)}>
 
             <div className="relative aspect-square col-span-full  m-1 mb-2" >
@@ -48,26 +50,6 @@ export const ProductCard = ({ item, className }: { item: any, className?: string
     )
 }
 
-function EyeIcon(props: { className?: string }) {
-    return (
-        <svg
-            {...props}
-            xmlns="http://www.w3.org/2000/svg"
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-        >
-            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z" />
-            <circle cx="12" cy="12" r="3" />
-        </svg>
-    )
-}
-
 function ShoppingCartIcon(props: { className?: string }) {
     return (
         <svg
@@ -86,5 +68,45 @@ function ShoppingCartIcon(props: { className?: string }) {
             <circle cx="19" cy="21" r="1" />
             <path d="M2.05 2.05h2l2.66 12.42a2 2 0 0 0 2 1.58h9.78a2 2 0 0 0 1.95-1.57l1.65-7.43H5.12" />
         </svg>
+    )
+}
+
+
+const ReadOnly = ({ item, className }: { item: ModelWithImages<Product>, className?: string }) => {
+    return (
+        <div
+            className={cn("flex flex-col justify-center border-t bg-neutral-200/50 hover:bg-neutral-50 transition-colors  dark:bg-gray-800 p-4 rounded-lg", className)}
+
+        >
+            <div className="flex justify-start ">
+                <div className="flex items-start min-w-12 max-w-12">
+                    {item?.images[0]?.url ?
+                        <Image
+                            alt={`product-${item.name}`}
+                            className="min-w-24 aspect-square object-center"
+                            width={40}
+                            height={40}
+                            src={item?.images[0]?.url}
+                            style={{
+                                aspectRatio: "40/40",
+                                objectFit: "cover",
+                            }}
+                        />
+                        : null}
+
+                </div>
+                <div className={cn("flex flex-col")}>
+
+                    <div>
+                        <h4 className="font-semibold">{item.name}</h4>
+                    </div>
+                    <p className={cn("text-gray-500 dark:text-gray-400 line-clamp-1")}>
+                        {item.description}
+                    </p>
+                </div>
+            </div>
+
+
+        </div>
     )
 }

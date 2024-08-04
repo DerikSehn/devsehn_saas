@@ -16,7 +16,6 @@ const ProductPage = ({ categories, initialProducts }: { categories: CategoryType
     const [products, setProducts] = useState<ModelWithImages<ProductType>[]>(initialProducts);
     const router = useRouter();
     const { category } = router.query;
-
     const links = [
         {
             title: "Pesquisar por categoria",
@@ -72,7 +71,7 @@ const ProductPage = ({ categories, initialProducts }: { categories: CategoryType
                             </h2>
                             <li className='flex space-x-2'>
                                 {items.map(({ href, name }, index) => (
-                                    <Link prefetch={false} key={index} href={href} className={cn('flex w-auto hover:bg-neutral-200/70 p-2 rounded-md active:bg-neutral-200/80', category === name && 'bg-secondary-300/10')}>
+                                    <Link prefetch={false} key={index} href={category === name ? `/products` : href} className={cn('flex w-auto hover:bg-neutral-200/70 p-2 rounded-md active:bg-neutral-200/80', category === name && 'bg-secondary-300/10')}>
                                         <div className='text-neutral-600 whitespace-nowrap overflow-hidden'>
                                             {name}
                                         </div>

@@ -56,9 +56,6 @@ async function handleCrudRequest(
 ) {
   try {
     let res: any;
-    /* console.log(data); */
-    /* console.log(table); */
-    /* console.log(method); */
     switch (method) {
       case "create":
         /* @ts-ignore */
@@ -68,7 +65,6 @@ async function handleCrudRequest(
         /* @ts-ignore */
         const { command, nestedItems } = formatUpdateCommand(table, data);
         /* @ts-ignore */
-        /* console.log(nestedItems); */
         res = await (prisma as any)[table][method](command);
         if (Object.keys(nestedItems).length) {
           Object.entries(nestedItems).forEach(async ([key, value]) => {
@@ -198,9 +194,9 @@ function formatUpdateCommand(
           connect: { id: value[0].id },
         };
       }
-    } else if (isObject(value)) {
-      updateData[key] = {
-        connect: { id: (value as any).id },
+    } else if (isObject(value) && (value as any)?.id) {
+      updateData[key] = value && {
+        connect: { id: (value as any)?.id },
       };
     } else {
       updateData[key] = value;
@@ -226,18 +222,19 @@ function formatCreateCommand(
    */
   Object.entries(fields).forEach(([key, value]) => {
     if (Array.isArray(value)) {
-      /* console.log(value); */
       const isList = Prisma.dmmf.datamodel.models
         .find((m) => m.name.toLowerCase() === String(table).toLowerCase())
         ?.fields.find((f) => f.name === key)?.isList;
 
-      fields[key] = {
-        connect: isList
-          ? value.map((item: any) => ({
-              id: item.id,
-            }))
-          : { id: value[0].id },
-      };
+      if (value.length > 0) {
+        fields[key] = {
+          connect: isList
+            ? value.map((item: any) => ({
+                id: item.id,
+              }))
+            : { id: value[0].id },
+        };
+      }
     } else if (isObject(value)) {
       fields[key] = {
         connect: {

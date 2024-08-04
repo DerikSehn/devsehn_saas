@@ -14,6 +14,8 @@ import { cn } from "@/lib/utils";
 import { ModelWithImage } from "@/prisma/prisma-utils";
 import { FilesIcon, ImagesIcon, StarIcon, UsersIcon } from "lucide-react";
 import Link from "next/link";
+import { useEffect } from "react";
+import { driver } from "driver.js";
 
 
 export async function getServerSideProps() {
@@ -132,7 +134,6 @@ interface Metric {
 export default function AdminDashboard({ metrics, projects, testimonials, services, partners }: { metrics: Metric[], projects: ModelWithImage<Project>[], session: Session, testimonials: Testimonial[], services: ModelWithImage<Service>[], partners: Partner[] }) {
 
     return (
-
         <div className="col-span-12 ">
             <div className="lg:mt-32 md:grid grid-cols-2 lg:grid-cols-4  gap-6">
                 {metrics?.slice(0, 4)?.map((metric, index) =>
@@ -160,7 +161,7 @@ export default function AdminDashboard({ metrics, projects, testimonials, servic
                 )}
             </div>
             <ul className="grid md:grid-cols-2 mb-8 gap-6 my-6  ">
-                <li className="space-y-4 p-4 border border-neutral-200 rounded-3xl bg-neutral-100 shadow-md">
+                <li id="step-customize" className="space-y-4 p-4 border border-neutral-200 rounded-3xl bg-neutral-100 shadow-md">
 
                     <List
                         itemsPerPage={8}
