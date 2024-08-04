@@ -48,7 +48,7 @@ export default function Contact() {
         mutation.mutate()
     }
 
-    return (<span className="relative w-full h-full bg-primary-200 ">
+    return (<span className="relative w-full h-full bg-primary-200  ">
         <div className="absolute w-full h-full bg-primary-200 z-0">
 
             <Image
@@ -56,7 +56,7 @@ export default function Contact() {
                 src={"/uploads/dashboard/background.jpeg"} alt={'background'} fill />
 
         </div>
-        <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-jet-900 bg-transparent min-h-screen h-auto">
+        <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-jet-900 bg-primary-200 min-h-screen h-auto">
             <div className="space-y-4 text-center">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Entre em contato</h1>
                 <p className="text-muted-foreground md:text-xl">
