@@ -35,8 +35,11 @@ export default async function handler(req: any, res: any) {
   /*  if (checkIpAlreadySentEmail(req)) {
     return res.status(200).json({ message: "E-mail já enviado!" });
   } */
-  const { to, subject, body } = req.body;
+  return res.status(200).json({ message: process.env.SMTP_EMAIL_PASS });
 
+  const { to, subject, body } = req.body;
+  console.log(body);
+  console.log(body.template);
   const emailTemplate = await prisma.emailTemplate.findFirst({
     where: {
       keyword: body.template,
