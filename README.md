@@ -4,7 +4,8 @@ The `devsehn` project is a sophisticated web application built with Next.js, lev
 
 # 🌟 devsehn
 
-![Project Banner](public/banner.png)
+![Project Banner1](public/banner1.png)
+![Project Banner2](public/banner2.png)
 
 ## 📖 Description
 
@@ -67,6 +68,7 @@ Run the following command to see prisma data:
 ```bash
 npx prisma studio
 ```
+
 ### Running the Application
 
 Start the development server:
