@@ -2,7 +2,7 @@ import prisma from "@/lib/prisma";
 import { renderAsync } from "@react-email/render";
 import { EmailTemplate } from "./EmailTemplate";
 
-const nodemailer = require("nodemailer");
+import nodemailer from "nodemailer";
 
 /**
  * @swagger

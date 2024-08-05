@@ -1,6 +1,5 @@
 import { useToast } from "@/components/providers/toast-provider";
 import { cn } from "@/lib/utils";
-import Image from "next/image";
 import { useState } from 'react';
 import { z } from "zod";
 import { Button } from "../button";
