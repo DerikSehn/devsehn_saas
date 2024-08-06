@@ -1,7 +1,6 @@
 import prisma from "@/lib/prisma";
 import { renderAsync } from "@react-email/render";
 import { EmailTemplate } from "./EmailTemplate";
-
 import nodemailer from "nodemailer";
 
 /**
@@ -24,6 +23,11 @@ import nodemailer from "nodemailer";
  *                 type: string
  *               body:
  *                 type: object
+ *                 properties:
+ *                   template:
+ *                     type: string
+ *                 required:
+ *                   - template
  *     responses:
  *       200:
  *         description: returns the object according to the method provided.
@@ -32,18 +36,20 @@ import nodemailer from "nodemailer";
  *
  */
 export default async function handler(req: any, res: any) {
-  /*  if (checkIpAlreadySentEmail(req)) {
-    return res.status(200).json({ message: "E-mail já enviado!" });
-  } */
   const { to, subject, body } = req.body;
 
-  const emailTemplate = await prisma.emailTemplate.findFirst({
-    where: {
-      keyword: body.template,
-    },
-    include: { links: true, contents: true },
-  });
   try {
+    const emailTemplate = await prisma.emailTemplate.findFirst({
+      where: {
+        keyword: body.template,
+      },
+      include: { links: true, contents: true },
+    });
+
+    if (!emailTemplate) {
+      return res.status(404).json({ message: "Email template not found" });
+    }
+
     const emailBody = await renderAsync(EmailTemplate(emailTemplate as any));
 
     const transporter = nodemailer.createTransport({
@@ -70,13 +76,24 @@ export default async function handler(req: any, res: any) {
           "Este e-mail foi enviado por um cliente solicitando contato. Envie uma mensagem!",
       },
     });
-    if (createdEmail) {
-      await transporter.sendMail(mailOptions);
-      return res.status(200).json({ message: "Email sent successfully" });
-    } else {
-      return res.status(500).json({ message: "Failed to send email" });
+
+    if (!createdEmail) {
+      return res.status(500).json({ message: "Failed to create email record" });
     }
+
+    await transporter.sendMail(mailOptions);
+    return res.status(200).json({ message: "Email sent successfully" });
   } catch (error: any) {
-    return res.status(500).json({ error: "Failed to send email" });
+    if (error.response) {
+      // Handle nodemailer errors
+      return res
+        .status(500)
+        .json({ message: "Email sending error", error: error.response });
+    } else {
+      // Handle other errors
+      return res
+        .status(500)
+        .json({ message: "Internal server error", error: error.message });
+    }
   }
 }
