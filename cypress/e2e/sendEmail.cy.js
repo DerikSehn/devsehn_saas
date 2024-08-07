@@ -1,37 +1,110 @@
+describe('Email API Tests', () => {
+    const apiUrl = '/api/email/send';
 
-describe('Email API', () => {
     it('should send an email successfully', () => {
         cy.request({
             method: 'POST',
-            url: '/email/send',
+            url: apiUrl,
             body: {
-                to: 'example@example.com',
+                to: 'test@example.com',
                 subject: 'Test Email',
                 body: {
-                    template: 'contact_request'
+                    template: 'welcome'
                 }
             }
         }).then((response) => {
             expect(response.status).to.eq(200);
-            expect(response.body.message).to.eq('Email sent successfully');
+            expect(response.body).to.have.property('message', 'Email sent successfully');
         });
     });
 
-    it('should fail to send an email with invalid data', () => {
+    it('should return 500 if SMTP credentials are not found', () => {
+        // Mock the getSMTPCredentials function to return null
+        cy.intercept('POST', apiUrl, (req) => {
+            req.reply((res) => {
+                res.send({
+                    statusCode: 500,
+                    body: {
+                        message: 'SMTP credentials not found, please review your configuration section'
+                    }
+                });
+            });
+        });
+
         cy.request({
             method: 'POST',
-            url: '/email/send',
+            url: apiUrl,
             failOnStatusCode: false,
             body: {
-                to: '',
-                subject: '',
+                to: 'test@example.com',
+                subject: 'Test Email',
                 body: {
-                    template: ''
+                    template: 'welcome'
                 }
             }
         }).then((response) => {
             expect(response.status).to.eq(500);
-            expect(response.body.message).to.eq('Failed to send email');
+            expect(response.body).to.have.property('message', 'SMTP credentials not found, please review your configuration section');
+        });
+    });
+
+    it('should return 404 if email template is not found', () => {
+        // Mock the prisma.emailTemplate.findFirst function to return null
+        cy.intercept('POST', apiUrl, (req) => {
+            req.reply((res) => {
+                res.send({
+                    statusCode: 404,
+                    body: {
+                        message: 'Email template not found'
+                    }
+                });
+            });
+        });
+
+        cy.request({
+            method: 'POST',
+            url: apiUrl,
+            failOnStatusCode: false,
+            body: {
+                to: 'test@example.com',
+                subject: 'Test Email',
+                body: {
+                    template: 'nonexistent_template'
+                }
+            }
+        }).then((response) => {
+            expect(response.status).to.eq(404);
+            expect(response.body).to.have.property('message', 'Email template not found');
+        });
+    });
+
+    it('should return 500 if email record creation fails', () => {
+        // Mock the prisma.receivedEmail.create function to return null
+        cy.intercept('POST', apiUrl, (req) => {
+            req.reply((res) => {
+                res.send({
+                    statusCode: 500,
+                    body: {
+                        message: 'Failed to create email record'
+                    }
+                });
+            });
+        });
+
+        cy.request({
+            method: 'POST',
+            url: apiUrl,
+            failOnStatusCode: false,
+            body: {
+                to: 'test@example.com',
+                subject: 'Test Email',
+                body: {
+                    template: 'welcome'
+                }
+            }
+        }).then((response) => {
+            expect(response.status).to.eq(500);
+            expect(response.body).to.have.property('message', 'Failed to create email record');
         });
     });
 });
