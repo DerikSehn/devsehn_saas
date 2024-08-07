@@ -113,8 +113,6 @@ export function getMailTransporter(credentials: any = null) {
     );
   }
 
-  console.log(credentials);
-
   const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
     port: 465,
@@ -132,7 +130,7 @@ export async function getSMTPCredentials() {
   const res = await prisma.setting.findMany({
     where: {
       title: {
-        in: ["SMTP_EMAIL", "SMTP_EMAIL_PASS"],
+        in: ["SMTP_EMAIL", "SMTP_EMAIL_PASS", "PRIVATE_KEY_PASSPHRASE"],
       },
     },
   });
@@ -142,16 +140,19 @@ export async function getSMTPCredentials() {
   );
 
   if (!!credentials?.SMTP_EMAIL_PASS) {
-    credentials.SMTP_EMAIL_PASS = decryptPassword(credentials.SMTP_EMAIL_PASS);
+    credentials.SMTP_EMAIL_PASS = decryptPassword(
+      credentials.SMTP_EMAIL_PASS,
+      credentials.PRIVATE_KEY_PASSPHRASE
+    );
   }
 
   return credentials;
 }
 
-const decryptPassword = (password: string) => {
+const decryptPassword = (password: string, key?: string) => {
   const decrypted = CryptoJS.AES.decrypt(
     password,
-    process.env.PRIVATE_KEY_PASSPHRASE || ""
+    key || process.env.PRIVATE_KEY_PASSPHRASE || ""
   );
   return decrypted.toString(CryptoJS.enc.Utf8);
 };
