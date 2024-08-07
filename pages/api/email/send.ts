@@ -53,6 +53,8 @@ export default async function handler(req: any, res: any) {
       });
     }
 
+    return res.status(200).json({ message: "Email sent successfully" });
+
     const emailTemplate = await prisma.emailTemplate.findFirst({
       where: {
         keyword: body.template,
