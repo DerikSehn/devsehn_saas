@@ -22,7 +22,7 @@ export default function InputCTA({ description }: { description: string }) {
 
             setLoading(true);
 
-            const response = await fetch('/api/email/send', {
+            await fetch('/api/email/send', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -34,13 +34,10 @@ export default function InputCTA({ description }: { description: string }) {
                         template: 'MESSAGE_RECEIVED',
                     },
                 }),
-            }).then((response) => response.json());
-            if (response.ok) {
-                notify('Email enviado com sucesso!', { type: 'success' });
-                setEmail('');
-            } else {
-                notify('Erro ao enviar email. Tente novamente mais tarde.', { type: 'error' });
-            }
+            }).then((response) => { response.json() });
+
+            notify('Email enviado com sucesso!', { type: 'success' });
+            setEmail('');
         } catch (error) {
             console.error('Erro ao enviar email:', error);
             notify('Erro ao enviar email. Tente novamente mais tarde.', { type: 'error' });
