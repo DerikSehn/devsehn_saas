@@ -62,14 +62,7 @@ export default async function handler(req: any, res: any) {
 
     const emailBody = await renderAsync(EmailTemplate(emailTemplate as any));
 
-    const transporter = nodemailer.createTransport({
-      host: "smtp.zoho.com",
-      port: 465,
-      auth: {
-        user: credentials.SMTP_EMAIL,
-        pass: credentials.SMTP_EMAIL_PASS,
-      },
-    });
+    const transporter = getMailTransporter(credentials);
 
     const mailOptions = {
       from: credentials.SMTP_EMAIL,
@@ -107,6 +100,26 @@ export default async function handler(req: any, res: any) {
       });
     }
   }
+}
+
+export function getMailTransporter(credentials: any = null) {
+  if (!credentials) {
+    throw new Error(
+      "SMTP credentials not found, please review your configuration section"
+    );
+  }
+
+  const transporter = nodemailer.createTransport({
+    host: "smtp.zoho.com",
+    port: 465,
+    auth: {
+      type: "login",
+      user: credentials.SMTP_EMAIL,
+      pass: credentials.SMTP_EMAIL_PASS,
+    },
+  });
+
+  return transporter;
 }
 
 export async function getSMTPCredentials() {
