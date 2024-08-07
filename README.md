@@ -16,7 +16,7 @@ The `devsehn` project is a sophisticated web application built with Next.js, lev
 - **User Authentication**: Secure and efficient user authentication with NextAuth.
 - **Dynamic Forms**: Easily create and manage forms with React Hook Form and Zod validation.
 - **Data Visualization**: Visualize data with various chart components.
-- **3D Graphics**: Integrate 3D models and animations using Three.js and React Three Fiber.
+- **Generate landing pages**: Function as a CMS for creating landing pages, intuitively for users and developers.
 
 ## 📦 Features
 
