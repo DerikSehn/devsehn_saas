@@ -11,7 +11,7 @@ const SwaggerUI = dynamic(import('swagger-ui-react'), { ssr: false });
 
 function ApiDoc({ spec }: InferGetStaticPropsType<typeof getStaticProps>) {
   return (
-    <BentoGridItem variant='static' className='bg-neutral-100 shadow-md h-full md:h-full '>
+    <BentoGridItem variant='static' className='bg-gradient-to-b from-neutral-50 to-neutral-100 shadow-md h-full md:h-full '>
       <SwaggerUI spec={spec} />
     </BentoGridItem>
   );

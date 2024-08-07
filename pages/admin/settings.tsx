@@ -8,25 +8,31 @@ import { Separator } from "@/components/ui/separator";
 import { ModelWithImage } from "@/prisma/prisma-utils";
 import { InfoIcon, SettingsIcon } from "lucide-react";
 import Image from "next/image";
-
+import CryptoJS from "crypto-js";
 export async function getServerSideProps() {
 
     const infos = await prisma.setting.findMany({
         orderBy: [{ createdAt: 'desc' }]
     });
 
-    const backgroundImage = await prisma.setting.findFirst({
+    const data = await prisma.setting.findMany({
         where: {
-            title: 'backgroundImage'
+            title: {
+                in: [
+                    'SMTP_EMAIL',
+                    'SMTP_EMAIL_PASS',
+                    'backgroundImage'
+                ]
+
+            }
         }
     });
 
-
-    return { props: { backgroundImage, infos } };
+    return { props: { infos, data } };
 }
 
 
-const AdminInfo = ({ backgroundImage, infos = [] }: { backgroundImage: Setting, infos: ModelWithImage<Setting>[] }) => {
+const AdminInfo = ({ infos = [] }: { data: Setting[], infos: ModelWithImage<Setting>[] }) => {
 
 
     return (

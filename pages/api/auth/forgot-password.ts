@@ -3,6 +3,7 @@ import { EmailContent, EmailLink } from "@prisma/client";
 import { renderAsync } from "@react-email/render";
 import EmailTemplate from "../email/EmailTemplate";
 import { v4 as uuidv4 } from "uuid"; // Para gerar o token
+import { getSMTPCredentials } from "../email/send";
 
 const nodemailer = require("nodemailer");
 
@@ -86,16 +87,18 @@ export default async function handler(req: any, res: any) {
       })
     );
 
+    const credentials = await getSMTPCredentials();
+
     const transporter = nodemailer.createTransport({
       host: "smtp.zoho.com",
       port: 465,
       auth: {
-        user: process.env.SMTP_EMAIL,
-        pass: process.env.SMTP_EMAIL_PASS,
+        user: credentials.SMTP_EMAIL,
+        pass: credentials.SMTP_EMAIL_PASS,
       },
     });
     const mailOptions = {
-      from: process.env.SMTP_EMAIL,
+      from: credentials.SMTP_EMAIL,
       to,
       subject: "Recuperação de senha",
       html: emailBody,

@@ -2,11 +2,8 @@ import prisma from "@/lib/prisma";
 import { renderAsync } from "@react-email/render";
 import { EmailTemplate } from "./EmailTemplate";
 import nodemailer from "nodemailer";
-
-const credentials = {
-  user: process.env.SMTP_EMAIL,
-  pass: process.env.SMTP_EMAIL_PASS,
-};
+import { privateDecrypt } from "crypto";
+import CryptoJS from "crypto-js";
 
 /**
  * @swagger
@@ -44,6 +41,14 @@ export default async function handler(req: any, res: any) {
   const { to, subject, body } = req.body;
 
   try {
+    const credentials = await getSMTPCredentials();
+    if (!credentials) {
+      return res.status(500).json({
+        message:
+          "SMTP credentials not found, please review your configuration section",
+      });
+    }
+
     const emailTemplate = await prisma.emailTemplate.findFirst({
       where: {
         keyword: body.template,
@@ -61,13 +66,13 @@ export default async function handler(req: any, res: any) {
       host: "smtp.zoho.com",
       port: 465,
       auth: {
-        user: process.env.SMTP_EMAIL,
-        pass: process.env.SMTP_EMAIL_PASS,
+        user: credentials.SMTP_EMAIL,
+        pass: credentials.SMTP_EMAIL_PASS,
       },
     });
 
     const mailOptions = {
-      from: process.env.SMTP_EMAIL,
+      from: credentials.SMTP_EMAIL,
       to,
       subject,
       html: emailBody,
@@ -96,12 +101,38 @@ export default async function handler(req: any, res: any) {
         .json({ message: "Email sending error", error: error.response });
     } else {
       // Handle other errors
-      return res
-        .status(500)
-        .json({
-          message: "Internal server error",
-          error: JSON.stringify(credentials),
-        });
+      return res.status(500).json({
+        message: "Internal server error",
+        error: error.message,
+      });
     }
   }
 }
+
+export async function getSMTPCredentials() {
+  const res = await prisma.setting.findMany({
+    where: {
+      title: {
+        in: ["SMTP_EMAIL", "SMTP_EMAIL_PASS"],
+      },
+    },
+  });
+
+  let credentials = Object.fromEntries(
+    res.map((item: any) => [item.title, item.value])
+  );
+
+  if (!!credentials?.SMTP_EMAIL_PASS) {
+    credentials.SMTP_EMAIL_PASS = decryptPassword(credentials.SMTP_EMAIL_PASS);
+  }
+
+  return credentials;
+}
+
+const decryptPassword = (password: string) => {
+  const decrypted = CryptoJS.AES.decrypt(
+    password,
+    process.env.PRIVATE_KEY_PASSPHRASE || ""
+  );
+  return decrypted.toString(CryptoJS.enc.Utf8);
+};
