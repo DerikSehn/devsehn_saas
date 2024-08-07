@@ -3,6 +3,7 @@ import { renderAsync } from "@react-email/render";
 import { EmailTemplate } from "./EmailTemplate";
 import nodemailer from "nodemailer";
 import CryptoJS from "crypto-js";
+import "dotenv/config";
 
 const dotenv = require("dotenv");
 dotenv.config();
@@ -44,6 +45,9 @@ export default async function handler(req: any, res: any) {
 
   try {
     const credentials = await getSMTPCredentials();
+
+    return res.status(200).json({ message: credentials });
+
     if (!credentials) {
       return res.status(500).json({
         message:
