@@ -2,8 +2,10 @@ import prisma from "@/lib/prisma";
 import { renderAsync } from "@react-email/render";
 import { EmailTemplate } from "./EmailTemplate";
 import nodemailer from "nodemailer";
-import { privateDecrypt } from "crypto";
 import CryptoJS from "crypto-js";
+
+const dotenv = require("dotenv");
+dotenv.config();
 
 /**
  * @swagger
@@ -42,9 +44,6 @@ export default async function handler(req: any, res: any) {
 
   try {
     const credentials = await getSMTPCredentials();
-
-    return res.status(200).json({ message: credentials });
-
     if (!credentials) {
       return res.status(500).json({
         message:
