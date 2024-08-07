@@ -42,6 +42,9 @@ export default async function handler(req: any, res: any) {
 
   try {
     const credentials = await getSMTPCredentials();
+
+    return res.status(200).json({ message: credentials });
+
     if (!credentials) {
       return res.status(500).json({
         message:
@@ -108,6 +111,8 @@ export function getMailTransporter(credentials: any = null) {
       "SMTP credentials not found, please review your configuration section"
     );
   }
+
+  console.log(credentials);
 
   const transporter = nodemailer.createTransport({
     host: "smtp.zoho.com",
