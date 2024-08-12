@@ -37,7 +37,7 @@ export default async function handler(
   const tableName = req.query.table_name;
 
   /* where name or description ( if exists) like '%query%' */
-  const where = handleGetColumns(tableName as any).reduce(
+  const where = handleGetColumns(tableName as any)?.reduce(
     (acc: any, curr: any) => {
       if (["name", "title", "description"].includes(curr.name)) {
         return {
