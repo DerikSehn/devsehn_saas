@@ -20,6 +20,7 @@ next-env.d.ts
 
 # production
 /build
+/public/uploads/2024/
 
 # misc
 .DS_Store

@@ -1,3 +1,4 @@
+import { handleApiRequest } from "@/pages/api/protected/crud";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -30,6 +31,26 @@ export function generateWhatsAppLink({
 
   // Gera o link do WhatsApp
   const whatsappLink = `https://wa.me/${cleanedCountryCode}${cleanedPhoneNumber}?text=${encodedMessage}`;
-
+  console.log(whatsappLink);
   return whatsappLink;
+}
+
+export async function fetchWhatsappLink(message: string) {
+  try {
+    const { result } = await handleApiRequest(
+      { where: { title: "WHATSAPP_NUMBER" } },
+      "setting",
+      "findFirst"
+    );
+
+    console.log(result);
+
+    return generateWhatsAppLink({
+      phoneNumber: result.value,
+      message: message,
+    });
+  } catch (error) {
+    console.log(error);
+    throw new Error("Erro ao buscar o número de telefone do WhatsApp");
+  }
 }

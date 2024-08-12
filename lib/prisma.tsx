@@ -22,20 +22,16 @@ export function isColumnRestrict(colName: string) {
     return restrictedColumns.some((value) => value === colName)
 }
 
-export function handleGetColumns(modelName: CrudRequest['table']) {
-
-
+export function handleGetColumns(modelName: CrudRequest['table'], readOnly?: boolean) {
 
     const model = Prisma.dmmf.datamodel.models.find(m => m.name.toLowerCase() === String(modelName).toLowerCase())
 
-    /* unrestrictedColumns only */
+    /* Allowed to edit Columns only */
     const fields = model?.fields.filter(f => !isColumnRestrict(f.name))
-    return fields || [];
+    return readOnly ? model?.fields : fields || [];
 }
 
 export async function getAsyncColumns(modelName: CrudRequest['table']) {
-
-
 
     const response = await fetch(`/api/protected/columns`, {
         method: "POST",
@@ -43,7 +39,6 @@ export async function getAsyncColumns(modelName: CrudRequest['table']) {
             modelName
         }),
     });
-
 
     if (!response.ok) {
         throw new Error("Failed to get columns");

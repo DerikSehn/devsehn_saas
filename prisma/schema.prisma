@@ -188,11 +188,12 @@ model Product {
   description String
   price       Float
   stock       Int
+  unitType    String      @default("un")
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
   images      Image[]
   categories  Category[]
-  OrderItem   OrderItem[]
+  orders      OrderItem[]
 }
 
 model Category {
@@ -218,13 +219,15 @@ model Order {
 }
 
 model OrderItem {
-  id        Int     @id @default(autoincrement())
+  id        Int          @id @default(autoincrement())
   quantity  Int
   price     Float
   productId Int
-  product   Product @relation(fields: [productId], references: [id])
+  product   Product      @relation(fields: [productId], references: [id])
   orderId   Int
-  order     Order   @relation(fields: [orderId], references: [id])
+  order     Order        @relation(fields: [orderId], references: [id])
+  reviewId  Int          @unique
+  review    OrderReview? @relation(fields: [reviewId], references: [id])
 }
 
 model Address {
@@ -248,4 +251,14 @@ model Setting {
   image       Image?   @relation(fields: [imageId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model OrderReview {
+  id        Int        @id @default(autoincrement())
+  rating    Int
+  comment   String?
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  userId    String
+  OrderItem OrderItem?
 }

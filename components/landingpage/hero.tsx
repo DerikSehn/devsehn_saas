@@ -2,7 +2,6 @@ import Image from "next/image"
 import ImageInLine from "../ui/image/image-in-line"
 import InputCTA from "../ui/input/Input-cta"
 import { Section } from "./section/section"
-
 export default function Hero() {
 
 
@@ -20,6 +19,7 @@ export default function Hero() {
                 className="object-cover object-center z-10  scale-[1.4] brightness-90 select-none md:translate-x-1/8 -translate-y-1/8  blur-md"
                 src="/hero/vector.png" />
             <span className="absolute inset-0 z-[11] bg-gradient-to-b from-primary-100/60 to-70%" />
+
             <div className="container px-4 md:px-6 relative z-20 text-white">
                 <div className="grid  lg:grid-cols-[1fr_500px] lg:gap-12 xl:grid-cols-[1fr_600px]">
                     <div className="flex flex-col justify-center ">
@@ -43,21 +43,11 @@ export default function Hero() {
                         <InputCTA
 
                             description="Entre em contato nos enviando um email, e ficaremos felizes em transformar seu espaço em um ambiente acolhedor"
-
                         />
-
-                        {/*   <div className="flex flex-col gap-2 min-[400px]:flex-row">
-
-                            <Link
-                                className="inline-flex h-10 items-center justify-center rounded-3xl border border-primary-400 text-primary-400 bg-neutral-200 px-8 text-sm font-medium shadow-sm transition-colors hover:bg-gray-100 hover:text-primary-700 focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-gray-950 disabled:pointer-events-none disabled:opacity-50 dark:border-hgreenbg-primary-200 dark:bg-gray-950 dark:hover:bg-primary-200 dark:hover:text-gray-50 dark:focus-visible:ring-gray-300 "
-                                href="#"
-                            >
-                                Conheça a Cultura Verde
-                            </Link>
-                        </div> */}
                     </div>
                 </div>
             </div>
+
         </Section>
     )
 }

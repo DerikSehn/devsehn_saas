@@ -17,12 +17,12 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
         offset: ['start end', 'end start']
     });
 
-    const isMobile = getIsMobile(1200)
+    const isMobile = getIsMobile(1260)
     const yTransforms = services.slice(0, 4).map((service, index) =>
         isMobile ? null : useTransform(scrollYProgress, [0, 0.5], [`${(((index + 1) * -10) + 5)}vw`, `0vw`])
     );
     return (
-        <div ref={ref} className="relative z-10 w-full flex flex-col justify-center text-center items-center  -translate-y-[5%] rounded-[64px] lg:rounded-[3dvw] lg:rounded-b-none bg-primary-300 py-5 lg:p-0 lg:h-[80vh] ">
+        <div ref={ref} className="relative z-10 w-full flex flex-col justify-center text-center items-center  -translate-y-[5%]     bg-primary-300 py-5 lg:p-0 lg:h-[80vh] ">
 
             <SectionHeader
                 className="z-[15] "
@@ -33,7 +33,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
             <Image
                 alt="Hero Image"
                 fill
-                className="object-cover object-center z-0 -scale-x-100 -scale-y-100 select-none rounded-[64px] lg:rounded-none blur-sm"
+                className="object-cover object-center z-0 -scale-x-100 -scale-y-100 select-none    blur-sm"
                 src="/hero/vector.png" />
             <div className=" absolute inset-0 bg-gradient-to-t from-primary-300 from-20% z-10" />
             <div className=" relative max-w-screen-2xl w-full z-20 min-h-[400px]  grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center space-y-10 lg:space-y-0 gap-4 lg:gap-6 px-4 ">
@@ -52,8 +52,8 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
 }
 export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
     return (
-        <Card className="relative lg:absolute  group w-full rounded-[45px] bg-primary-100 backdrop-blur aspect-[3/4] transition-all duration-500 overflow-hidden border-neutral-100 border-0 lg:border-2" >
-            <CardHeader className=" relative z-20 text-neutral-100 font-sans bg-gradient-to-b from-primary-200/40 to-50% to-primary-100/30 h-full flex justify-center space-y-4 text-center">
+        <Card className="relative lg:absolute rounded-md group w-full  h-dvh sm:h-auto bg-primary-300 backdrop-blur aspect-[3/4] transition-all duration-500 overflow-hidden  border-none" >
+            <CardHeader className=" relative z-20 text-neutral-100 font-sans bg-gradient-to-b from-primary-400/30 to-50% to-primary-500/30 h-full flex justify-center space-y-4 text-center">
                 <CardTitle className="text-neutral-100 font-sans text-4xl font-bold">{service.title}</CardTitle>
                 <CardDescription
                     style={{

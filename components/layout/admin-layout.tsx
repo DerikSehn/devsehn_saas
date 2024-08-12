@@ -20,21 +20,6 @@ const LINKS = [
             href: '/admin'
         },
         {
-            icon: <InfoIcon />,
-            name: "Informações",
-            href: '/admin/info'
-        },
-        {
-            icon: <Settings />,
-            name: "Configurações",
-            href: '/admin/settings'
-        },
-        {
-            icon: <File />,
-            name: "Documentação",
-            href: '/admin/api-doc'
-        },
-        {
             icon: <BellDot />,
             name: "Notificações",
             href: "/admin/notifications"
@@ -68,11 +53,24 @@ const LINKS = [
         }
         ],
     },
-    /*  
-     {
-       title: "Resource",
-       items: ["Blog", "Newsletter", "Events", "Help center"],
-     }, */
+    {
+        title: "Geral",
+        items: [{
+            icon: <Settings />,
+            name: "Configurações",
+            href: '/admin/settings'
+        },
+        /*   {
+              icon: <InfoIcon />,
+              name: "Sobre",
+              href: '/admin/about'
+          }, */
+        {
+            icon: <File />,
+            name: "Documentação",
+            href: '/admin/api=doc'
+        }]
+    }
 ];
 
 export default function AdminLayout({

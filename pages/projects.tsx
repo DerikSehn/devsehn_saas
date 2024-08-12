@@ -8,8 +8,6 @@ import { Project as ProjectType } from "@prisma/client"
 import Image from "next/image"
 import Link from "next/link"
 
-
-
 const ProjectPage = ({ projects }: { projects: ModelWithImages<ProjectType>[] }) => {
     return (<>
         <div className="absolute w-full h-96 bg-primary-200">
@@ -19,7 +17,7 @@ const ProjectPage = ({ projects }: { projects: ModelWithImages<ProjectType>[] })
 
         </div>
 
-        <Section id="projects" className="bg-transparent  min-h-[1000px] flex flex-col max-w-screen-2xl mx-auto justify-start px-12 pt-64 ">
+        <Section id="projects" className="bg-transparent  min-h-[1000px] h-auto flex flex-col max-w-screen-2xl mx-auto justify-start px-12 pt-64 ">
             <div className="relative w-full grid md:grid-cols-2 gap-8 overflow-visible text-neutral-50 border-b border-primary-300 mb-10">
                 <div>
 
@@ -33,17 +31,12 @@ const ProjectPage = ({ projects }: { projects: ModelWithImages<ProjectType>[] })
                         </p>
                     </div>
                 </div>
-
             </div>
-            <BentoGrid className="md:grid-cols-5">
+            <BentoGrid className="md:grid-cols-5 pb-10">
                 {projects.map((project, index) => <ProjectItem project={project} key={project.id + index} />)}
-
             </BentoGrid>
-
             <div />
-
         </Section>
-
     </>)
 }
 

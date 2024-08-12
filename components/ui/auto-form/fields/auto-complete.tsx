@@ -35,13 +35,13 @@ export default function AutoFormComplete({
     }, [tableName]);
 
     return (
-        <FormItem>
+        <FormItem className="flex flex-col">
             <AutoFormLabel label={fieldConfigItem?.label || label} isRequired={isRequired} />
             <FormControl>
                 <AutoComplete
                     options={options}
                     onInputChange={handleFetchOptions}
-                    placeholder="Type to search..."
+                    placeholder="Digite para pesquisar..."
                     disableFilter={true}
                     defaultValue={field?.value?.map((item: any) => ({ id: item.id, label: item?.title || item?.name }))}
                     onSelect={handleSelect}

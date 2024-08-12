@@ -115,8 +115,16 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
         const integratedImages = await handleImageIntegration(item, data)
 
+        const changedData = Object.fromEntries(
+            Object.entries(integratedImages).filter(([key, value]) => !isEqual(value, (item as any)?.[key]))
+        )
+
+        console.log(integratedImages)
+        console.log(changedData);
+
         const newData = {
-            ...data,
+            id: item?.id,
+            ...changedData,
             ...integratedImages
         };
 
@@ -214,7 +222,11 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
     }
     )
     if (defaultForm?.id) {
-        changedImages = changedImages.filter(([key, value], index) => !isEqual(value, defaultForm[key]?.[index]));
+        changedImages = changedImages.filter(([key, value], index) => {
+            console.log(defaultForm[key]?.[index])
+            return !isEqual(value, defaultForm[key]?.[index])
+        }
+        );
     }
 
 

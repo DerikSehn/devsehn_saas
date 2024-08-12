@@ -4,11 +4,10 @@ import { Partner } from "@prisma/client";
 import Image from "next/image";
 import LogoMarquee from "../marquee/marquee";
 import { Section } from "./section/section";
-import SectionHeader from "./section/section-header";
 
 export default function Partners({ partners }: { partners: ModelWithImage<Partner>[] }) {
     return (
-        <Section id="partners" className="h-screen relative w-full py-0 md:py-0 lg:py-20 flex flex-col bg-gradient-to-b from-neutral-100 to-jet-900 justify-start items-start  ">
+        <Section id="partners" className="h-screen relative w-full py-0 md:py-0 lg:py-20 flex flex-col bg-gradient-to-b from-white to-white justify-start items-start  ">
             <div className={cn(" space-y-2 text-center mx-auto px-4 ")}>
                 <h3 className="inline-block rounded-lg bg-primary-600 px-3 py-1 text-sm dark:bg-primary-600 text-primary-900 ">
                     Parcerias
@@ -20,16 +19,15 @@ export default function Partners({ partners }: { partners: ModelWithImage<Partne
                         Excelência
                     </h2>
                     para todos os lugares
-
                 </div>
 
             </div>
 
-            <div className="absolute z-20 inset-y-0 w-1/4 to-30% right-0 bg-gradient-to-l from-jet-900" />
-            <div className="absolute z-20 inset-y-0 w-1/4 to-30% left-0 bg-gradient-to-r from-jet-900" />
+            <div className="absolute z-20 inset-y-0 w-1/4 to-30% right-0 bg-gradient-to-l from-white" />
+            <div className="absolute z-20 inset-y-0 w-1/4 to-30% left-0 bg-gradient-to-r from-white" />
             <LogoMarquee className="h-full">
                 {partners.map((partner, index) => (
-                    <div className="space-2  relative w-40 min-h-40 shadow-lg" key={index}>
+                    <div className="space-2  relative w-40 min-h-40 " key={index}>
                         <Image
                             key={index}
                             src={partner.image.url}

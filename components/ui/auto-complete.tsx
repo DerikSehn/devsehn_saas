@@ -30,7 +30,7 @@ interface AutoCompleteProps {
 
 export function AutoComplete({
     options,
-    placeholder = "Search...",
+    placeholder = "Pesquisar...",
     onSelect,
     disableFilter,
     defaultValue,
@@ -86,7 +86,7 @@ export function AutoComplete({
                     className="w-[200px] justify-between"
                 >
                     {selectedIds.length > 0
-                        ? `${selectedIds.length} selected`
+                        ? `${selectedIds.length} selecionado${selectedIds.length > 1 ? "s" : ""}`
                         : placeholder}
                     <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                 </Button>

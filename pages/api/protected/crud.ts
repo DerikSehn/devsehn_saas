@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+import prisma, { handleGetColumns } from "@/lib/prisma";
 import { Image, Prisma, PrismaClient } from "@prisma/client";
 import { isObject } from "lodash";
 import type { NextApiRequest, NextApiResponse } from "next";
@@ -64,15 +64,18 @@ async function handleCrudRequest(
       case "update":
         /* @ts-ignore */
         const { command, nestedItems } = formatUpdateCommand(table, data);
+        console.log(nestedItems);
+        console.log(command);
         /* @ts-ignore */
         res = await (prisma as any)[table][method](command);
         if (Object.keys(nestedItems).length) {
-          Object.entries(nestedItems).forEach(async ([key, value]) => {
-            const nestedTable = key.substring(0, key.length - 1);
+          console.log(nestedItems);
+
+          nestedItems.forEach(async ({ key, updates }) => {
             const nestedRes: any[] = [];
-            value.forEach(async (item: any) => {
+            updates.forEach(async (command: any) => {
               /* @ts-ignore */
-              nestedRes.push(await prisma[nestedTable][method](item));
+              nestedRes.push(await prisma[key][method](command));
             });
             res.result[key] = nestedRes;
           });
@@ -149,6 +152,7 @@ export async function handleCreateImage(data: RawFileProps): Promise<Image[]> {
     throw new Error("Não foi possível criar a imagem");
   }
 }
+
 function formatUpdateCommand(
   table: string,
   data: { id: string | number; [key: string]: any }
@@ -158,9 +162,32 @@ function formatUpdateCommand(
   const updateData: any = {};
   const nestedItems: any[] = [];
 
-  function handleNestedUpdates(value: any, table: string, enableId?: boolean) {
+  const columns = handleGetColumns(table as CrudRequest["table"]);
+
+  /**
+   *   The method was created in this way to enable the update of nested records.
+   *
+   *   For example:
+   *
+   * project: {
+   *   name: ----updated,
+   *   image: {
+   *     url: ----updated,
+   *   }
+   * }
+   *
+   */
+  function handleNestedUpdates(value: any, key: string, enableId?: boolean) {
+    /*  [
+    { key: 'image', updates: [] },
+    {
+      key: 'category',
+      updates: [ { where: { id: 6 }, data: { productId: 6 } } ]
+    }
+  ] */
     return value.map((item: any) => {
       const { id: nestedId, ...nestedData } = item;
+      console.log(item);
       if (enableId) {
         return {
           where: { id: nestedId },
@@ -180,14 +207,15 @@ function formatUpdateCommand(
       const isList = Prisma.dmmf.datamodel.models
         .find((model) => model.name.toLowerCase() === table.toLowerCase())
         ?.fields.find((field) => field.name === key)?.isList;
+      const relatedTable = getRelatedTable(key, table);
 
       if (isList) {
         nestedItems.push({
-          key,
+          key: relatedTable,
           updates: handleNestedUpdates(value, key, true),
         });
         updateData[key] = {
-          updateMany: handleNestedUpdates(value, key),
+          connect: value.map((item: any) => ({ id: item.id })),
         };
       } else {
         updateData[key] = {
@@ -202,6 +230,7 @@ function formatUpdateCommand(
       updateData[key] = value;
     }
   });
+  console.log(nestedItems);
 
   return {
     command: {
@@ -218,13 +247,11 @@ function formatCreateCommand(
 ): Prisma.ProjectCreateArgs {
   /* connect lists to the parent prisma model */
   const { id, ...fields } = data;
-  /*   { name: 'test', description: 'test', products: [ 1 ] }
-   */
+  const columns = handleGetColumns(table as CrudRequest["table"]);
+
   Object.entries(fields).forEach(([key, value]) => {
     if (Array.isArray(value)) {
-      const isList = Prisma.dmmf.datamodel.models
-        .find((m) => m.name.toLowerCase() === String(table).toLowerCase())
-        ?.fields.find((f) => f.name === key)?.isList;
+      const isList = columns?.find((f) => f.name === key)?.isList;
 
       // if the item is a valid array, It shoud be connected depending on the isList flag
       if (value.length > 0) {
@@ -251,4 +278,22 @@ function formatCreateCommand(
   return {
     data: fields,
   };
+}
+
+function getRelatedTable(key: string, table: string) {
+  const model = Prisma.dmmf.datamodel.models.find(
+    (m) => m.name.toLowerCase() === table.toLowerCase()
+  );
+
+  let result;
+
+  const field = model?.fields.find((f) => f.name === key);
+  if (field?.isList) {
+    result = field.relationToFields?.length
+      ? field.relationToFields?.[0]
+      : field.type;
+  }
+  result = field?.type;
+
+  return result?.toLowerCase();
 }

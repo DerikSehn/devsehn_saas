@@ -2,6 +2,7 @@
 import { Dropdown, Tab, Tabs, Trigger, TriggerWrapper } from "@/components/dropdown/dropdown-menu";
 import { cn, generateWhatsAppLink } from "@/lib/utils";
 import { motion, useMotionValueEvent, useScroll } from "framer-motion";
+import { MessageCircleIcon } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
@@ -41,7 +42,7 @@ export const FloatingNavBar = ({
         }
     });
     const phoneNumber = "(51) 99626-1079";
-    const message = "Olá, gostaria de saber mais sobre os serviços de paisagismo e fitoterapia. Estou interessado em transformar meu espaço em um local de tranquilidade e bem-estar. Poderia me fornecer mais informações?";
+    const message = "Olá, tudo bem? Gostaria de saber mais sobre os serviços da cultura verde. Poderia me fornecer mais informações?";
     const whatsAppLink = generateWhatsAppLink({ phoneNumber, message });
 
     return (
@@ -103,9 +104,10 @@ export const FloatingNavBar = ({
                 <Link href={whatsAppLink} target="_blank" className="flex items-center justify-center  ">
                     <Button
                         variant={'swipe'}
-                        className="text-md"
+                        className="text-md group hover:pr-10 transition-all"
                     >
-                        Entre em contato
+                        WhatsApp
+                        <MessageCircleIcon className="absolute opacity-0 transition-all duration-500 rotate-12 group-hover:rotate-0 group-hover:opacity-100 right-2 translate-x-10 group-hover:translate-x-0" />
                     </Button>
                 </Link>
 

@@ -54,11 +54,9 @@ const List = <T extends Item | undefined,>({
     const [currentPage, setCurrentPage] = useState(1);
     const [sortOption, setSortOption] = useState(sortOptions[0]?.value || '');
     const [filterOption, setFilterOption] = useState(filterOptions[0]?.value || '');
-    const [isSelected, setIsSelected] = useState(false)
     const [currentList, setList] = useState(items)
 
     const handleSubmit = ({ item: itemData, method: reason }: { item: any, method: CrudRequest["method"] }) => {
-        setIsSelected(!isSelected)
         switch (reason) {
             case 'create':
                 setList(pvSt => [...pvSt, itemData])
@@ -76,7 +74,6 @@ const List = <T extends Item | undefined,>({
     }
 
     const handleItemClick = (item: Item) => {
-        setIsSelected(!isSelected)
         if (typeof onClick === 'function') {
             onClick(item)
         }
@@ -173,7 +170,7 @@ const List = <T extends Item | undefined,>({
             )}
             {enableEditor ? <>
                 {paginatedItems.map((item) =>
-                    <ListItemWrapper key={item?.id} onSubmit={handleSubmit} disableClickArea={isSelected} clickArea={
+                    <ListItemWrapper key={item?.id} onSubmit={handleSubmit} clickArea={
                         <ListItem onDelete={() => handleItemDelete(item!.id)} onClick={handleItemClick} item={item!} >
                             {children ? cloneElement(children, { item } as any) : null}
                         </ListItem>}
