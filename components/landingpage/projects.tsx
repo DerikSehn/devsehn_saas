@@ -53,7 +53,10 @@ export default function Projects({ projects }: { projects: ModelWithImages<Proje
  */                )}
             </ZoomParallax>
         </div>
-        <ProjectShowcase project={projects[0]} />
+        {projects[0]?.images?.length ?
+            <ProjectShowcase project={projects[0]} />
+            : null
+        }
     </Section>
     )
 }
@@ -62,6 +65,7 @@ export default function Projects({ projects }: { projects: ModelWithImages<Proje
 const ProjectShowcase = ({ project }: { project: ModelWithImages<Project> }) => {
     return (
         <Section id="project-showcase" className="bg-primary-200 h-auto flex-col">
+
             <StickyScrollReveal content={project.images.map((image, index) => ({
                 title: index ? image.name : project.title,
                 description: (index ? image.description : project.description) as string,
