@@ -244,6 +244,7 @@ const handleImageIntegration = async (defaultForm: FormData, form: FormData) => 
         if (imagesWithoutId.length > 0) {
             // Handle creation for images without 'id'
             result = await handleCreateImage(imagesWithoutId);
+            console.log(result)
         } else {
             // No new images to create, use empty array or existing images
             result = { files: [] };
