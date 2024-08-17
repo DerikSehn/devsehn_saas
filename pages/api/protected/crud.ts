@@ -140,7 +140,7 @@ export async function handleCreateImage(data: RawFileProps): Promise<Image[]> {
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(`Falha ao enviar imagem: ${errorText}`);
+      throw new Error(errorText as any);
     }
 
     // Converte a resposta para JSON
@@ -150,7 +150,7 @@ export async function handleCreateImage(data: RawFileProps): Promise<Image[]> {
     return json;
   } catch (error) {
     console.error("Erro ao criar imagem:", error);
-    throw new Error("Não foi possível criar a imagem");
+    throw new Error(error as any);
   }
 }
 
