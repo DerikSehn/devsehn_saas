@@ -132,6 +132,7 @@ const TableItemEditor = ({ item, onClose = () => { }, tableName, method }: Table
 
         onClose({ item: res, method });
     };
+
     const handleDelete = async () => {
         const where = item!.id ? { id: item!.id } : {};
         const res = await handleApiRequest({ where }, tableName, 'delete');

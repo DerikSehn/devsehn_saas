@@ -2,6 +2,7 @@ import prisma, { handleGetColumns } from "@/lib/prisma";
 import { Image, Prisma, PrismaClient } from "@prisma/client";
 import { isObject } from "lodash";
 import type { NextApiRequest, NextApiResponse } from "next";
+import Error from "next/error";
 
 /**
  * @swagger
@@ -38,8 +39,8 @@ export default async function handler(
     const { method, data, table } = req.body;
     const result = await handleCrudRequest(data, table, method);
     res.status(200).json({ result });
-  } catch (err) {
-    res.status(500).json({ error: "failed to load data" });
+  } catch (err: any) {
+    res.status(500).json(err);
   }
 }
 
@@ -89,7 +90,7 @@ async function handleCrudRequest(
         return res;
     }
   } catch (error) {
-    throw new Error("Erro ao executar a operação");
+    throw new Error(error as any);
   }
 }
 
