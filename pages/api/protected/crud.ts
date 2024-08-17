@@ -2,7 +2,6 @@ import prisma, { handleGetColumns } from "@/lib/prisma";
 import { Image, Prisma, PrismaClient } from "@prisma/client";
 import { isObject } from "lodash";
 import type { NextApiRequest, NextApiResponse } from "next";
-import Error from "next/error";
 
 /**
  * @swagger
@@ -39,8 +38,8 @@ export default async function handler(
     const { method, data, table } = req.body;
     const result = await handleCrudRequest(data, table, method);
     res.status(200).json({ result });
-  } catch (err: any) {
-    res.status(500).json(err);
+  } catch (err) {
+    res.status(500).json({ error: "failed to load data" });
   }
 }
 
@@ -90,7 +89,7 @@ async function handleCrudRequest(
         return res;
     }
   } catch (error) {
-    throw new Error(error as any);
+    throw new Error("Erro ao executar a operação");
   }
 }
 
@@ -140,7 +139,7 @@ export async function handleCreateImage(data: RawFileProps): Promise<Image[]> {
     // Verifica se a resposta foi bem-sucedida
     if (!response.ok) {
       const errorText = await response.text();
-      throw new Error(errorText as any);
+      throw new Error(`Falha ao enviar imagem: ${errorText}`);
     }
 
     // Converte a resposta para JSON
@@ -150,7 +149,7 @@ export async function handleCreateImage(data: RawFileProps): Promise<Image[]> {
     return json;
   } catch (error) {
     console.error("Erro ao criar imagem:", error);
-    throw new Error(error as any);
+    throw new Error("Não foi possível criar a imagem");
   }
 }
 
