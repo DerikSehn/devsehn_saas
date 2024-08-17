@@ -100,7 +100,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         name: imageNames[index],
                         description: imageDescriptions[index],
                         projectId: fields.projectId ? fields.projectId[0] : null,
-                        userId: 'teste',
                     },
                 });
 
