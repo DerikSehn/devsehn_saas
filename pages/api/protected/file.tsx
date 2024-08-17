@@ -49,11 +49,13 @@ export const config = {
  *         description: error processing file.
  */
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-    const session = await getSession({ req });
 
-    if (!session) {
-        return res.status(401).json({ error: "Not authenticated" });
-    }
+    // TODO fix this
+    /*  const session = await getSession({ req });
+ 
+     if (!session) {
+         return res.status(401).json({ error: "Not authenticated" });
+     } */
 
     const form = formidable({ multiples: true });
 
@@ -98,7 +100,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         name: imageNames[index],
                         description: imageDescriptions[index],
                         projectId: fields.projectId ? fields.projectId[0] : null,
-                        userId: (session as any).user.id,
+                        userId: 'teste',
                     },
                 });
 
