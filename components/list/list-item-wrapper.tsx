@@ -72,7 +72,7 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
             try {
                 await onSubmit(props);
                 if (props.item?.error) {
-                    notify((props as any)!.item?.error/* 'Não foi possível efetuar as mudanças' */, { type: 'error', })
+                    notify('Não foi possível efetuar as mudanças', { type: 'error' })
                 } else switch (props?.method) {
                     case 'create':
                         notify('Novo Item Adicionado', { type: 'success' })
@@ -86,7 +86,7 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
 
                 }
             } catch (error) {
-                notify((error as any)/* 'Não foi possível efetuar as mudanças' */, { type: 'error' })
+                notify('Não foi possível efetuar as mudanças', { type: 'error' })
             }
         }
         toggleMenu();

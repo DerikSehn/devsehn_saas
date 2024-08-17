@@ -136,9 +136,8 @@ export async function handleCreateImage(data: RawFileProps): Promise<Image[]> {
       body: formData,
     });
 
-    console.log(response);
     // Verifica se a resposta foi bem-sucedida
-    if ((response as any)?.error) {
+    if (!response.ok) {
       const errorText = await response.text();
       throw new Error(`Falha ao enviar imagem: ${errorText}`);
     }
