@@ -1,9 +1,10 @@
 import prisma from "@/lib/prisma";
-import { uploadFileToS3 } from "@/services/s3-service";
+import { uploadDirectoryToS3, uploadFileToS3 } from "@/services/s3-service";
 import { ImageType } from "@/types/image-type";
 import { Image } from "@prisma/client";
 import { Fields, Files } from "formidable";
 import { Session } from "next-auth";
+import path from "path";
 
 export async function handleFileUpload(
   files: Files,

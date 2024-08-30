@@ -68,7 +68,7 @@ const LINKS = [
         {
             icon: <File />,
             name: "Documentação",
-            href: '/admin/api=doc'
+            href: '/admin/api-doc'
         }]
     }
 ];
