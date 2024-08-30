@@ -93,7 +93,7 @@ export const handleImageIntegration = async (defaultForm: any, form: any) => {
     const isId = ["image", "imageId"].includes(key);
     if (isId) {
       const thisImage = form["image"];
-      if (defaultForm["image"]?.url !== thisImage.url) {
+      if (defaultForm?.["image"]?.url !== thisImage?.url) {
         image = {
           id: !isNaN(value as any) && value,
           ...(isArray(form["image"]) ? form["image"][0] : form["image"]),

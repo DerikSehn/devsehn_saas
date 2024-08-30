@@ -9,14 +9,14 @@ import { useCallback } from "react";
 export const useTableItemEditor = ({ item, tableName, method, onClose }: TableItemEditorProps) => {
     const columns = useColumns(tableName);
     const formSchema = useFormSchema(columns);
-
+    console.log(method)
     // TODO verify if is possible to handle the image inventory via backend
     const onSubmit = useCallback(async (data: any) => {
         const changedData = getChangedFields(item, data)
         console.log(changedData)
         let newData: any = {
             ...changedData,
-            id: item?.id,
+            ...(method !== 'create' ? { id: item?.id } : {}),
         }
 
         console.log(newData)

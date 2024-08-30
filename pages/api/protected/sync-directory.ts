@@ -34,12 +34,13 @@ export default async function handler(req: any, res: any) {
   try {
     const { directory, newBaseUrl } = req.body;
 
-    await uploadDirectoryToS3(directory);
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    /*  await uploadDirectoryToS3(directory);
+    await new Promise((resolve) => setTimeout(resolve, 5000)); */
     await updateImageUrls(newBaseUrl);
 
     res.status(200).json({ message: "success" });
   } catch (err) {
+    console.log(err);
     res.status(500).json({ error: err });
   }
 }
