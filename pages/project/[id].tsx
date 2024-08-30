@@ -11,7 +11,7 @@ const ProjectPage = ({ project }: { project: ModelWithImages<ProjectType> }) => 
         <div className="absolute w-full h-96 bg-primary-200">
             <Image
                 className="z-0 blur-2xl object-cover saturate-50 brightness-[.25] opacity-70"
-                src={project.images[0].url} alt={project.images[0].name} fill />
+                src={project.images[0]?.url || ""} alt={project.images[0].name} fill />
 
         </div>
         <div className="absolute w-full h-[200dvh] top-96 bg-primary-300" />
@@ -36,7 +36,7 @@ const ProjectPage = ({ project }: { project: ModelWithImages<ProjectType> }) => 
                 <div className="relative z-10 w-full md:-translate-y-1/4">
                     <Image
                         className="max-w-full max-h-full object-cover "
-                        src={project.images[0].url} alt={project.images[0].name} fill />
+                        src={project.images[0]?.url || ""} alt={project.images[0].name} fill />
                 </div>
             </div>
             <div />

@@ -3,6 +3,7 @@ import { cn } from "@/lib/utils";
 import { useState } from 'react';
 import { z } from "zod";
 import { Button } from "../button";
+import { SendIcon } from "lucide-react";
 
 export default function InputCTA({ description }: { description: string }) {
     const notify = useToast();
@@ -50,7 +51,7 @@ export default function InputCTA({ description }: { description: string }) {
         <form onSubmit={handleSubmit} className="relative">
             <div className="flex flex-col items-start space-y-3 rounded-md max-w-2xl xl:max-w-3xl">
                 <div className="leading-10">
-                    <p className="text-sm font-semibold md:text-xl dark:text-gray-200 xl:max-w-2xl px-4">
+                    <p className="text-sm font-semibold md:text-md lg:text-lg dark:text-gray-800 xl:max-w-2xl ">
                         {description}
                     </p>
                 </div>
@@ -61,17 +62,19 @@ export default function InputCTA({ description }: { description: string }) {
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         placeholder="Insira seu e-mail"
-                        className="w-full  rounded-full p-4 px-4 border-2 border-neutral-100 bg-neutral-200 transition-colors focus:bg-neutral-100 hover:bg-neutral-100 text-neutral-600 h-full"
+                        className="w-full  rounded-2xl p-4 px-4 border-2 border-gray-100 bg-gray-300 transition-colors focus:bg-gray-100 hover:bg-gray-100 text-gray-900 placeholder:text-gray-900 h-full"
                         required
                     />
                     <Button
                         variant={'swipe'}
                         disabled={loading}
-                        className={cn(`p-3 px-4 h-full w-32 absolute right-0 z-10 ${loading ? 'bg-secondary-600 text-neutral-400 border-secondary-600 cursor-not-allowed' : 'bg-secondary-400 text-neutral-600 border-neutral-100 hover:bg-secondary-300 hover:text-neutral-700'}`)}
+                        className={cn(`p-3 group transition-all hover:pr-10 rounded-2xl px-4 h-full w-32 absolute right-0 z-10 ${loading ? 'bg-gray-600 text-gray-200 border-gray-600 cursor-not-allowed' : 'bg-gray-400 text-gray-800 border-gray-100 hover:bg-gray-300 hover:text-gray-200'}`)}
                         type="submit"
                     >
                         {loading ? 'Enviando...' : 'Enviar'}
+                        <SendIcon className="absolute opacity-0 transition-all duration-500 rotate-12 group-hover:rotate-0 group-hover:opacity-100 right-2 translate-x-10 group-hover:translate-x-0" />
                     </Button>
+
                 </div>
             </div>
         </form>

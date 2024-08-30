@@ -28,7 +28,12 @@ const nextConfig = {
         port: "",
         pathname: "/email/**",
       },
-      /* https://lh3.googleusercontent.com/a-/ALV-UjWqrLxJhbPVeY2EAWpsQ2jOumWRUxC490fKN6U1XpoJhs7XzM0o=s128-c0x00000000-cc-rp-mo */
+      {
+        protocol: "https",
+        hostname: "cultura-verde-bucket.s3.sa-east-1.amazonaws.com",
+        port: "",
+        pathname: "/**",
+      },
       {
         protocol: "https",
         hostname: "lh3.googleusercontent.com",
@@ -47,14 +52,6 @@ const nextConfig = {
     return config;
   },
 
-  async rewrites() {
-    return [
-      {
-        source: '/uploads/:path*',
-        destination: '/public/uploads/:path*',
-      },
-    ];
-  },
 };
 
 export default nextConfig;

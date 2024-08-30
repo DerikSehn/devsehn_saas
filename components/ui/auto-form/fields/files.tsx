@@ -2,19 +2,24 @@ import TableItemWrapper, { OnSubmitProps } from "@/components/list/list-item-wra
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { Image as ImageType } from "@prisma/client";
+import { handleApiRequest } from "@/services/crud-service";
+import { ImageType } from "@/types/image-type";
 import { isArray, isObject } from "lodash";
+import { Trash } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import ImageEditor from "../../image/image-editor";
 import AutoFormLabel from "../common/label";
 import AutoFormTooltip from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
+import { useToast } from "@/components/providers/toast-provider";
+
 
 interface FileWithDescription {
-    file: File;
+    file?: File;
     image: ImageType;
 }
+
 export default function AutoFormFiles({
     label,
     isRequired,
@@ -26,57 +31,36 @@ export default function AutoFormFiles({
     const showLabel = _showLabel === undefined ? true : _showLabel;
     const [files, setFiles] = useState<FileWithDescription[] | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
-
-
-    const convertImagesToItem = async () => {
-
-        let res = undefined;
-        if (isArray(field.value)) {
-            res = await Promise.all(field.value.map(async (image) => {
-                const file = await createFileFromUrl(image.url, image.name);
-                return { file, image };
-            }
-            ));
-            setFiles(res);
-        } else if (isObject(field.value)) {
-            /* @ts-ignore */
-            res = await createFileFromUrl(field.value.url, field.value.name);
-            /* @ts-ignore */
-            setFiles({ file: res, image: field.value });
-        }
-
-    }
+    const notify = useToast();
 
     useEffect(() => {
-        convertImagesToItem();
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [])
-
+        if (isArray(field.value)) {
+            setFiles(field.value.map((image: ImageType) => ({ image })));
+        } else if (isObject(field.value)) {
+            setFiles([{ image: field.value as ImageType }]);
+        }
+    }, [field.value]);
 
     const handleAddFile = (e: ChangeEvent<HTMLInputElement>) => {
-
         const file = e.target.files?.[0];
+        if (!file) return;
+
+        const newImage = {
+            name: file.name,
+            description: "",
+            url: URL.createObjectURL(file)
+        };
 
         if (fieldProps.multiple) {
-            setFiles(pvSt => {
-                const obj = [...(pvSt || []), { file } as any]
-                field.onChange(obj);
-                return obj
+            setFiles(prevState => {
+                const updatedFiles = [...(prevState || []), { file, image: newImage }];
+                field.onChange(updatedFiles.map(f => f.image));
+                return updatedFiles;
             });
-
         } else {
-            setFiles({ file } as any);
-            field.onChange({
-                file, image: {
-                    name: file!.name,
-                    description: "",
-                    url: URL.createObjectURL(file!)
-                }
-            });
-
+            setFiles([{ file, image: newImage as ImageType }]);
+            field.onChange(newImage);
         }
-
-
     };
 
     const handleImageClick = (e: any) => {
@@ -87,31 +71,44 @@ export default function AutoFormFiles({
         }
     };
 
-    const handleSingleChange = (index: number) => (
-        props: OnSubmitProps
-    ) => {
-        const { item: { file, image }, method } = props;
+    const handleImageDelete = async (index: number) => {
+        const newFiles = (files || []).filter((_, i) => i !== index);
+        setFiles(newFiles);
+        if (files?.[index].image?.id) {
+            const data = {
+                where: {
+                    id: files[index].image.id
+                }
+            }
+            const res = await handleApiRequest(data, 'image', 'delete')
+            console.log(res)
+            notify('Item removido', { type: 'info' })
+        }
+        field.onChange(newFiles.map(f => f.image));
+        console.log
+    };
 
+    const handleSingleChange = (index: number) => (props: OnSubmitProps) => {
+        const { item: { file, image }, method } = props;
         let newFiles = [...(files || [])];
         switch (method) {
             case 'create':
                 newFiles = [...(files || []), { file, image }];
                 break;
             case 'update':
-                newFiles[index] = { file, image } as any;
+                newFiles[index] = { file, image };
                 break;
             case 'delete':
-                newFiles = (files || []).filter((f) => f.file.name !== file.name);
+                newFiles = newFiles.filter((_, i) => i !== index);
                 break;
         }
-
         setFiles(newFiles);
-        field.onChange(newFiles);
+        field.onChange(newFiles.map(f => f.image));
     };
 
+    const FcFirstImage = ({ onClick, src, className, index }: { onClick: any, src?: string, className?: string, index?: number }) => {
+        return (<span className="w-full relative group">
 
-    const FcFirstImage = ({ onClick, src, className }: { onClick: any, src?: string, className?: string }) => {
-        return (
             <Image
                 alt="Product image"
                 className={cn("aspect-square w-full rounded-md object-cover transition-all hover:opacity-75 cursor-pointer hover:brightness-90 ",
@@ -119,10 +116,23 @@ export default function AutoFormFiles({
                     className)}
                 height="300"
                 key={src}
-                src={src || "/placeholder.svg"}
+                src={src || '/uploads/image-upload.svg'}
                 width="300"
                 onClick={onClick}
             />
+            {index !== undefined ?
+                <button
+                    title="Remover Imagem"
+                    className="absolute z-20 right-0 top-0 aspect-square rounded-bl-xl p-1 bg-white transition-all"
+                    onClick={(e) => { e.preventDefault(); handleImageDelete(index) }}
+                    aria-label="Remover imagem">
+                    <Trash className="text-red-500 hover:text-neutral-300" size={30} />
+                </button>
+
+
+                : null
+            }
+        </span>
         )
     }
 
@@ -150,33 +160,30 @@ export default function AutoFormFiles({
                                 <TableItemWrapper
                                     variant="modal"
                                     onSubmit={handleSingleChange(0)}
-                                    clickArea={<FcFirstImage src={URL.createObjectURL(files[0]?.file) || files[0]?.image?.url} onClick={handleImageClick} />}
+                                    clickArea={<FcFirstImage src={files[0]?.image?.url} index={0} onClick={handleImageClick} />}
                                 >
                                     <ImageEditor isRequired={isRequired} label={fieldConfigItem?.label || label} file={files[0]?.file} image={files[0]?.image} onClose={handleSingleChange(0)} />
                                 </TableItemWrapper>
-                                : <FcFirstImage src={!fieldProps.multiple && ((files as any)?.file ? (isObject((files as any)?.file) && URL.createObjectURL((files as any)?.file)) : (files as any)?.image?.url)} onClick={handleImageClick} />
+                                : <FcFirstImage src={!fieldProps.multiple && files?.[0]?.image?.url || ""} index={0} onClick={handleImageClick} />
                             }
                         </div>
                         <div className="grid grid-cols-3 gap-2">
                             {files?.length === 1 ?
-                                <FcFirstImage onClick={handleImageClick} src={'/uploads/image-upload.svg'} className="border-dashed border-2 border-gray-300 rounded-md object-contain" />
-                                : isArray(files) ? <>
-                                    {files?.slice(1).map(({ file, image }, index) => (
+                                <FcFirstImage onClick={handleImageClick} className="border-dashed border-2 border-gray-300 rounded-md object-contain" />
+                                : isArray(files) && fieldProps.multiple ? <>
+                                    {files?.slice(1).map(({ image }, index) => (
                                         <TableItemWrapper
                                             key={index}
                                             variant="modal"
                                             onSubmit={handleSingleChange(index + 1)}
-                                            clickArea={<FcFirstImage src={URL.createObjectURL(file) || image?.url} onClick={handleImageClick} />}
+                                            clickArea={<FcFirstImage index={index + 1} src={image?.url} onClick={handleImageClick} />}
                                         >
-                                            <ImageEditor isRequired={isRequired} label={fieldConfigItem?.label || label} file={file} image={image} onClose={handleSingleChange(index + 1)} />
+                                            <ImageEditor isRequired={isRequired} label={fieldConfigItem?.label || label} file={undefined} image={image} onClose={handleSingleChange(index + 1)} />
                                         </TableItemWrapper>
-
                                     ))}
                                     <FcFirstImage onClick={handleImageClick} />
                                 </> : null
                             }
-
-
                             <FormControl >
                                 <input
                                     type="file"
@@ -197,25 +204,3 @@ export default function AutoFormFiles({
         </Card >
     );
 }
-
-async function createFileFromUrl(url: string, filename: string): Promise<File> {
-    try {
-        // Fetch the image data
-        const response = await fetch(url);
-        if (!response.ok) {
-            throw new Error('Failed to fetch the image.');
-        }
-
-        // Convert the response to a Blob
-        const blob = await response.blob();
-
-        // Create a File from the Blob
-        const file = new File([blob], filename, { type: blob.type });
-
-        return file;
-    } catch (error) {
-        console.error('Error creating file from URL:', error);
-        throw error;
-    }
-}
-

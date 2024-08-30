@@ -35,7 +35,6 @@ export default async function handler(
 ) {
   const { query } = req.query as any;
   const tableName = req.query.table_name;
-
   /* where name or description ( if exists) like '%query%' */
   const where = handleGetColumns(tableName as any)?.reduce(
     (acc: any, curr: any) => {
@@ -58,6 +57,6 @@ export default async function handler(
 
     res.status(200).json(result);
   } catch (error) {
-    res.status(500).json({ error: "Failed to load data" });
+    res.status(500).json({ error });
   }
 }

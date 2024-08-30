@@ -1,4 +1,4 @@
-import repeatPattern from '@/lib/repeat-pattern';
+import repeatPattern from '@/lib/utils/repeat-pattern';
 import { cn } from '@/lib/utils';
 import { ModelWithImage, ModelWithImages } from '@/prisma/prisma-utils';
 import { Image as ImageType, Project } from '@prisma/client';

@@ -3,9 +3,8 @@ generator client {
 }
 
 datasource db {
-  provider  = "postgresql"
-  url       = env("POSTGRES_PRISMA_URL")
-  directUrl = env("POSTGRES_URL_NON_POOLING")
+  provider = "postgresql"
+  url      = env("POSTGRES_PRISMA_URL")
 }
 
 model User {
@@ -77,7 +76,7 @@ model Image {
   id          Int          @id @default(autoincrement())
   name        String
   description String?
-  url         String
+  url         String?
   createdAt   DateTime     @default(now())
   updatedAt   DateTime     @updatedAt
   projectId   Int?
@@ -108,10 +107,10 @@ model Service {
   id          Int      @id @default(autoincrement())
   title       String
   description String
-  image       Image    @relation(fields: [imageId], references: [id])
+  image       Image?   @relation(fields: [imageId], references: [id])
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
-  imageId     Int
+  imageId     Int?
 }
 
 model EmailTemplate {
@@ -184,17 +183,29 @@ model PasswordResetToken {
 // Novas tabelas para e-commerce
 
 model Product {
-  id          Int         @id @default(autoincrement())
+  id          Int              @id @default(autoincrement())
   name        String
   description String
   price       Float
   stock       Int
-  unitType    String      @default("un")
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  unitType    String           @default("un")
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
   images      Image[]
   categories  Category[]
   orders      OrderItem[]
+  supplier    ProductSupplier? @relation(fields: [supplierId], references: [id])
+  supplierId  Int?
+}
+
+model ProductSupplier {
+  id        Int       @id @default(autoincrement())
+  name      String
+  email     String
+  phone     String
+  products  Product[]
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
 }
 
 model Category {

@@ -4,19 +4,18 @@ import Sidebar from '@/components/sidebar/sidebar';
 import prisma from '@/lib/prisma';
 import { cn } from '@/lib/utils';
 import { ModelWithImages } from '@/prisma/prisma-utils';
+import { handleApiRequest } from '@/services/crud-service';
 import { Category as CategoryType, Product as ProductType } from '@prisma/client';
 import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { handleApiRequest } from './api/protected/crud';
 
 const ProductPage = ({ categories, initialProducts }: { categories: CategoryType[], initialProducts: ModelWithImages<ProductType>[] }) => {
     const [products, setProducts] = useState<ModelWithImages<ProductType>[]>(initialProducts);
     const router = useRouter();
     const { category } = router.query;
-    console.log(initialProducts)
     const links = [
         {
             title: "Pesquisar por categoria",
@@ -28,7 +27,6 @@ const ProductPage = ({ categories, initialProducts }: { categories: CategoryType
     ];
     useEffect(() => {
         const fetchProducts = async () => {
-            console.log(category);
 
             const response = await handleApiRequest({
                 where: category === 'Todos' ? {} : {
@@ -40,7 +38,6 @@ const ProductPage = ({ categories, initialProducts }: { categories: CategoryType
                 },
             }, "product", 'findMany');
 
-            console.log(response);
             setProducts(response?.result || []);
         };
 
@@ -70,7 +67,7 @@ const ProductPage = ({ categories, initialProducts }: { categories: CategoryType
                             </h2>
                             <li className='flex space-x-2'>
                                 {items.map(({ href, name }, index) => (
-                                    <Link prefetch={false} key={index} href={category === name ? `/products` : href} className={cn('flex w-auto hover:bg-neutral-200/70 p-2 rounded-md active:bg-neutral-200/80', category === name && 'bg-secondary-300/10')}>
+                                    <Link prefetch={false} key={index} href={category === name ? `/products` : href} className={cn('flex w-auto hover:bg-neutral-200/70 p-2 rounded-md active:bg-neutral-200/80', category === name && 'bg-gray-300/10')}>
                                         <div className='text-neutral-600 whitespace-nowrap overflow-hidden'>
                                             {name}
                                         </div>
@@ -105,7 +102,6 @@ export default ProductPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
     const { category = 'Todos' } = context.query;
-    console.log(category)
     const categories = await prisma.category.findMany();
     const products = category === 'Todos'
         ? await prisma.product.findMany({
@@ -115,7 +111,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
             where: { categories: { some: { name: category as string } } },
             include: { images: true, categories: true }
         });
-    console.log(products)
 
     return {
         props: {

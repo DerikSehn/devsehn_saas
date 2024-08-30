@@ -13,13 +13,58 @@ import { Prata, Yeseva_One } from 'next/font/google';
 import Contact from "./contact";
 
 
+export const getServerSideProps = (async () => {
 
-export default function Home({ projects, testimonials, services, partners, sections }: { projects: ModelWithImages<Project>[], testimonials: ModelWithImage<Testimonial>[], services: ModelWithImage<Service>[], partners: ModelWithImage<Partner>[], sections: ModelWithImages<Section>[] }) {
+  const projects = await prisma.project.findMany({
+    orderBy: {
+      id: 'asc'
+    },
+    take: 6,
+    include: {
+      images: {
+        orderBy: {
+          id: 'asc'
+        }
+      }
+    }
+  });
+  const sections = await prisma.section.findMany({
+    orderBy: {
+      id: 'asc'
+    },
+    take: 3,
+    include: {
+      images: {
+        orderBy: {
+          id: 'asc'
+        }
+      }
+    }
+  });
+  const partners = await prisma.partner.findMany({ include: { image: true } });
+  const testimonials = await prisma.testimonial.findMany({ take: 10, include: { image: true } });
+  const services = await prisma.service.findMany({ include: { image: true } });
+
+  const heroImages = projects.map(project => project.images[0]?.url || "");
+
+  return { props: { projects, testimonials, services, partners, sections, heroImages } }
+})
+
+interface HomePageProps {
+  heroImages: string[],
+  projects: ModelWithImages<Project>[],
+  testimonials: ModelWithImage<Testimonial>[],
+  services: ModelWithImage<Service>[],
+  partners: ModelWithImage<Partner>[],
+  sections: ModelWithImages<Section>[]
+}
+
+export default function Home({ projects, testimonials, services, partners, sections, heroImages }: HomePageProps) {
 
   return (<div className="relative z-0">
     <Page className={`relative z-1  ${yeseva_one.className} ${prata.className}`}>
       <div className="flex flex-col w-full min-h-[100vh] bg-primary-300">
-        <Hero />
+        <Hero heroImages={heroImages} />
         <HeroCards services={services} />
         <Projects projects={projects} />
         {/* <About /> */}
@@ -50,39 +95,4 @@ const prata = Prata({
   weight: '400',
   subsets: ['latin'],
   display: 'swap',
-})
-
-export const getServerSideProps = (async () => {
-
-  const projects = await prisma.project.findMany({
-    orderBy: {
-      id: 'asc'
-    },
-    take: 5,
-    include: {
-      images: {
-        orderBy: {
-          id: 'asc'
-        }
-      }
-    }
-  });
-  const sections = await prisma.section.findMany({
-    orderBy: {
-      id: 'asc'
-    },
-    take: 3,
-    include: {
-      images: {
-        orderBy: {
-          id: 'asc'
-        }
-      }
-    }
-  });
-  const partners = await prisma.partner.findMany({ include: { image: true } });
-  const testimonials = await prisma.testimonial.findMany({ take: 10, include: { image: true } });
-  const services = await prisma.service.findMany({ include: { image: true } });
-
-  return { props: { projects, testimonials, services, partners, sections } }
 })

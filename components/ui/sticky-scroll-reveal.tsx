@@ -1,7 +1,13 @@
 "use client";
-import { cn, getIsMobile } from "@/lib/utils";
+import { cn, useIsMobile } from "@/lib/utils";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
+
+const linearGradients = [
+    "linear-gradient(to bottom right, var(--gray-100), var(--primary-100))",
+    "linear-gradient(to bottom right, var(--primary-200), var(--primary-500))",
+    "linear-gradient(to bottom right, var(--gray-100), var(--primary-100))",
+];
 
 const StickyScrollReveal = ({
     content,
@@ -41,19 +47,13 @@ const StickyScrollReveal = ({
     });
 
     // eslint-disable-react-hooks/rules-of-hooks
-    const imageY = getIsMobile(768) ? null : useTransform(scrollYProgress, [0, 1], [`${0}%`, `${100 - 100 / cardLength}%`]);
+    const imageY = useIsMobile(768) ? null : useTransform(scrollYProgress, [0, 1], [`${0}%`, `${100 - 100 / cardLength}%`]);
 
     const backgroundColors = bgColors || [
         "var(--primary-200)",
-        "var(--ebony-100)",
+        "var(--primary-100)",
         "var(--neutral-900)",
     ];
-    const linearGradients = [
-        "linear-gradient(to bottom right, var(--secondary-100), var(--primary-100))",
-        "linear-gradient(to bottom right, var(--ebony-200), var(--ebony-500))",
-        "linear-gradient(to bottom right, var(--secondary-100), var(--primary-100))",
-    ];
-
     const [backgroundGradient, setBackgroundGradient] = useState(
         linearGradients[0]
     );

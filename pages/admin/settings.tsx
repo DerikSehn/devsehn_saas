@@ -8,7 +8,7 @@ import { Separator } from "@/components/ui/separator";
 import { ModelWithImage } from "@/prisma/prisma-utils";
 import { InfoIcon, SettingsIcon } from "lucide-react";
 import Image from "next/image";
-import CryptoJS from "crypto-js";
+
 export async function getServerSideProps() {
 
     const infos = await prisma.setting.findMany({

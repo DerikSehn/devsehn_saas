@@ -47,7 +47,7 @@ export const ServiceCard = ({ item, className }: { item: ModelWithImage<Service>
                         <Image
                             alt={`service${item.title}`}
                             fill
-                            src={item?.image?.url}
+                            src={item?.image?.url || ""}
                             style={{
                                 aspectRatio: "40/40",
                                 objectFit: "cover",

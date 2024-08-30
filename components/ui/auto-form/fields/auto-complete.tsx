@@ -43,6 +43,7 @@ export default function AutoFormComplete({
                     onInputChange={handleFetchOptions}
                     placeholder="Digite para pesquisar..."
                     disableFilter={true}
+                    
                     defaultValue={field?.value?.map((item: any) => ({ id: item.id, label: item?.title || item?.name }))}
                     onSelect={handleSelect}
                 />

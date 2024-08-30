@@ -22,7 +22,7 @@ export default function Polaroid({ src, alt, height, width, rotation = 0, classN
     return (
         <motion.div
             style={{ rotate: rotation }}
-            className={twMerge("pt-10  pb-8 px-3 aspect-[.9] bg-gradient-to-b from-neutral-900 to-neutral-700 m-[10%] shadow-neutral-300 shadow-xl cursor-grab", className)}
+            className={twMerge("pt-10  pb-8 px-3 aspect-[.9] bg-gradient-to-b from-white to-white-400 m-[10%] shadow-gray-300 shadow-xl cursor-grab", className)}
             variants={polaroidVariants}
             whileTap="tap"
             whileHover="hover"
@@ -33,9 +33,9 @@ export default function Polaroid({ src, alt, height, width, rotation = 0, classN
                 height={height}
 
                 width={width}
-                className="w-full object-cover aspect-[.8] border border-neutral-800 brightness-90 saturate-[1.1] "
+                className="w-full object-cover aspect-[.8] border border-gray-800 brightness-90 saturate-[1.1] "
             />
-            <p className='font-moglan text-neutral-800 py-4 inset-x-10  text-center'>
+            <p className='font-moglan text-gray-400 py-4 inset-x-10  text-center'>
                 {title}
             </p>
         </motion.div>

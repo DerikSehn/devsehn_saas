@@ -80,7 +80,7 @@ const ProjectItem = ({ project }: { project: ModelWithImages<ProjectType> }) => 
                         {project.description}
                     </CardDescription> */}
                 </CardHeader>
-                <Image src={project.images[0].url} alt={project.title} fill className=" opacity-100 lg:opacity-90 group-hover:opacity-80  transition-all duration-500 object-cover object-center " />
+                <Image src={project.images[0]?.url || ""} alt={project.title} fill className=" opacity-100 lg:opacity-90 group-hover:opacity-80  transition-all duration-500 object-cover object-center " />
             </Card>
             <div className="p-4  bg-background">
                 <h3 className="font-semibold line-clamp-2">{project.title}</h3>

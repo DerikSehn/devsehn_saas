@@ -1,4 +1,4 @@
-import { CrudRequest } from '@/pages/api/protected/crud';
+import { CrudRequest } from '@/types/crud';
 import { Prisma, PrismaClient } from '@prisma/client'
 
 const prismaClientSingleton = () => {
@@ -46,4 +46,11 @@ export async function getAsyncColumns(modelName: CrudRequest['table']) {
 
     const json = await response.json();
     return json;
+}
+
+export async function getLastImageId() {
+    const lastImage = await prisma.image.findFirst({
+        orderBy: { id: 'desc' }
+    });
+    return lastImage ? lastImage.id : 0;
 }

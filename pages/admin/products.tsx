@@ -14,8 +14,9 @@ export async function getServerSideProps() {
 
     const products = await prisma.product.findMany({
         include: {
+            categories: true,
             images: true,
-            categories: true
+            supplier: true
         }
     })
 

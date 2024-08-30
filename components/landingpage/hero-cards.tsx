@@ -1,67 +1,84 @@
-import { getIsMobile } from "@/lib/utils";
+import { useIsMobile, useIsSmall } from "@/lib/utils";
 import { ModelWithImage } from "@/prisma/prisma-utils";
 import { Service } from "@prisma/client";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
-import { Card, CardDescription, CardHeader, CardTitle } from "../ui/card";
-import SectionHeader from "./section/section-header";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../ui/card";
+import HorizontalScrollCarousel from "../ui/scroll/horizontal-scroll";
 
 
 export default function HeroCards({ services }: { services: ModelWithImage<Service>[] }) {
 
     const ref = useRef(null);
 
+
     const { scrollYProgress } = useScroll({
         target: ref,
-        offset: ['start end', 'end start']
+        offset: ['start end', 'start start'],
     });
 
-    const isMobile = getIsMobile(1260)
-    const yTransforms = services.slice(0, 4).map((service, index) =>
-        isMobile ? null : useTransform(scrollYProgress, [0, 0.5], [`${(((index + 1) * -10) + 5)}vw`, `0vw`])
-    );
+    const borderTopRightRadius = useTransform(scrollYProgress, [0, 1], ['80%', '0%']);
+
+
+
     return (
-        <div ref={ref} className="relative z-10 w-full flex flex-col justify-center text-center items-center  -translate-y-[5%]     bg-primary-300 py-5 lg:p-0 lg:h-[80vh] ">
+        <motion.div
+            style={{
+                borderTopRightRadius: useIsSmall() ? '0%' : borderTopRightRadius,
+            }}
+            ref={ref}
+            className="h-auto relative  z-10 w-full py-0 md:py-0 lg:py-0 flex flex-col justify-start border-gray-200 border-[32px] bg-gray-200"
+        >
 
-            <SectionHeader
-                className="z-[15] "
-                title="Serviços"
-                subtitle="Áreas de atuação"
-            />
 
-            <Image
-                alt="Hero Image"
-                fill
-                className="object-cover object-center z-0 -scale-x-100 -scale-y-100 select-none    blur-sm"
-                src="/hero/vector.png" />
-            <div className=" absolute inset-0 bg-gradient-to-t from-primary-300 from-20% z-10" />
-            <div className=" relative max-w-screen-2xl w-full z-20 min-h-[400px]  grid sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 justify-center space-y-10 lg:space-y-0 gap-4 lg:gap-6 px-4 ">
+            <HorizontalScrollCarousel
+                content={
+                    <div className={" space-y-2 text-center my-10 mx-auto flex flex-col items-center justify-center  h-1/4 w-full col-span-full"}>
+                        <h3 className="inline-block rounded-lg bg-gray-900 px-3 py-1 text-sm dark:bg-gray-500 text-gray-300 ">
+                            Áreas de atuação
+                        </h3>
+                        <span className="text-3xl sm:text-4xl lg:text-5xl font-light tracking-wide max-w-screen-md text-primary-600 font-moglan">
+                            O que
+                            <h2 className="text-5xl sm:text-6xl lg:text-7xl">
+                                Fazemos
+                            </h2>
+                        </span>
+                    </div>
+                }
 
-                {services.slice(0, 4)?.map((service, index) =>
+                className="overflow-x-clip  w-full z-20 min-h-[400px]    justify-center gap-4 lg:gap-6   ">
+
+                {services.map((service, index) =>
                     <motion.div
-                        style={isMobile ? {} : { y: yTransforms[index] } as any}
                         key={index}
                     >
                         <HeroCard key={index} service={service} />
                     </motion.div>
                 )}
-            </div>
-        </div >
+            </HorizontalScrollCarousel>
+        </motion.div >
     )
 }
 export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
     return (
-        <Card className="relative lg:absolute rounded-md group w-full  h-dvh sm:h-auto bg-primary-300 backdrop-blur aspect-[3/4] transition-all duration-500 overflow-hidden  border-none" >
-            <CardHeader className=" relative z-20 text-neutral-100 font-sans bg-gradient-to-b from-primary-400/30 to-50% to-primary-500/30 h-full flex justify-center space-y-4 text-center">
-                <CardTitle className="text-neutral-100 font-sans text-4xl font-bold">{service.title}</CardTitle>
-                <CardDescription
-                    style={{
-                        textShadow: '2px 2px 10px  black'
-                    }}
-                    className="lg:opacity-0 group-hover:opacity-100 transition-opacity duration-300 text-neutral-100 font-sans text-sm">{service.description}</CardDescription>
+        <Card className="relative w-[300px]  lg:w-[350px] xl:w-[400px]  bg-gray-400 text-gray-800 text-left rounded-2xl shadow-md p-2">
+            <CardHeader className="relative h-72">
+                {service.image?.url ?
+                    <Image
+                        src={service.image.url}
+                        alt={service.title}
+                        layout="fill"
+                        objectFit="cover"
+                        className="rounded-t-lg"
+                    />
+                    : <div className="absolute inset-0 bg-gray-600 z-0" />
+                }
             </CardHeader>
-            <Image src={service.image.url} alt={service.title} fill className=" opacity-100 lg:opacity-90 group-hover:opacity-40 group-hover:blur transition-all duration-500 object-cover object-center " />
+            <CardContent className="relative z-50 -mt-40 -ml-1 pt-3 min-h-52 rounded-tr-3xl bg-gray-400 w-[80%]">
+                <CardTitle className="text-xl font-semibold my-4">{service.title}</CardTitle>
+                <CardDescription className="text-md">{service.description}</CardDescription>
+            </CardContent>
         </Card>
     );
 }

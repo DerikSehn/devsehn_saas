@@ -54,7 +54,7 @@ export const ProductCard = ({ item, className, readOnly }: { item: any, classNam
 
                     <p>{new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(item.price)}</p>
 
-                    <Button onClick={goToWhatsapp} variant="swipe" size="sm" className="flex items-center gap-2 z-10 border-neutral-100 hover:bg-secondary-300 bg-secondary text-primary-200 hover:text-neutral-700">
+                    <Button onClick={goToWhatsapp} variant="swipe" size="sm" className="flex items-center gap-2 z-10 border-neutral-100 hover:bg-gray-300 bg-gray text-primary-200 hover:text-neutral-700">
                         <Coins className="h-4 w-4 mr-2" />
                         <span className="text-neutral-600">
                             Comprar

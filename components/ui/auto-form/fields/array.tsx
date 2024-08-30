@@ -45,8 +45,8 @@ export default function AutoFormArray({
   const itemDefType = isZodArray(item)
     ? item._def.type
     : isZodDefault(item)
-    ? item._def.innerType._def.type
-    : null;
+      ? item._def.innerType._def.type
+      : null;
 
   return (
     <AccordionItem value={name} className="border-none">
@@ -64,7 +64,7 @@ export default function AutoFormArray({
               />
               <div className="my-4 flex justify-end">
                 <Button
-                  variant="secondary"
+                  variant="gray"
                   size="icon"
                   type="button"
                   className="hover:bg-zinc-300 hover:text-black focus:ring-0 focus:ring-offset-0 focus-visible:ring-0 focus-visible:ring-offset-0 dark:bg-white dark:text-black dark:hover:bg-zinc-300 dark:hover:text-black dark:hover:ring-0 dark:hover:ring-offset-0 dark:focus-visible:ring-0 dark:focus-visible:ring-offset-0"
@@ -80,7 +80,7 @@ export default function AutoFormArray({
         })}
         <Button
           type="button"
-          variant="secondary"
+          variant="gray"
           onClick={() => append({})}
           className="mt-4 flex items-center"
         >

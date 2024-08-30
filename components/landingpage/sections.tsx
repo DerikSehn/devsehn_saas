@@ -57,18 +57,16 @@ const SectionItem = ({ section, className }: { section: ModelWithImages<SectionT
 
         <Link href={`/section/${section.slug}`} className={cn("flex group flex-col justify-center items-center w-full relative h-auto min-h-[50%] cursor-pointer", className)}>
             <motion.div
-                transition={{ duration: 1.3, type: "tween" }}
-                initial={{ opacity: 0, y: 100, }}
-                whileInView={{
-                    opacity: 1,
-                    width: '80%',
-                    y: 0
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{
+                    delay: .5,
                 }}
                 className="absolute w-1/2 left-0 h-full aspect-[3/4] overflow-hidden"
 
             >
                 <Image
-                    src={section.images[0].url}
+                    src={section.images[0]?.url || ""}
                     alt={section.title}
                     fill
                     className="object-cover object-top  group-hover:brightness-75 transition-all duration-1000 group-hover:scale-105 group-hover:translate-x-4 shadow-xl rounded-md"
@@ -91,7 +89,7 @@ const SectionItem = ({ section, className }: { section: ModelWithImages<SectionT
                     </p>
                     <br />
                     <br />
-                    <Button variant={'default'} className="bg-secondary/10">
+                    <Button variant={'default'} className="bg-gray/10">
                         Clique para saber mais
                     </Button>
                 </div>

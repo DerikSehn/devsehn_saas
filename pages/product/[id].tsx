@@ -84,7 +84,7 @@ const ProductPage = ({ product, relatedProducts, whatsapp }: { product: Product,
     return (
         <Page className='bg-white py-40 relative font-montserrat'>
             <div className='absolute h-36 top-0 w-full bg-primary-100'>
-                <Image src={product.images[0].url} alt="background" fill objectFit="cover" objectPosition="center" className='brightness-50 blur-md' />
+                <Image src={product.images[0]?.url || ""} alt="background" fill objectFit="cover" objectPosition="center" className='brightness-50 blur-md' />
             </div>
             <div className="grid md:grid-cols-5 gap-4 items-start px-4 mx-auto  max-w-screen-2xl ">
                 <div className='col-span-full'>
@@ -136,7 +136,7 @@ const ProductPage = ({ product, relatedProducts, whatsapp }: { product: Product,
                                 <p className="text-sm text-neutral-400">
                                     Preço {`(${product.unitType || 'un'})`}
                                 </p>
-                                <div className="text-3xl text-secondary-200  font-montserrat">{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price * Number(quantity))}</div>
+                                <div className="text-3xl text-gray-200  font-montserrat">{Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL' }).format(product.price * Number(quantity))}</div>
                             </div>
                         </div>
                         <form className="grid gap-4">
@@ -158,7 +158,7 @@ const ProductPage = ({ product, relatedProducts, whatsapp }: { product: Product,
                                 </Select>
                             </div>
                             <div className="flex flex-col gap-4 relative justify-end">
-                                <Button variant="swipe" className="flex  items-center w-full gap-4 z-10 border-neutral-100 hover:bg-secondary-300 bg-secondary text-primary-200 hover:text-neutral-700">
+                                <Button variant="swipe" className="flex  items-center w-full gap-4 z-10 border-neutral-100 hover:bg-gray-300 bg-gray text-primary-200 hover:text-neutral-700">
                                     <Coins className="h-4 w-4 mr-2" />
                                     <span className="text-neutral-600">
                                         Compre Já!
@@ -181,7 +181,7 @@ const ProductPage = ({ product, relatedProducts, whatsapp }: { product: Product,
                                     <span className="sr-only">View</span>
                                 </Link>
                                 <Image
-                                    src={product.images[0].url}
+                                    src={product.images[0]?.url || ""}
                                     alt={product.name}
                                     width={500}
                                     height={400}

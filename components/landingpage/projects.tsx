@@ -10,16 +10,16 @@ import { Section } from "./section/section";
 import SectionHeader from "./section/section-header";
 
 export default function Projects({ projects }: { projects: ModelWithImages<Project>[] }) {
-    return (<Section id="projects" className="bg-primary-300 h-auto flex-col ">
+    return (<Section id="projects" className="bg-gray-200 h-auto flex-col ">
         <SectionHeader
             className="lg:relative"
             title="Projetos"
             subtitle="Realizações da Cultura Verde"
         />
         <div className=" relative  z-40 w-full   min-h-[600px] flex justify-center text-center items-center sm:text-left  h-[200vh]">
-            <div className="absolute inset-0 bottom-0  bg-gradient-to-b from-transparent  via-30% via-primary-300 to-primary-200 z-[10]" />
+            <div className="absolute inset-0 bottom-0  bg-gradient-to-b from-transparent  via-30% via-gray-200 to-gray-200 z-[10]" />
 
-            <div className=" absolute inset-0 bg-gradient-to-b from-primary-300 from-10% to-20%  z-[1]" />
+            <div className=" absolute inset-0 bg-gradient-to-b from-gray-200 from-10% to-20%  z-[1]" />
 
             <ZoomParallax
                 classes="z-[10]"
@@ -47,7 +47,7 @@ export default function Projects({ projects }: { projects: ModelWithImages<Proje
                                 #{index + 1}
                             </CardDescription>
                         </CardHeader>
-                        <Image src={project.images[0].url} alt={project.title} fill className=" opacity-100 lg:opacity-90 group-hover:opacity-80  transition-all duration-500 object-cover object-center " />
+                        <Image src={project.images[0]?.url || ""} alt={project.title} fill className=" opacity-100 lg:opacity-90 group-hover:opacity-80  transition-all duration-500 object-cover object-center " />
                     </Card>
 /*                     </Link>
  */                )}

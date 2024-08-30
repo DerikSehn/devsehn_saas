@@ -1,4 +1,4 @@
-import repeatPattern from '@/lib/repeat-pattern';
+import repeatPattern from '@/lib/utils/repeat-pattern';
 import { cn } from '@/lib/utils';
 import { handleApiRequest } from '@/pages/api/protected/crud';
 import types from '@prisma/client';

@@ -2,31 +2,31 @@ import { OnSubmitProps } from "@/components/list/list-item-wrapper";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Image as ImageType } from "@prisma/client";
 import { ImagePlusIcon } from "lucide-react";
 import Image from "next/image";
 import { ChangeEvent, useRef, useState } from "react";
 import { Textarea } from "../textarea";
+import { ImageType } from "@/types/image-type";
 
 interface ImageEditorProps {
     image?: ImageType;
     onClose: (props: OnSubmitProps) => void;
     label: string;
     isRequired: boolean;
-    file: File;
+    file?: File;
 }
 
-const ImageEditor = ({ image, onClose, file }: ImageEditorProps) => {
+const ImageEditor = ({ image, onClose }: ImageEditorProps) => {
     const [values, setValues] = useState({
         image: {
             ...image,
-            url: URL.createObjectURL(file) || ""
+            url: image?.url || "",
         },
-        file
+        file: undefined as File | undefined
     });
 
     const handleChange = (e: any) => {
-        const { name, value } = e.target;
+        const { name, value, files } = e.target;
         const keys = name.split('.');
         let newValue = { ...values };
         let current = newValue;
@@ -35,13 +35,23 @@ const ImageEditor = ({ image, onClose, file }: ImageEditorProps) => {
             current = (current as any)[keys[i]];
         }
 
-        (current as any)[keys[keys.length - 1]] = e.target?.files?.[0] || value;
+        if (files?.[0]) {
+            (current as any)[keys[keys.length - 1]] = files[0];
+            (current as any).url = URL.createObjectURL(files[0]);
+        } else {
+            (current as any)[keys[keys.length - 1]] = value;
+        }
+
         setValues(newValue);
     };
 
     const handleSaveClick = () => {
+        const { image, file } = values;
+
+        const { file: _, ...imageWhithoutFile } = (image as any)
+
         onClose({
-            item: values as any,
+            item: { image: imageWhithoutFile, file },
             method: "update",
         });
     };
@@ -55,7 +65,7 @@ const ImageEditor = ({ image, onClose, file }: ImageEditorProps) => {
                 <div className="space-y-4">
                     <div className="form-item">
                         Imagem
-                        <ImageUploader key={values.file?.name} name="file" value={values.file} onChange={handleChange} />
+                        <ImageUploader key={values.image?.url} name="image.file" value={(values as any)} onChange={handleChange} />
                     </div>
                     <div className="form-item">
                         Nome
@@ -72,7 +82,7 @@ const ImageEditor = ({ image, onClose, file }: ImageEditorProps) => {
     );
 };
 
-const ImageUploader = ({ name, value, onChange }: { name: string, value: Blob | MediaSource, onChange: (e: any) => void }) => {
+const ImageUploader = ({ name, value, onChange }: { name: string, value: { image: ImageType, file?: File }, onChange: (e: any) => void }) => {
     const fileInputRef = useRef<HTMLInputElement>(null);
 
     const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -91,7 +101,7 @@ const ImageUploader = ({ name, value, onChange }: { name: string, value: Blob | 
         <div className="form-item">
             <div className="rounded-lg border p-2 text-black">
                 <div className="relative aspect-video group">
-                    <Image src={URL.createObjectURL(value) || ""} alt="Preview" fill className="object-cover w-full h-auto rounded-md" />
+                    <Image src={value.file ? URL.createObjectURL(value.file) : value.image.url} alt="Preview" fill className="object-cover w-full h-auto rounded-md" />
                     <button
                         title="Escolher Imagem"
                         className="absolute right-2 top-2 aspect-square rounded-xl p-2 hover:bg-neutral-100/10 transition-all"

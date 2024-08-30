@@ -1,4 +1,4 @@
-import { cn, getIsMobile } from "@/lib/utils";
+import { cn, useIsMobile } from "@/lib/utils";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import React, { useRef } from "react";
@@ -35,7 +35,7 @@ const ZoomParallax = ({ classes, children }: { children: React.ReactNode[], clas
   });
 
   const pictures = children.slice(0, 5).map((child, index) => {
-    const isMobile = getIsMobile(768);
+    const isMobile = useIsMobile(768);
     const scale =
       useTransform(scrollYProgress, [0, 1], [isMobile && index ? .5 : 1, index + (isMobile ? !index ? 2 : .6 : 4)]);
     const { classes } = fixedPictures[index];
@@ -54,6 +54,11 @@ const ZoomParallax = ({ classes, children }: { children: React.ReactNode[], clas
       <div className="sticky top-0 h-[100vh] overflow-hidden">
         {pictures.map(({ child, scale, classes }, index) => (
           <motion.div
+            initial={{ opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            transition={{
+              delay: .5,
+            }}
             key={index}
             style={{ scale }}
             className={cn("absolute top-0 z-0 flex h-full w-full  overflow-visible items-center justify-center", !index && "z-10")}

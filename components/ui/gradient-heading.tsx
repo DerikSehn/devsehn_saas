@@ -13,7 +13,7 @@ const headingVariants = cva(
                     "bg-gradient-to-t from-neutral-700 to-neutral-800 dark:from-stone-200 dark:to-neutral-200",
                 pink: "bg-gradient-to-t from-accent to-accent/90 dark:from-stone-200 dark:to-neutral-200",
                 light: "bg-gradient-to-t from-neutral-200 to-neutral-300",
-                secondary:
+                gray:
                     "bg-gradient-to-t from-primary-foreground to-muted-foreground",
             },
             size: {
@@ -66,7 +66,7 @@ const GradientHeading = React.forwardRef<HTMLHeadingElement, HeadingProps>(
 GradientHeading.displayName = "GradientHeading"
 
 // Manually define the variant types
-export type Variant = "default" | "pink" | "light" | "secondary"
+export type Variant = "default" | "pink" | "light" | "gray"
 export type Size =
     | "default"
     | "xxs"

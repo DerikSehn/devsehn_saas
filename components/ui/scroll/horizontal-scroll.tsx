@@ -1,17 +1,20 @@
 import React, { FC, useRef, useState } from "react";
-import { motion, useTransform, useScroll, useMotionValueEvent, useSpring } from "framer-motion";
+import { motion, useTransform, useScroll, useMotionValueEvent, useSpring, SpringOptions, UseScrollOptions } from "framer-motion";
 
 import { cn } from "@/lib/utils";
 interface Props {
     className?: string;
     children: React.ReactNode[];
     content?: React.ReactNode;
+    springOptions?: SpringOptions;
+    scrollOptions?: UseScrollOptions;
 }
 
-const HorizontalScrollCarousel: FC<Props> = ({ children, className, content }) => {
+const HorizontalScrollCarousel: FC<Props> = ({ children, className, content, springOptions, scrollOptions }) => {
     const targetRef = useRef(null);
     const { scrollYProgress } = useScroll({
-        target: targetRef
+        target: targetRef,
+        ...scrollOptions
     });
 
     const x = useTransform(useSpring(scrollYProgress,
@@ -19,13 +22,11 @@ const HorizontalScrollCarousel: FC<Props> = ({ children, className, content }) =
             bounce: 0,
             damping: 30,
             stiffness: 60,
-
-
+            ...springOptions
         }
     ), [0, 1], ["1%", `-${children.length * 10}%`]);
 
     const [activeItem, setActiveItem] = useState(0);
-    const ref = useRef<any>(null);
 
 
     const cardLength = children.length;
@@ -49,7 +50,7 @@ const HorizontalScrollCarousel: FC<Props> = ({ children, className, content }) =
             ref={targetRef}
             className={cn("relative h-[200vh] w-full", className)}
         >
-            <div className="sticky  top-0 flex h-screen items-start justify-start flex-col">
+            <div className="sticky top-0 flex h-screen items-start justify-start flex-col">
                 {content}
                 <motion.div
                     style={{ x }}

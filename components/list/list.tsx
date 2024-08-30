@@ -1,24 +1,24 @@
 import { cn } from '@/lib/utils';
-import { CrudRequest, handleApiRequest } from '@/pages/api/protected/crud';
 import { PlusIcon } from 'lucide-react';
-import { cloneElement, ReactElement, useEffect, useState } from 'react';
+import { cloneElement, ReactElement } from 'react';
 import { twMerge } from 'tailwind-merge';
-import { useToast } from '../providers/toast-provider';
-
 import SparklesText from '../magicui/sparkles-text';
 import { Button } from '../ui/button';
 import ListItem, { Item } from './list-item';
 import ListItemWrapper from './list-item-wrapper';
 import ListPagination from './list-pagination';
-import TableItemEditor, { TableItemEditorProps } from './table-item-editor';
+import { TableItemEditorProps } from '@/types/item-editor';
+import TableItemEditor from './table-item-editor';
+import { CrudRequest } from '@/types/crud';
+import { useCurrentList } from '@/hooks/use-current-list';
 
 interface Option {
     value: string;
     label: string;
 }
 
-interface ListProps<T> {
-    items: T[];
+interface ListProps {
+    items: any[];
     onClick?(item: Item): any;
     onSubmit?(item: Item, reason: CrudRequest["method"]): any;
     enableEditor?: boolean;
@@ -33,10 +33,10 @@ interface ListProps<T> {
         subTitle?: string;
         className?: string
     }
-    children?: ReactElement<T>;
+    children?: ReactElement<Item>;
 }
 
-const List = <T extends Item | undefined,>({
+const List = ({
     items = [],
     itemsPerPage = 10,
     sortOptions = [],
@@ -49,71 +49,29 @@ const List = <T extends Item | undefined,>({
     tableName,
     header,
     children
-}: ListProps<T>) => {
-    const notify = useToast();
-    const [currentPage, setCurrentPage] = useState(1);
-    const [sortOption, setSortOption] = useState(sortOptions[0]?.value || '');
-    const [filterOption, setFilterOption] = useState(filterOptions[0]?.value || '');
-    const [currentList, setList] = useState(items)
-
-    const handleSubmit = ({ item: itemData, method: reason }: { item: any, method: CrudRequest["method"] }) => {
-        switch (reason) {
-            case 'create':
-                setList(pvSt => [...pvSt, itemData])
-                break;
-            case 'update':
-                setList(pvSt => pvSt.map(item => item!.id === itemData.id ? itemData : item))
-                break;
-            case 'delete':
-                setList(pvSt => pvSt.filter(item => item!.id !== itemData.id))
-                break;
-        }
-        if (typeof onSubmit === 'function') {
-            onSubmit(itemData, reason)
-        }
-    }
-
-    const handleItemClick = (item: Item) => {
-        if (typeof onClick === 'function') {
-            onClick(item)
-        }
-    }
-    const handleItemDelete = async (id: number) => {
-        const where = { id }
-        const res = await handleApiRequest({ where }, tableName!, 'delete');
-        if (res.error) {
-            notify(res.error, { type: 'error' })
-        }
-        setList(pvSt => pvSt.filter(item => item!.id !== id))
-    }
-
-
-
-    useEffect(() => {
-        if (sortOptions.length === 0) {
-            setSortOption('');
-        }
-        if (filterOptions.length === 0) {
-            setFilterOption('');
-        }
-    }, [sortOptions, filterOptions]);
-
-    const sortedItems = sortOptions.length
-        ? [...currentList].sort((a, b) => {
-            /* @ts-ignore */
-            return a?.[sortOption as keyof Item] > b?.[sortOption as keyof Item] ? 1 : -1;
-        })
-        : currentList;
-
-    const filteredItems = filterOptions.length > 1 && filterOption
-        /* @ts-ignore */
-        ? sortedItems.filter((item) => item.category === filterOption)
-        : sortedItems;
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const paginatedItems = filteredItems.slice(startIndex, startIndex + itemsPerPage);
-
-    const showPagination = itemsPerPage < currentList.length;
+}: ListProps) => {
+    const {
+        currentPage,
+        setCurrentPage,
+        paginatedItems,
+        showPagination,
+        sortOption,
+        setSortOption,
+        filterOption,
+        setFilterOption,
+        filteredItems,
+        handleSubmit,
+        handleItemClick,
+        handleItemDelete
+    } = useCurrentList({
+        items,
+        itemsPerPage,
+        sortOptions,
+        filterOptions,
+        tableName,
+        onSubmit,
+        onClick
+    });
 
     return (
         <div className={twMerge("relative space-y-2", className)}>
@@ -183,7 +141,6 @@ const List = <T extends Item | undefined,>({
                 )}</> : paginatedItems.map((item) =>
                     <ListItem key={item!.id} onClick={handleItemClick} item={item!} />)
             }
-
 
             {showPagination && (
                 <ListPagination

@@ -1,9 +1,9 @@
 import { cn } from "@/lib/utils";
-import { Image as ImageType, Testimonial } from "@prisma/client";
-import Image from "next/image";
-import { motion } from "framer-motion";
 import CurveIcon from "@/public/testimonials/curve";
-import { LucideQuote, Quote } from "lucide-react";
+import { Image as ImageType, Testimonial } from "@prisma/client";
+import { motion } from "framer-motion";
+import { Quote } from "lucide-react";
+import Image from "next/image";
 
 export const TestimonialCard = ({ item, readOnly, ...props }: { item: Testimonial & { image?: ImageType }, readOnly?: boolean, className?: string }) => {
     return (readOnly ? <ReadOnlyTestimonial item={item} {...props} /> :
@@ -21,7 +21,7 @@ export const TestimonialCard = ({ item, readOnly, ...props }: { item: Testimonia
                             className="h-10 w-10 min-w-10 aspect-square rounded-full object-top"
                             width={40}
                             height={40}
-                            src={item?.image?.url}
+                            src={item?.image?.url as any || ""}
                             style={{
                                 aspectRatio: "40/40",
                                 objectFit: "cover",
@@ -69,13 +69,13 @@ const ReadOnlyTestimonial = ({ item, ...props }: { item: Testimonial & { image?:
                 </motion.div>
                 <div className="relative overflow-visible ">
                     <motion.span className="absolute inset-2 z-0 aspect-square overflow-visible rounded-full top-10">
-                        <Image src={item?.image?.url as any} alt={`testimonial-${item.name}`} fill
+                        <Image src={item?.image?.url as any || ""} alt={`testimonial-${item.name}`} fill
                             className="blur-xl rounded-full opacity-80 aspect-square object-top "
                         />
                     </motion.span>
                     <Quote className=" text-neutral-400 scale-[2] absolute -left-10 bottom-0 opacity-50 z-0" fill="#a3a3a3" />
 
-                    <Image src={item?.image?.url as any} alt={`testimonial-${item.name}`} width={200} height={200} className="brightness-110 aspect-square rounded-full object-top " />
+                    <Image src={item?.image?.url as any || ""} alt={`testimonial-${item.name}`} width={200} height={200} className="brightness-110 aspect-square rounded-full object-top " />
                 </div>
                 <motion.div
                     /* @ts-ignore */

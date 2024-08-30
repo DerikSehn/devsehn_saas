@@ -1,20 +1,25 @@
 import { Section } from "@/components/landingpage/section/section"
+import Polaroid from "@/components/polaroid/polaroid"
 import BlobImage from "@/components/ui/image/blob-image-path"
 import StickyScrollReveal from "@/components/ui/sticky-scroll-reveal"
 import prisma from "@/lib/prisma"
 import { ModelWithImages } from "@/prisma/prisma-utils"
 import { Section as SectionType } from "@prisma/client"
 import Image from "next/image"
+import gradientMesh from "@/styles/gradient-mesh.json";
 
 const SectionPage = ({ section }: { section: ModelWithImages<SectionType> }) => {
     return (< >
         <div className="absolute w-full h-96 bg-primary-200">
             <Image
                 className="z-0 blur-2xl object-cover saturate-50 brightness-[.25] opacity-70"
-                src={section.images[0].url} alt={section.images[0].name} fill />
+                src={section.images[0]?.url || ""} alt={section.images[0].name} fill />
 
         </div>
-        <div className="absolute w-full h-[200dvh] top-96 bg-primary-300" />
+        <div className="absolute w-full h-[200dvh] top-96 bg-primary-300"
+            style={{
+                backgroundImage: gradientMesh['background-mesh']
+            }} />
         <Section id={section.slug} className="bg-transparent min-h-[600px] h-auto flex flex-col max-w-screen-2xl mx-auto justify-start px-12 pt-64 ">
             <div className="relative w-full grid md:grid-cols-2 gap-8 overflow-visible text-neutral-50">
                 <div>
@@ -28,10 +33,10 @@ const SectionPage = ({ section }: { section: ModelWithImages<SectionType> }) => 
                         </p>
                     </div>
                 </div>
-                <div className="relative z-10 w-full md:-translate-y-1/4">
-                    <BlobImage
-                        className="max-w-full max-h-full "
-                        src={section.images[0].url} />
+                <div className="relative z-10 w-full md:-translate-y-[10%]">
+                    <Polaroid src={section.images[0]?.url || ""} alt={section.images[0].name} title={section.images[0].name}
+                        height={400} width={300}
+                    />
                 </div>
             </div>
             <div />

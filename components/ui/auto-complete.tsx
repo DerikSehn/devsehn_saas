@@ -83,7 +83,7 @@ export function AutoComplete({
                     variant="outline"
                     role="combobox"
                     aria-expanded={open}
-                    className="w-[200px] justify-between"
+                    className="max-w-screen-sm w-full justify-between"
                 >
                     {selectedIds.length > 0
                         ? `${selectedIds.length} selecionado${selectedIds.length > 1 ? "s" : ""}`
