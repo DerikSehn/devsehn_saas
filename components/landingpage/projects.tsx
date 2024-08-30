@@ -69,7 +69,7 @@ const ProjectShowcase = ({ project }: { project: ModelWithImages<Project> }) => 
             <StickyScrollReveal content={project.images.map((image, index) => ({
                 title: index ? image.name : project.title,
                 description: (index ? image.description : project.description) as string,
-                content: <Image src={image.url} alt={image.name} fill className="sticky top-0 object-cover" />
+                content: <Image src={image?.url || ""} alt={image.name} fill className="sticky top-0 object-cover" />
             }))} />
 
         </Section>

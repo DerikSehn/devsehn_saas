@@ -101,7 +101,7 @@ const ProductPage = ({ product, relatedProducts, whatsapp }: { product: Product,
                         {product.images.map((image, index) => (
                             <button key={index} className={`border hover:border-primary rounded-xl overflow-hidden transition-colors w-full relative aspect-square ${selectedImage === index ? 'border-primary' : ''}`} onClick={() => handleImageClick(index)}>
                                 <Image
-                                    src={image.url}
+                                    src={image?.url || ""}
                                     alt={`Preview thumbnail ${index + 1}`}
                                     fill
                                     className="aspect-[5/6] object-cover"

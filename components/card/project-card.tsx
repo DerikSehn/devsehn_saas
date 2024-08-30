@@ -47,7 +47,7 @@ export const ProjectCard = ({ item, className }: { item: ModelWithImages<Project
           <Image
             alt={`project${item.title}`}
             fill
-            src={item?.images[0]?.url}
+            src={item?.images[0]?.url || ""}
             style={{
               aspectRatio: "40/40",
               objectFit: "cover",

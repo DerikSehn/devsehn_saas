@@ -30,7 +30,7 @@ export default function Partners({ partners }: { partners: ModelWithImage<Partne
                     <div className="space-2  relative w-40 min-h-40 " key={index}>
                         <Image
                             key={index}
-                            src={partner.image.url}
+                            src={partner.image?.url || ""}
                             alt={partner.name}
                             fill
                             className="object-cover object-center rounded-md"

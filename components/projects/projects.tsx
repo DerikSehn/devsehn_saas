@@ -32,7 +32,7 @@ export default function Projects({ projects }: { projects: ModelWithImages<Proje
               icon={<OpenInNewWindowIcon />}
               className={cn(repeatedPattern[index] === 2 ? 'md:col-span-2' : 'md:col-span-1')}
             >
-              <Image fill src={images?.[0]?.url} alt={'projects-image'} className="object-cover  object-center" />
+              <Image fill src={images?.[0]?.url || ""} alt={'projects-image'} className="object-cover  object-center" />
             </BentoGridItem>
           </Link>
 

@@ -1,10 +1,10 @@
-import { CrudRequest } from '@/pages/api/protected/crud';
 import { Dialog } from '@radix-ui/react-dialog';
 import React, { useState } from 'react';
 import AddButton from '../button/AddButton';
 import Drawer from '../drawer/drawer';
 import { useToast } from '../providers/toast-provider';
 import { DialogContent } from '../ui/dialog';
+import { CrudRequest } from '@/types/crud';
 
 export interface OnSubmitProps {
     item: any;

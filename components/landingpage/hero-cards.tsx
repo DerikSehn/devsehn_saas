@@ -66,7 +66,7 @@ export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
             <CardHeader className="relative h-72">
                 {service.image?.url ?
                     <Image
-                        src={service.image.url}
+                        src={service.image?.url || ""}
                         alt={service.title}
                         layout="fill"
                         objectFit="cover"

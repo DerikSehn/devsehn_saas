@@ -91,7 +91,7 @@ const SettingsCard = ({ item }: { item: Setting }) => {
         <Card isStatic className="group flex flex-col gap-4 py-2 min-h-20">
             <h2 className="text-lg font-semibold">{item.title}</h2>
             <Separator />
-            {item?.imageId && <Image src={(item as ModelWithImage<Setting>).image.url} alt={item.title} width={100} height={100} />}
+            {item?.imageId && <Image src={(item as ModelWithImage<Setting>).image?.url || ""} alt={item.title} width={100} height={100} />}
             {item?.description && <p className="text-sm text-muted-foreground line-clamp-2">{item.description}</p>}
             {item?.value && <p className="text-xl text-muted-foreground">{item.value}</p>}
         </Card>

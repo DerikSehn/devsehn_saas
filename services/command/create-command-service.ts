@@ -1,13 +1,12 @@
-import { Prisma } from "@prisma/client";
 import { handleGetColumns } from "@/lib/prisma";
-import { isObject, isObjectLike } from "lodash";
-import { CrudRequest } from "@/types/crud";
 import {
   formatImageFields,
   formatIncludeFields,
   formatPrimitiveFields,
   hasRelation,
 } from "@/lib/utils/prisma-utils";
+import { CrudRequest } from "@/types/crud";
+import { Prisma } from "@prisma/client";
 
 export function formatCreateCommand(
   table: CrudRequest["table"],

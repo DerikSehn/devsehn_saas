@@ -65,7 +65,7 @@ const ImageEditor = ({ image, onClose }: ImageEditorProps) => {
                 <div className="space-y-4">
                     <div className="form-item">
                         Imagem
-                        <ImageUploader key={values.image?.url} name="image.file" value={(values as any)} onChange={handleChange} />
+                        <ImageUploader key={values.image?.url || ""} name="image.file" value={(values as any)} onChange={handleChange} />
                     </div>
                     <div className="form-item">
                         Nome
@@ -101,7 +101,7 @@ const ImageUploader = ({ name, value, onChange }: { name: string, value: { image
         <div className="form-item">
             <div className="rounded-lg border p-2 text-black">
                 <div className="relative aspect-video group">
-                    <Image src={value.file ? URL.createObjectURL(value.file) : value.image.url} alt="Preview" fill className="object-cover w-full h-auto rounded-md" />
+                    <Image src={value.file ? URL.createObjectURL(value.file) : value.image?.url || ""} alt="Preview" fill className="object-cover w-full h-auto rounded-md" />
                     <button
                         title="Escolher Imagem"
                         className="absolute right-2 top-2 aspect-square rounded-xl p-2 hover:bg-neutral-100/10 transition-all"

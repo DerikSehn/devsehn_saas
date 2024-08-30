@@ -18,7 +18,7 @@ export const UserCard = ({ item, ...props }: { item: User, className?: string })
                             className="h-10 w-10 min-w-10 aspect-square rounded-full object-top"
                             width={40}
                             height={40}
-                            src={item?.image?.url}
+                            src={item?.image?.url || ""}
                             style={{
                                 aspectRatio: "40/40",
                                 objectFit: "cover",

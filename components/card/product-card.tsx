@@ -101,7 +101,7 @@ const ReadOnly = ({ item, className }: { item: ModelWithImages<Product>, classNa
                             alt={`product-${item.name}`}
                             className="object-center object-cover"
                             fill
-                            src={item?.images[0]?.url}
+                            src={item?.images[0]?.url || ""}
                         />
                     </span>
                     : null}

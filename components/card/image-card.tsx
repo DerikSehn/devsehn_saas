@@ -35,7 +35,7 @@ export const ImageCard = ({ item }: { item: ImageType }) => {
                     alt={`image${item.name}`}
                     fill
                     className="object-contain object-center"
-                    src={item?.url}
+                    src={item?.url || ""}
                 />
             </motion.div>
 

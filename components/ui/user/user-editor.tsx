@@ -1,4 +1,3 @@
-import { TableItemEditorProps } from '@/components/list/table-item-editor';
 import { useToast } from '@/components/providers/toast-provider';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -9,6 +8,7 @@ import { isFunction } from 'lodash';
 import { useState } from 'react';
 import zxcvbn from 'zxcvbn';
 import { Switch } from '../switch';
+import { TableItemEditorProps } from '@/types/item-editor';
 
 interface User {
     id: string;

@@ -45,7 +45,7 @@ const SectionPage = ({ section }: { section: ModelWithImages<SectionType> }) => 
         <StickyScrollReveal content={section.images.slice(1).map((image) => ({
             title: image.name,
             description: image.description,
-            content: <Image src={image.url} alt={image.name} fill className="object-cover" />
+            content: <Image src={image?.url || ""} alt={image.name} fill className="object-cover" />
         })) as any} />
     </>
     )

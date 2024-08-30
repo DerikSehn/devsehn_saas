@@ -37,7 +37,7 @@ export const SectionCard = ({ item, className }: { item: ModelWithImages<Section
                                 <Image
                                     alt={`section${item.title}`}
                                     fill
-                                    src={image.url}
+                                    src={image?.url || ""}
                                     style={{
                                         aspectRatio: "40/40",
                                         objectFit: "cover",
@@ -64,7 +64,7 @@ export const SectionCard = ({ item, className }: { item: ModelWithImages<Section
                         alt={`section${item.title}`}
                         fill
                         className="object-cover object-center"
-                        src={item?.images[0]?.url}
+                        src={item?.images[0]?.url || ""}
                         style={{
                         }}
                     />

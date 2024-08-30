@@ -160,7 +160,7 @@ export default function AutoFormFiles({
                                 <TableItemWrapper
                                     variant="modal"
                                     onSubmit={handleSingleChange(0)}
-                                    clickArea={<FcFirstImage src={files[0]?.image?.url} index={0} onClick={handleImageClick} />}
+                                    clickArea={<FcFirstImage src={files[0]?.image?.url || ""} index={0} onClick={handleImageClick} />}
                                 >
                                     <ImageEditor isRequired={isRequired} label={fieldConfigItem?.label || label} file={files[0]?.file} image={files[0]?.image} onClose={handleSingleChange(0)} />
                                 </TableItemWrapper>
@@ -176,7 +176,7 @@ export default function AutoFormFiles({
                                             key={index}
                                             variant="modal"
                                             onSubmit={handleSingleChange(index + 1)}
-                                            clickArea={<FcFirstImage index={index + 1} src={image?.url} onClick={handleImageClick} />}
+                                            clickArea={<FcFirstImage index={index + 1} src={image?.url || ""} onClick={handleImageClick} />}
                                         >
                                             <ImageEditor isRequired={isRequired} label={fieldConfigItem?.label || label} file={undefined} image={image} onClose={handleSingleChange(index + 1)} />
                                         </TableItemWrapper>

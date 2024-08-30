@@ -40,7 +40,7 @@ export const PartnerCard = ({ item, className }: { item: ModelWithImage<Partner>
                         <Image
                             alt={`Partner-${item.name}`}
                             fill
-                            src={item?.image?.url}
+                            src={item?.image?.url || ""}
                             style={{
                                 aspectRatio: "40/40",
                                 objectFit: "cover",
