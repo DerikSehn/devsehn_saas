@@ -57,25 +57,25 @@ import { NextApiRequest, NextApiResponse } from 'next';
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     const session = await authenticate(req, res);
     if (!session) return;
-    console.log(req);
+
 
     const { fields, files, error } = await parseForm(req);
     if (error) {
         return res.status(500).json({ error: "Error parsing file" });
     }
 
-    console.log(fields)
-    console.log(files)
+
+
 
 
     try {
         const imageRecords = await handleFileUpload(files, fields, session);
-        console.log(imageRecords)
+
         const result = await updatePrismaImages(imageRecords);
-        console.log(result)
+
         return res.status(200).json(result);
     } catch (err) {
-        console.log(err)
+
         handleError(res, err, "Error processing files");
     }
 }

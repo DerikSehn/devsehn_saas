@@ -1,4 +1,4 @@
-import { handleApiRequest } from "@/services/crud-service";
+import { handleApiCrudRequest } from "@/services/crud-service";
 import { clsx, type ClassValue } from "clsx";
 import { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
@@ -53,7 +53,7 @@ export function generateWhatsAppLink({
 
 export async function fetchWhatsappLink(message: string) {
   try {
-    const { result } = await handleApiRequest(
+    const { result } = await handleApiCrudRequest(
       { where: { title: "WHATSAPP_NUMBER" } },
       "setting",
       "findFirst"

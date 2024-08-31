@@ -2,7 +2,7 @@ import TableItemWrapper, { OnSubmitProps } from "@/components/list/list-item-wra
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { FormControl, FormItem, FormMessage } from "@/components/ui/form";
 import { cn } from "@/lib/utils";
-import { handleApiRequest } from "@/services/crud-service";
+import { handleApiCrudRequest } from "@/services/crud-service";
 import { ImageType } from "@/types/image-type";
 import { isArray, isObject } from "lodash";
 import { Trash } from "lucide-react";
@@ -80,12 +80,12 @@ export default function AutoFormFiles({
                     id: files[index].image.id
                 }
             }
-            const res = await handleApiRequest(data, 'image', 'delete')
-            console.log(res)
+            const res = await handleApiCrudRequest(data, 'image', 'delete')
+
             notify('Item removido', { type: 'info' })
         }
         field.onChange(newFiles.map(f => f.image));
-        console.log
+
     };
 
     const handleSingleChange = (index: number) => (props: OnSubmitProps) => {

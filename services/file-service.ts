@@ -38,13 +38,11 @@ export async function handleFileUpload(
         url: s3Url,
         userId: (session as any).user.id,
       };
-      console.log(image);
 
       imageRecords.push(image);
     }
     return imageRecords as Image[];
   } catch (error) {
-    console.log(error);
     throw new Error(error as any);
   }
 }

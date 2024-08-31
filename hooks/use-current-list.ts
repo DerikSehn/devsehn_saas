@@ -1,6 +1,6 @@
 import { useState, useCallback } from "react";
 import { CrudRequest } from "@/types/crud";
-import { handleApiRequest } from "@/services/crud-service";
+import { handleApiCrudRequest } from "@/services/crud-service";
 import { Item } from "@/components/list/list-item";
 import { useListPagination } from "./use-list-pagination";
 import { useListFiltering } from "./use-list-filtering";
@@ -89,7 +89,7 @@ export const useCurrentList = ({
   const handleItemDelete = useCallback(
     async (id: number) => {
       const where = { id };
-      const res = await handleApiRequest({ where }, tableName!, "delete");
+      const res = await handleApiCrudRequest({ where }, tableName!, "delete");
       if (res.error) {
         notify(res.error, { type: "error" });
       }

@@ -1,5 +1,6 @@
 import { CrudRequest } from '@/types/crud';
 import { Prisma, PrismaClient } from '@prisma/client'
+import { formatIncludeFields } from './utils/prisma-utils';
 
 const prismaClientSingleton = () => {
     return new PrismaClient()
@@ -53,4 +54,16 @@ export async function getLastImageId() {
         orderBy: { id: 'desc' }
     });
     return lastImage ? lastImage.id : 0;
+}
+
+export function getIncludeFields(tableName: string) {
+    const columns = Object.fromEntries(
+        handleGetColumns(tableName as CrudRequest["table"])?.map((column) => [
+            column.name,
+            column,
+        ]) as any
+    );
+
+    const include = formatIncludeFields(columns);
+    return include
 }

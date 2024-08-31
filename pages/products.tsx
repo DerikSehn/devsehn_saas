@@ -4,7 +4,7 @@ import Sidebar from '@/components/sidebar/sidebar';
 import prisma from '@/lib/prisma';
 import { cn } from '@/lib/utils';
 import { ModelWithImages } from '@/prisma/prisma-utils';
-import { handleApiRequest } from '@/services/crud-service';
+import { handleApiCrudRequest } from '@/services/crud-service';
 import { Category as CategoryType, Product as ProductType } from '@prisma/client';
 import { GetServerSidePropsContext } from 'next';
 import Image from 'next/image';
@@ -28,7 +28,7 @@ const ProductPage = ({ categories, initialProducts }: { categories: CategoryType
     useEffect(() => {
         const fetchProducts = async () => {
 
-            const response = await handleApiRequest({
+            const response = await handleApiCrudRequest({
                 where: category === 'Todos' ? {} : {
                     categories: { some: { name: category as string } }
                 },

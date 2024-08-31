@@ -3,6 +3,7 @@ import {
   formatImageFields,
   formatIncludeFields,
   formatPrimitiveFields,
+  formatRelationFields,
   hasRelation,
 } from "@/lib/utils/prisma-utils";
 import { CrudRequest } from "@/types/crud";
@@ -22,22 +23,17 @@ export function formatCreateCommand(
       column,
     ]) as any
   );
-  console.log(columns);
+
   const include = formatIncludeFields(columns);
-  console.log(include);
 
   Object.entries(fields).forEach(([key, value]) => {
     formatListFields({ updateData, columns, key, value });
-    console.log(updateData);
-    formatRelationFields({ updateData, table, key, value });
-    console.log(updateData);
+
+    formatRelationFields({ updateData, key, value, columns, method: "create" });
+
     formatPrimitiveFields({ updateData, key, value });
-    console.log(updateData);
-    console.log(key);
-    console.log(value);
-    console.log(table);
+
     formatImageFields({ updateData, key, value, columns });
-    console.log(updateData);
   });
 
   return {
@@ -67,25 +63,6 @@ function formatListFields({
           ...itemWithoutId,
         };
       }),
-    };
-  }
-}
-function formatRelationFields({
-  key,
-  table,
-  updateData,
-  value,
-}: {
-  updateData: any;
-  table: any;
-  key: string;
-  value: any;
-}) {
-  if (hasRelation({ key, table: table })) {
-    updateData[key] = {
-      connect: {
-        id: value,
-      },
     };
   }
 }

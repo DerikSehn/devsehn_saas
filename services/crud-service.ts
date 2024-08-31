@@ -15,17 +15,17 @@ export async function handleCrudRequest(
     switch (method) {
       case "create":
         command = formatCreateCommand(table, data);
-        console.log(command);
+
         /* @ts-ignore */
         res = await prisma[table][method](command);
-        console.log(res);
+
         return res;
       case "update":
         /* @ts-ignore */
         command = formatUpdateCommand(table, data).command;
         /* @ts-ignore */
         res = await prisma[table][method](command);
-        console.log(res);
+
         /*  if (Object.keys(nestedItems).length) {
           nestedItems.forEach(async ({ key, updates }) => {
             const nestedRes: any[] = [];
@@ -42,16 +42,15 @@ export async function handleCrudRequest(
       case "findFirst":
         /* @ts-ignore */
         res = await prisma[table][method](data);
-        console.log(res);
+
         return res;
     }
   } catch (error) {
-    console.log(error);
     throw new Error("Erro ao executar a operação");
   }
 }
 
-export async function handleApiRequest(
+export async function handleApiCrudRequest(
   data: CrudRequest["data"],
   table: CrudRequest["table"],
   method: CrudRequest["method"]
@@ -66,6 +65,18 @@ export async function handleApiRequest(
       data,
       table,
     }),
+  });
+  const json = await response.json();
+  return json;
+}
+
+export async function handleApiRequest(actionName: string, bodyContent: any) {
+  const response = await fetch(`/api/protected/${actionName}`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(bodyContent),
   });
   const json = await response.json();
   return json;

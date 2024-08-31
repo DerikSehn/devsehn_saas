@@ -2,11 +2,10 @@ import { Prisma } from "@prisma/client";
 import { isArray, isObject } from "lodash";
 
 export function removePrismaForeignKeys(item: object) {
-  console.log(item);
   const obj = Object.fromEntries(
     Object.entries(item).filter(([key]) => !key.endsWith("Id"))
   );
-  console.log(obj);
+
   return obj;
 }
 
@@ -23,7 +22,6 @@ export function formatImageFields({
 }) {
   if (columns[key]?.type === "Image") {
     if (columns[key]?.isList) {
-      console.log(value);
       // if is an array, then it's already been treated right by default
       if (!isArray(value)) {
         updateData[key] = generateImageCommand(value);
@@ -84,7 +82,6 @@ export const generateImageArrayCommand = (imageArray: any[]) => {
 };
 
 function getUpdateCommand(item: any) {
-  console.log("updating");
   return {
     update: {
       data: item,
@@ -120,22 +117,18 @@ function getCreateCommand(item: any) {
 }
 
 export function getRelatedTable(key: string, table: string) {
-  console.log(table);
-  console.log(key);
   const model = Prisma.dmmf.datamodel.models.find(
     (m) => m.name.toLowerCase() === table.toLowerCase()
   );
-  console.log(key);
 
   let result;
 
   const field = model?.fields.find((f) => f.name === key);
-  console.log(field);
+
   result = field?.relationToFields?.length
     ? field.relationToFields?.[0]
     : undefined;
 
-  console.log(result);
   return result?.toLowerCase();
 }
 
@@ -154,7 +147,6 @@ export function formatPrimitiveFields({
 }) {
   if (!isObject(value)) {
     updateData[key] = value;
-    console.log(updateData[key]);
   }
 }
 
@@ -165,4 +157,34 @@ export function formatIncludeFields(columns: any) {
     }
     return acc;
   }, {});
+}
+
+export function formatRelationFields({
+  key,
+  updateData,
+  value,
+  columns,
+  method = "update",
+}: {
+  updateData: any;
+  key: string;
+  value: any;
+  columns: any;
+  method?: "create" | "update";
+}) {
+  if (columns[key]?.isList && value.every(onlyHasId)) {
+    const command = {
+      create: { connect: value.map((item: any) => ({ id: item.id })) },
+      update: { set: value.map((item: any) => ({ id: item.id })) },
+    };
+    updateData[key] = command[method];
+  }
+}
+
+export function onlyHasId(obj: any) {
+  const keys = Object.keys(obj);
+  const objLength = keys.length;
+  const objName = keys[0];
+
+  return objLength === 1 && objName === "id";
 }

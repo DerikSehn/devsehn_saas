@@ -29,24 +29,21 @@ export async function createFileRequest(
 
     // Convert the response to JSON
     const json: Image[] = await response.json();
-    console.log(json);
 
     // Return the created image data
     return json;
   } catch (error) {
-    console.log(error);
     throw new Error("Unable to create image");
   }
 }
 
 export async function deleteImageRecords(image: ImageType) {
-  console.log(image);
   try {
     if (!image.id) {
       throw new Error("Please provide a valid ID");
     }
     const { id } = image;
-    console.log(id);
+
     return await prisma.image.delete({
       where: { id },
     });
@@ -84,12 +81,10 @@ export async function updatePrismaImages(imageRecords: Image[]) {
 export const handleImageIntegration = async (defaultForm: any, form: any) => {
   // used to reference one-to-many image
   let image: any = undefined;
-
-  console.log(form);
+  let imagesMap: any[] = [];
 
   // [['image', ...image[]], ['images', ...images[]]]
   let imageEntries: any[] = Object.entries(form).reduce((acc, [key, value]) => {
-    console.log(key);
     const isId = ["image", "imageId"].includes(key);
     if (isId) {
       const thisImage = form["image"];
@@ -98,20 +93,20 @@ export const handleImageIntegration = async (defaultForm: any, form: any) => {
           id: !isNaN(value as any) && value,
           ...(isArray(form["image"]) ? form["image"][0] : form["image"]),
         };
-        console.log(image);
       }
-    } else if (key.startsWith("images")) {
+    } else if (key === "images") {
       const defaultMap =
         defaultForm?.[key] && mapById(defaultForm[key] as any[]);
       if (!defaultMap) {
         // @ts-ignore
         acc.push([key, value]);
       } else {
-        console.log(value);
         const changedImages = (value as any[]).filter((item) => {
           return defaultMap[item.id]?.url !== item?.url;
         });
+
         if (changedImages) {
+          imagesMap[key as any] = mapById(changedImages);
           // @ts-ignore
           acc.push([key, changedImages]);
         }
@@ -119,7 +114,6 @@ export const handleImageIntegration = async (defaultForm: any, form: any) => {
     }
     return acc;
   }, []);
-  console.log(imageEntries);
 
   const files = [];
 
@@ -129,7 +123,6 @@ export const handleImageIntegration = async (defaultForm: any, form: any) => {
   }
 
   if (imageEntries.some(([, value]) => value?.length)) {
-    console.log(files);
     for (const entry of imageEntries) {
       if (isArray(entry[1])) {
         const preparedFiles = await Promise.all(
@@ -143,19 +136,16 @@ export const handleImageIntegration = async (defaultForm: any, form: any) => {
     }
   }
 
-  console.log(files);
-
   if (files.length) {
-    console.log(await createFileRequest(files));
+    await createFileRequest(files);
   }
-  return;
-
+  return files;
   /* ['image', [ { id: 154, name: 'name', description: 'desc', url: 'blob:http://localhost:3000/xyz', ... } ... ] ]*/
   /*  let changedEntries: [string, any[]][] = await Promise.all(
     imageEntries.reduce((acc, [key, value], index) => generateOnlyChangedEntries(acc, defaultForm?.[key]?.[index]?.url, value) )
   );
 
-  console.log(changedEntries);
+  
   if (!changedEntries.some(([, obj]) => obj?.length)) {
     // none of items have changed
     return { ...defaultForm, ...form };
@@ -166,17 +156,17 @@ export const handleImageIntegration = async (defaultForm: any, form: any) => {
     await blobUrlToFile(changedEntries)
   );
 
-  console.log(defaultForm);
+  
 
   const id = form?.id;
-  console.log(id);
+  
   // backend integration call
 
   const integratedFiles = await integrateFilesToBackend(
     convertedEntries as any
   );
 
-  console.log(integratedFiles);
+  
   const newEntries = imageEntries.map(([key, imageArr]) => {
     return [
       key,
@@ -192,7 +182,7 @@ export const handleImageIntegration = async (defaultForm: any, form: any) => {
     ];
   });
 
-  console.log(newEntries);
+  
 
   const result = Object.fromEntries(newEntries);
 
@@ -205,8 +195,6 @@ function convertBlobToFile(blob: Blob, name: string): File {
 }
 
 async function prepareFilesToBackend(image: Image) {
-  console.log(image);
-
   const file = convertBlobToFile(await urlToBlob(image.url!), image.name);
 
   return { file, imageId: image.id };
@@ -216,14 +204,9 @@ export async function urlToBlob(url: string) {
   return await fetch(url).then((response) => response.blob());
 }
 
-function compareImageFromForm(defaultImage: ImageType, image: ImageType) {
-  const urlExists = !!image?.url;
-  return urlExists && defaultImage?.url !== image.url;
-}
-
 function mapById(item: any[]) {
   const map = new Map();
   item.forEach((value) => map.set(value.id, value));
-  console.log(map);
+
   return Object.fromEntries(map);
 }

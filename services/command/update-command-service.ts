@@ -6,7 +6,9 @@ import {
   formatImageFields,
   formatIncludeFields,
   formatPrimitiveFields,
+  formatRelationFields,
   hasRelation,
+  removePrismaForeignKeys,
 } from "@/lib/utils/prisma-utils";
 
 export function formatUpdateCommand(
@@ -15,7 +17,6 @@ export function formatUpdateCommand(
 ): { command: Prisma.ProjectUpdateArgs; nestedItems: any[] } {
   const { id, ...fields } = data;
 
-  console.log(data);
   let updateData: any = {};
   const nestedItems: any[] = [];
   const columns = Object.fromEntries(
@@ -29,13 +30,12 @@ export function formatUpdateCommand(
 
   Object.entries(fields).forEach(([key, value]) => {
     formatListFields({ updateData, columns, key, value, table });
-    console.log(updateData);
+
     formatRelationFields({ updateData, key, value, columns });
-    console.log(updateData);
+
     formatPrimitiveFields({ updateData, key, value });
-    console.log(updateData);
+
     formatImageFields({ updateData, key, value, columns });
-    console.log(updateData);
   });
 
   return {
@@ -62,51 +62,36 @@ function formatListFields({
   table: any;
 }) {
   if (columns[key]?.isList) {
-    updateData[key] = {
-      upsert: value.map((item: any) => {
-        let itemWithoutId = { ...item };
-        delete itemWithoutId["id"];
-        delete itemWithoutId[`${table}Id`];
+    const { createItemsCommand, updateItemsCommand } = value.reduce(
+      (acc: any, item: any) => {
+        if (!item.id) {
+          acc.createItemsCommand.push(removePrismaForeignKeys(item));
+        } else {
+          let itemWithoutId = { ...item };
+          delete itemWithoutId["id"];
+          delete itemWithoutId[`${table}Id`];
 
-        return {
-          create: {
-            ...itemWithoutId,
-          },
-          update: {
-            ...itemWithoutId,
-          },
-          where: {
-            id: item.id || 0,
-          },
-        };
-      }),
-    };
-    console.log(updateData[key]);
-  }
-}
+          acc.updateItemsCommand.push({
+            where: { id: item.id },
+            data: itemWithoutId,
+          });
+        }
+        return acc;
+      },
+      { createItemsCommand: [], updateItemsCommand: [] }
+    );
 
-function formatRelationFields({
-  key,
-  updateData,
-  value,
-  columns,
-}: {
-  updateData: any;
-  key: string;
-  value: any;
-  columns: any;
-}) {
-  if (columns[key]?.isList && value.every(onlyHasId)) {
+    const createCommand = createItemsCommand.length
+      ? { create: createItemsCommand }
+      : {};
+
+    const updateCommand = updateItemsCommand.length
+      ? { update: updateItemsCommand }
+      : {};
+
     updateData[key] = {
-      set: value.map((item: any) => ({ id: item.id })),
+      ...createCommand,
+      ...updateCommand,
     };
   }
-}
-
-function onlyHasId(obj: any) {
-  const keys = Object.keys(obj);
-  const objLength = keys.length;
-  const objName = keys[0];
-
-  return objLength === 1 && objName === "id";
 }
