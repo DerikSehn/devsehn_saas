@@ -105,18 +105,21 @@ export const FloatingNavBar = ({ navItems, className }: FloatingNavBarProps) => 
                     <Tabs>
                         <Tab>
                             <div className="flex gap-4 p-4 w-full h-full bg-primary-300 text-jet-900 border-b border-jet-900">
-                                <div className="text-white font-bold text-3xl flex items-end justify-start p-4 w-56 h-[200px] rounded-md bg-gradient-to-br [background-size:150%] from-gray-300 to-primary-400">
-                                    Cultura <br /> Verde
-                                </div>
+                                <Link href={whatsAppLink} target="_blank" className="flex mt-3">
+                                    <Button variant="swipe" className="text-md group  pr-12 h-40 transition-all rounded-3xl bg-green-600 border-green-200 text-gray-300">
+                                        WhatsApp
+                                        <MessageCircleIcon className="absolute transition-all duration-500 right-4 " />
+                                    </Button>
+                                </Link>
                                 <div className="flex flex-col justify-between">
                                     {navItems.map((navItem, idx) => (
                                         <Link
                                             key={`link=${idx}`}
                                             href={navItem.link}
-                                            className="flex items-center justify-start space-x-4 active:bg-primary-800/40 p-2 w-full rounded-lg"
+                                            className="flex items-center justify-start space-x-4 active:bg-primary-800/40 p-2 w-full rounded-lg text-white"
                                         >
-                                            <h3 className="dark:text-white text-gray-800">{navItem.icon}</h3>
-                                            <p className="text-jet-900 text-xl">{navItem.name}</p>
+                                            <h3 className=" ">{navItem.icon}</h3>
+                                            <p className="text-xl">{navItem.name}</p>
                                         </Link>
                                     ))}
                                 </div>

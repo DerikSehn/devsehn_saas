@@ -1,5 +1,5 @@
 "use client";
-import { cn, useIsMobile } from "@/lib/utils";
+import { cn } from "@/lib/utils";
 import { AnimatePresence, motion, useMotionValueEvent, useScroll, useTransform } from "framer-motion";
 import React, { useEffect, useRef, useState } from "react";
 
@@ -47,7 +47,7 @@ const StickyScrollReveal = ({
     });
 
     // eslint-disable-react-hooks/rules-of-hooks
-    const imageY = useIsMobile(768) ? null : useTransform(scrollYProgress, [0, 1], [`${0}%`, `${100 - 100 / cardLength}%`]);
+    const imageY = useTransform(scrollYProgress, [0, 1], [`${0}%`, `${100 - 100 / cardLength}%`]);
 
     const backgroundColors = bgColors || [
         "var(--primary-200)",
@@ -69,11 +69,11 @@ const StickyScrollReveal = ({
                 backgroundColor: backgroundColors[activeCard % backgroundColors.length],
             }}
             className={cn("w-full overflow-y-clip grid md:grid-cols-2 justify-center relative overflow-hidden",
-                `h-[${cardLength * 100}vh]`,
+                `md:h-[${cardLength * 100}vh]`,
             )}
             ref={ref}
         >
-            <div className="relative z-10 flex items-start justify-center p-4">
+            <div className="relative z-10 flex items-start justify-center">
                 <motion.div
                     animate={{
                         background: backgroundGradient
@@ -81,7 +81,7 @@ const StickyScrollReveal = ({
                     className="absolute inset-0 opacity-70 z-0" />
                 <div className="max-w-2xl space-y-10">
                     {content.map((item, index) => (
-                        <div key={item.title + index} className="flex flex-col justify-center h-screen relative z-10 p-4 ">
+                        <div key={item.title + index} className="flex flex-col justify-center md:h-screen relative z-10 p-4 ">
                             <motion.h2
                                 initial={{
                                     opacity: 0,
@@ -100,14 +100,14 @@ const StickyScrollReveal = ({
                                 animate={{
                                     opacity: activeCard === index ? 1 : 0.3,
                                 }}
-                                className="text-lg text-slate-300 max-w-lg mt-10"
+                                className="text-lg text-slate-300 max-w-lg "
                             >
                                 {item.description}
                             </motion.p>
 
-                            <div className="min-h-40 aspect-video w-full relative" >
+                            <div className="min-h-40 aspect-video w-full relative my-10" >
                                 <div
-                                    className="md:hidden "
+                                    className="md:hidden  "
                                 >
                                     {content[index].content}
                                 </div>

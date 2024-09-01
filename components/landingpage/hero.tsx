@@ -20,7 +20,7 @@ export default function Hero({ heroImages }: { heroImages: string[] }) {
 
 
             <div className="px-4 md:px-6 relative z-20 text-white w-full">
-                <div className="grid lg:gap-12 lg:grid-cols-2 relative">
+                <div className="grid lg:gap-12 lg:grid-cols-2 relative ">
                     <div className="flex flex-col relative z-20 justify-center xl:items-center">
                         <div className="relative flex flex-col "
                             style={{
@@ -43,7 +43,7 @@ export default function Hero({ heroImages }: { heroImages: string[] }) {
                             description="Entre em contato nos enviando um email, e ficaremos felizes em transformar seu espaço em um ambiente acolhedor"
                         />
                     </div>
-                    <div className="max-h-dvh absolute md:relative  w-full brightness-[.3] md:brightness-[.9] z-0 ">
+                    <div className="max-h-dvh absolute md:relative  w-full brightness-[.6] -top-32 md:top-0 md:brightness-[.9] z-0 ">
                         <TwoWayParallax images={heroImages} />
                     </div>
                 </div>

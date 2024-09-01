@@ -1,4 +1,4 @@
-import { cn, useIsMobile } from "@/lib/utils";
+import useIsTouchDevice, { cn } from "@/lib/utils";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import React, { useRef } from "react";
@@ -35,7 +35,7 @@ const ZoomParallax = ({ classes, children }: { children: React.ReactNode[], clas
   });
 
   const pictures = children.slice(0, 5).map((child, index) => {
-    const isMobile = useIsMobile(768);
+    const isMobile = useIsTouchDevice();
     const scale =
       useTransform(scrollYProgress, [0, 1], [isMobile && index ? .5 : 1, index + (isMobile ? !index ? 2 : .6 : 4)]);
     const { classes } = fixedPictures[index];

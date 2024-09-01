@@ -39,8 +39,8 @@ export default function Sections({ sections }: { sections: ModelWithImages<Secti
 
             </small>
         </div>
-        <div className="flex flex-col md:grid md:grid-cols-2 w-full    ">
-            <SectionItem section={sections[0]} className="col-span-1 h-dvh" />
+        <div className="flex flex-col md:grid md:grid-cols-2 w-full  gap-8  ">
+            <SectionItem section={sections[0]} className="col-span-1 md:h-dvh" />
             <div className="hidden sm:block col-span-1 space-y-10">
                 <SectionItem section={sections[1]} />
                 <SectionItem section={sections[2]} />
@@ -55,42 +55,42 @@ export default function Sections({ sections }: { sections: ModelWithImages<Secti
 const SectionItem = ({ section, className }: { section: ModelWithImages<SectionType>; className?: string }) => {
     return (
 
-        <Link href={`/section/${section.slug}`} className={cn("flex group flex-col justify-center items-center w-full relative h-auto min-h-[50%] cursor-pointer", className)}>
+        <Link href={`/section/${section.slug}`} className={cn("flex group flex-col justify-center items-center w-full relative h-auto min-h-[50%] cursor-pointer ", className)}>
             <motion.div
                 initial={{ opacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 transition={{
                     delay: .5,
                 }}
-                className="absolute w-1/2 left-0 h-full aspect-[3/4] overflow-hidden"
+                className="absolute md:w-1/2 w-full left-0 h-full aspect-[3/4] overflow-hidden"
 
             >
                 <Image
                     src={section.images[0]?.url || ""}
                     alt={section.title}
                     fill
-                    className="object-cover object-top  group-hover:brightness-75 transition-all duration-1000 group-hover:scale-105 group-hover:translate-x-4 shadow-xl rounded-md"
+                    className="object-cover object-top  group-hover:brightness-75 transition-all duration-1000 md:group-hover:scale-105 group-hover:translate-x-4 shadow-xl rounded-md border-8 md:border-0 border-primary-600"
                 />
                 <div className="absolute w-full h-full z-10 top-0 left-0 bg-gradient-to-r from-primary-600 to-primary-500  blur-3xl transition-opacity opacity-0 group-hover:opacity-10 duration-500" />
-                <OpenInNewWindowIcon fontSize={'80px'} className="absolute bottom-1/2 -translate-x-1/2 left-1/4 z-20 w-40 h-40 text-jet-800 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100    transition-all duration-500 " />
+                <OpenInNewWindowIcon fontSize={'80px'} className="hidden md:absolute bottom-1/2 -translate-x-1/2 left-1/4 z-20 w-40 h-40 text-jet-800 scale-90 opacity-0 group-hover:opacity-100 group-hover:scale-100    transition-all duration-500 " />
             </motion.div>
-            <div className="relative z-10 md:pl-[24%] space-y-10">
-                <h2 className="  text-3xl font-light tracking-wide sm:text-5xl lg:text-7xl max-w-screen-md text-neutral-100 "
+            <div className="relative z-10 md:pl-[24%] px-4 space-y-10">
+                <h2 className="mt-6 md:mt-0 text-3xl font-light tracking-wide sm:text-5xl lg:text-7xl max-w-screen-md text-neutral-100 "
                     style={{
                         textShadow: '0px 0px 10px #000'
                     }}
                 >
                     {section.title}
                 </h2>
-                <div className="font-bold text-neutral-100 text-lg max-w-sm tracking-wider group-hover:opacity-100 opacity-0 transition-opacity">
+                <div className=" font-bold text-neutral-100 md:text-lg text-sm  md:max-w-sm tracking-wider group-hover:opacity-100 md:opacity-0 transition-opacity">
                     <p className="line-clamp-6">
 
                         {section.description}
                     </p>
                     <br />
                     <br />
-                    <Button variant={'default'} className="bg-gray/10">
-                        Clique para saber mais
+                    <Button variant={'default'} className="bg-primary-600 translate-y-4">
+                        Clique para saber mais!
                     </Button>
                 </div>
 

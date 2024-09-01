@@ -6,29 +6,50 @@ import { twMerge } from "tailwind-merge";
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+function isTouchDevice() {
+  if (typeof window === "undefined") return false;
+  const prefixes = " -webkit- -moz- -o- -ms- ".split(" ");
+  function mq(query: any) {
+    return typeof window !== "undefined" && window.matchMedia(query).matches;
+  }
 
-export function useIsMobile(width: number = 768) {
-  const [isMobile, setIsMobile] = useState<boolean>(false);
-
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= width);
-    };
-
-    // Adiciona o event listener
-    window.addEventListener("resize", handleResize);
-
-    // Chama o handler imediatamente para definir o estado inicial
-    handleResize();
-
-    // Remove o event listener no cleanup
-    return () => window.removeEventListener("resize", handleResize);
-  }, [width]);
-
-  return isMobile;
+  if (
+    "ontouchstart" in window || // @ts-ignore
+    (window?.DocumentTouch && document instanceof DocumentTouch)
+  )
+    return true;
+  const query = ["(", prefixes.join("touch-enabled),("), "heartz", ")"].join(
+    ""
+  ); // include the 'heartz' - https://git.io/vznFH
+  return mq(query);
 }
-export const useIsSmall = () => useIsMobile(480);
-export const useIsMedium = () => useIsMobile(768);
+
+export default function useIsTouchDevice() {
+  const [isTouch, setIsTouch] = useState(false);
+  useEffect(() => {
+    const {
+      isAndroid,
+      isIPad13,
+      isIPhone13,
+      isWinPhone,
+      isMobileSafari,
+      isTablet,
+    } = require("react-device-detect");
+    setIsTouch(
+      isTouch ||
+        isAndroid ||
+        isIPad13 ||
+        isIPhone13 ||
+        isWinPhone ||
+        isMobileSafari ||
+        isTablet ||
+        isTouchDevice()
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return isTouch;
+}
 
 export function generateWhatsAppLink({
   countryCode = "55",

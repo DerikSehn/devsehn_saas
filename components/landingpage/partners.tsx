@@ -7,7 +7,7 @@ import { Section } from "./section/section";
 
 export default function Partners({ partners }: { partners: ModelWithImage<Partner>[] }) {
     return (
-        <Section id="partners" className="h-screen relative w-full py-0 md:py-0 lg:py-20 flex flex-col bg-gradient-to-b from-white to-white justify-start items-start  ">
+        <Section id="partners" className="h-screen relative w-full py-10 md:py-0 lg:py-20 flex flex-col bg-gradient-to-b from-white to-white justify-start items-start  ">
             <div className={cn(" space-y-2 text-center mx-auto px-4 ")}>
                 <h3 className="inline-block rounded-lg bg-primary-600 px-3 py-1 text-sm dark:bg-primary-600 text-primary-900 ">
                     Parcerias

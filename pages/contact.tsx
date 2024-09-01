@@ -72,7 +72,7 @@ export default function Contact() {
     }
 
     return (
-        <span className="relative w-full h-full bg-primary-200">
+        <span className="relative w-full h-full bg-primary-200 px-4 lg:px-0">
             <div className="absolute w-full h-full bg-primary-200 z-0">
                 <Image
                     className="z-0 blur object-cover saturate-50 brightness-[.25] bg-primary-200"
@@ -89,20 +89,20 @@ export default function Contact() {
                         <span className="font-medium ">contato@culturaverde.com</span>
                     </div>
                 </div>
-                <form onSubmit={handleSubmit} className="mt-10 space-y-6 w-[50dvw] min-w-[380px] max-w-[800px]">
+                <form onSubmit={handleSubmit} className="mt-10 space-y-6 md:w-[50dvw] w-full md:min-w-[380px] max-w-[800px]">
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
                         <div className="space-y-2">
                             <Label htmlFor="name">Nome</Label>
-                            <Input className="border-gray-100 bg-primary-100/80" id="name" placeholder="Digite seu nome" value={name} onChange={(e) => setName(e.target.value)} />
+                            <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="name" placeholder="Digite seu nome" value={name} onChange={(e) => setName(e.target.value)} />
                         </div>
                         <div className="space-y-2">
                             <Label htmlFor="email">E-mail</Label>
-                            <Input className="border-gray-100 bg-primary-100/80" id="email" type="email" placeholder="Digite seu e-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="email" type="email" placeholder="Digite seu e-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
                         </div>
                     </div>
                     <div className="space-y-2">
                         <Label htmlFor="message">Mensagem</Label>
-                        <Textarea id="message" placeholder="Nos diga como podemos ajudar . . . " className="border-gray-100 bg-primary-100/80 min-h-[150px] " value={message} onChange={(e) => setMessage(e.target.value)} />
+                        <Textarea id="message" placeholder="Nos diga como podemos ajudar . . . " className="border-gray-100 bg-primary-100/80 placeholder:text-white-300 min-h-[150px] " value={message} onChange={(e) => setMessage(e.target.value)} />
                     </div>
                     <div className="flex flex-col items-center justify-center">
                         <Button variant={'swipe'} type="submit" className="w-full max-w-sm" disabled={mutation.isPending}>
