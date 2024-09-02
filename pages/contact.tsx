@@ -50,69 +50,48 @@ export default function Contact() {
         mutation.mutate()
     }
 
-    if (emailSent) {
-        return (
-            <span className="relative w-full h-full bg-primary-200">
-                <div className="absolute w-full h-full bg-primary-200 z-0">
-                    <Image
-                        className="z-0 blur object-cover saturate-50 brightness-[.25] bg-primary-200"
-                        src={"/uploads/dashboard/background.jpeg"} alt={'background'} fill />
-                </div>
-                <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-gray-900 bg-transparent min-h-screen h-auto">
-                    <div className="relative space-y-4 text-center">
-                        <ReturnToPage href="/" className="text-white   -top-8" />
-                        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">E-mail enviado!</h1>
+    return emailSent ? (<MailSentMessage />)
+        : (
+            <span className="relative w-full h-full min-h-lvh bg-primary-200 px-4 lg:px-0 overflow-hidden">
+
+                <Image
+                    className="hidden md:absolute z-0 blur-sm object-cover saturate-50 brightness-[.25]"
+                    src={"/uploads/dashboard/background.jpeg"} alt={'background'} fill />
+                <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-gray-900 bg-transparent min-h-screen h-auto bg-primary-200 md:dark:bg-primary-200">
+                    <div className="space-y-4 text-center">
+                        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Entre em contato</h1>
                         <p className="text-muted-foreground md:text-xl">
-                            Obrigado por entrar em contato. Responderemos o mais rápido possível.
+                            Tem alguma dúvida ou precisa de ajuda? Preencha o formulário abaixo e entraremos em contato o mais rápido possível.
                         </p>
+                        <div className="inline-flex items-center justify-center gap-2 w-full  bg-gradient-to-r from-transparent via-primary-200 px-4 py-2 text-primary-900">
+                            <MailOpenIcon className="h-5 w-5 " />
+                            <span className="font-medium ">contato@culturaverde.com</span>
+                        </div>
                     </div>
+                    <form onSubmit={handleSubmit} className="mt-10 space-y-6 md:w-[50dvw] w-full md:min-w-[380px] max-w-[800px]">
+                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+                            <div className="space-y-2">
+                                <Label htmlFor="name">Nome</Label>
+                                <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="name" placeholder="Digite seu nome" value={name} onChange={(e) => setName(e.target.value)} />
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="email">E-mail</Label>
+                                <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="email" type="email" placeholder="Digite seu e-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            </div>
+                        </div>
+                        <div className="space-y-2">
+                            <Label htmlFor="message">Mensagem</Label>
+                            <Textarea id="message" placeholder="Nos diga como podemos ajudar . . . " className="border-gray-100 bg-primary-100/80 placeholder:text-white-300 min-h-[150px] " value={message} onChange={(e) => setMessage(e.target.value)} />
+                        </div>
+                        <div className="flex flex-col items-center justify-center">
+                            <Button variant={'swipe'} type="submit" className="w-full max-w-sm" disabled={mutation.isPending}>
+                                {mutation.isPending ? 'Enviando...' : 'Enviar'}
+                            </Button>
+                        </div>
+                    </form>
                 </Page>
             </span>
         )
-    }
-
-    return (
-        <span className="relative w-full h-full bg-primary-200 px-4 lg:px-0">
-            <div className="absolute w-full h-full bg-primary-200 z-0">
-                <Image
-                    className="z-0 blur object-cover saturate-50 brightness-[.25] bg-primary-200"
-                    src={"/uploads/dashboard/background.jpeg"} alt={'background'} fill />
-            </div>
-            <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-gray-900 bg-transparent min-h-screen h-auto">
-                <div className="space-y-4 text-center">
-                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Entre em contato</h1>
-                    <p className="text-muted-foreground md:text-xl">
-                        Tem alguma dúvida ou precisa de ajuda? Preencha o formulário abaixo e entraremos em contato o mais rápido possível.
-                    </p>
-                    <div className="inline-flex items-center justify-center gap-2 w-full  bg-gradient-to-r from-transparent via-primary-200 px-4 py-2 text-primary-900">
-                        <MailOpenIcon className="h-5 w-5 " />
-                        <span className="font-medium ">contato@culturaverde.com</span>
-                    </div>
-                </div>
-                <form onSubmit={handleSubmit} className="mt-10 space-y-6 md:w-[50dvw] w-full md:min-w-[380px] max-w-[800px]">
-                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
-                        <div className="space-y-2">
-                            <Label htmlFor="name">Nome</Label>
-                            <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="name" placeholder="Digite seu nome" value={name} onChange={(e) => setName(e.target.value)} />
-                        </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="email">E-mail</Label>
-                            <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="email" type="email" placeholder="Digite seu e-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
-                        </div>
-                    </div>
-                    <div className="space-y-2">
-                        <Label htmlFor="message">Mensagem</Label>
-                        <Textarea id="message" placeholder="Nos diga como podemos ajudar . . . " className="border-gray-100 bg-primary-100/80 placeholder:text-white-300 min-h-[150px] " value={message} onChange={(e) => setMessage(e.target.value)} />
-                    </div>
-                    <div className="flex flex-col items-center justify-center">
-                        <Button variant={'swipe'} type="submit" className="w-full max-w-sm" disabled={mutation.isPending}>
-                            {mutation.isPending ? 'Enviando...' : 'Enviar'}
-                        </Button>
-                    </div>
-                </form>
-            </Page>
-        </span>
-    )
 }
 
 function MailOpenIcon(props: { className?: string }) {
@@ -133,4 +112,25 @@ function MailOpenIcon(props: { className?: string }) {
             <path d="m22 10-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 10" />
         </svg>
     )
+}
+
+
+export function MailSentMessage() {
+
+    return (<span className="relative w-full h-full bg-primary-200">
+        <div className="absolute w-full h-full bg-primary-200 z-0">
+            <Image
+                className="z-0 blur object-cover saturate-50 brightness-[.25] bg-primary-200"
+                src={"/uploads/dashboard/background.jpeg"} alt={'background'} fill />
+        </div>
+        <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-gray-900 bg-transparent min-h-screen h-auto">
+            <div className="relative space-y-4 text-center">
+                <ReturnToPage href="/" className="text-white   -top-8" />
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">E-mail enviado!</h1>
+                <p className="text-muted-foreground md:text-xl">
+                    Obrigado por entrar em contato. Responderemos o mais rápido possível.
+                </p>
+            </div>
+        </Page>
+    </span>)
 }
