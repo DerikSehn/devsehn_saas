@@ -10,6 +10,7 @@ import { Textarea } from "@/components/ui/textarea"
 import { useMutation } from '@tanstack/react-query'
 import Image from "next/image"
 import { useState } from 'react'
+import gradientMesh from "@/styles/gradient-mesh.json";
 
 async function sendEmail(email: string, name: string, message: string) {
     const res = await fetch('/api/contact', {
@@ -54,10 +55,12 @@ export default function Contact() {
         : (
             <span className="relative w-full h-full min-h-lvh bg-primary-200 px-4 lg:px-0 overflow-hidden">
 
-                <Image
-                    className="hidden md:absolute z-0 blur-sm object-cover saturate-50 brightness-[.25]"
-                    src={"/uploads/dashboard/background.jpeg"} alt={'background'} fill />
-                <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-gray-900 bg-transparent min-h-screen h-auto bg-primary-200 md:dark:bg-primary-200">
+                <span className="absolute inset-0 min-h-[100dvh] bg-primary-200"
+                    style={{
+                        backgroundImage: gradientMesh['background-mesh']
+                    }}
+                />
+                <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-gray-900 bg-transparent min-h-screen h-auto  ">
                     <div className="space-y-4 text-center">
                         <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Entre em contato</h1>
                         <p className="text-muted-foreground md:text-xl">
@@ -84,7 +87,7 @@ export default function Contact() {
                             <Textarea id="message" placeholder="Nos diga como podemos ajudar . . . " className="border-gray-100 bg-primary-100/80 placeholder:text-white-300 min-h-[150px] " value={message} onChange={(e) => setMessage(e.target.value)} />
                         </div>
                         <div className="flex flex-col items-center justify-center">
-                            <Button variant={'swipe'} type="submit" className="w-full max-w-sm" disabled={mutation.isPending}>
+                            <Button variant={'swipe'} type="submit" className="w-full max-w-sm bg-primary-100" disabled={mutation.isPending}>
                                 {mutation.isPending ? 'Enviando...' : 'Enviar'}
                             </Button>
                         </div>
