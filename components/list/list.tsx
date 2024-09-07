@@ -89,7 +89,11 @@ const List = ({
                             </Button>
                         }
                     >
-                        <TableItemEditor method={'create'} onClose={() => { }} tableName={tableName!} />
+                        {customEditor ?
+                            cloneElement(customEditor, { method: 'create', onClose: () => { }, tableName: tableName! })
+                            : <TableItemEditor method={'create'} onClose={() => { }} tableName={tableName!} />
+                        }
+
                     </ListItemWrapper>
                     : null
                 }

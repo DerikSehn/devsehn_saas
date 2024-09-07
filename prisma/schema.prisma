@@ -19,6 +19,7 @@ model User {
   sessions      Session[]
   orders        Order[]
   addresses     Address[]
+  Post          Post[]
 }
 
 model Account {
@@ -91,6 +92,8 @@ model Image {
   Partner     Partner[]
   Product     Product[]
   Info        Setting[]
+  Post        Post?        @relation(fields: [postId], references: [id])
+  postId      Int?
 }
 
 model Testimonial {
@@ -216,6 +219,7 @@ model Category {
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   products    Product[]
+  postId      Int?
 }
 
 model Order {
@@ -274,4 +278,28 @@ model OrderReview {
   updatedAt DateTime   @updatedAt
   userId    String
   OrderItem OrderItem?
+}
+
+// Blog
+
+model BlogCategory {
+  id        Int      @id @default(autoincrement())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  posts     Post[]
+}
+
+model Post {
+  id          Int            @id @default(autoincrement())
+  title       String
+  content     String // Conteúdo em Markdown
+  contentHtml String         @default("<div></div>")
+  published   Boolean        @default(false)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+  user        User?          @relation(fields: [userId], references: [id])
+  categories  BlogCategory[]
+  images      Image[]
+  userId      String?
 }

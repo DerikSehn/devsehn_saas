@@ -1,6 +1,6 @@
 import { driver } from "driver.js";
 import { motion } from "framer-motion";
-import { BellDot, File, Home, InfoIcon, LandPlot, LogOut, ProjectorIcon, Search, Settings, ShoppingBasket, Tags } from "lucide-react";
+import { BellDot, File, Home, InfoIcon, LandPlot, LogOut, Newspaper, ProjectorIcon, Search, Settings, ShoppingBasket, Tags } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -47,9 +47,9 @@ const LINKS = [
             href: '/admin/products'
         },
         {
-            icon: <LogOut />,
-            name: "Sair",
-            href: "logout"
+            icon: <Newspaper />,
+            name: "Blog",
+            href: "/admin/blog"
         }
         ],
     },
@@ -69,6 +69,11 @@ const LINKS = [
             icon: <File />,
             name: "Documentação",
             href: '/admin/api-doc'
+        },
+        {
+            icon: <LogOut />,
+            name: "Sair",
+            href: "logout"
         }]
     }
 ];
