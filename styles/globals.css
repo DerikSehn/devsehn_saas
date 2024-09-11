@@ -3,8 +3,33 @@
 @tailwind utilities;
  
 @layer utilities {
-  .text-balance {
+  balance {
     text-wrap: balance;
+  }
+
+  
+  h1 {
+    @apply text-4xl font-bold;
+  }
+
+  h2 {
+    @apply text-3xl font-semibold;
+  }
+
+  h3 {
+    @apply text-2xl font-medium;
+  }
+
+  h4 {
+    @apply text-xl font-medium;
+  }
+
+  h5 {
+    @apply text-lg font-normal;
+  }
+
+  h6 {
+    @apply text-base font-normal;
   }
 }
 

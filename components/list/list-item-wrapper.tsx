@@ -5,6 +5,7 @@ import Drawer from '../drawer/drawer';
 import { useToast } from '../providers/toast-provider';
 import { DialogContent } from '../ui/dialog';
 import { CrudRequest } from '@/types/crud';
+import { cn } from '@/lib/utils';
 
 export interface OnSubmitProps {
     item: any;
@@ -17,6 +18,7 @@ export interface ListItemWrapperProps {
     onSubmit: (props: OnSubmitProps) => void;
     disableClickArea?: boolean;
     variant?: 'modal' | 'drawer';
+    className?: string;
 }
 
 /**
@@ -32,7 +34,7 @@ export interface ListItemWrapperProps {
  *   
  */
 
-export default function TableItemWrapper({ children, onSubmit, clickArea, disableClickArea, variant = 'drawer' }: { children: any, clickArea?: any, onSubmit?: any, disableClickArea?: boolean, variant?: 'modal' | 'drawer' }) {
+export default function TableItemWrapper({ children, onSubmit, clickArea, disableClickArea, variant = 'drawer', className }: { children: any, clickArea?: any, onSubmit?: any, disableClickArea?: boolean, variant?: 'modal' | 'drawer', className?: string }) {
     const [isOpen, setIsOpen] = useState(false);
 
     const notify = useToast()
@@ -47,16 +49,16 @@ export default function TableItemWrapper({ children, onSubmit, clickArea, disabl
     const Wrapper = ({ children }: { children: any }) => {
 
         return variant === 'modal' ? (
-            <Dialog open={isOpen} onOpenChange={toggleMenu}>
+            <Dialog open={isOpen} onOpenChange={toggleMenu}  >
 
-                <DialogContent className="bg-neutral-100">
+                <DialogContent className={cn("bg-neutral-100", className)} >
                     {children}
                 </DialogContent>
             </Dialog>
 
         ) : (
             <Drawer
-                className="p-4 min-w-[100dvw] md:min-w-[450px]"
+                className={cn("p-4 min-w-[100dvw] md:min-w-[450px]", className)}
                 anchor={'right'}
                 isOpen={isOpen}
                 onClose={toggleMenu}

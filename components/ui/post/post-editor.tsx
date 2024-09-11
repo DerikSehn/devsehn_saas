@@ -10,55 +10,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import MarkdownEditor from '@/components/MarkdownEditor';
 import { TableItemEditorProps } from '@/types/item-editor';
-
-const postSchema = z.object({
-    title: z.string().min(1, 'O título é obrigatório'),
-    content: z.string().min(1, 'O conteúdo é obrigatório'),
-});
-
-type PostFormData = z.infer<typeof postSchema> & { id: any };
-
-async function createPost(post: PostFormData) {
-    const res = await fetch('/api/protected/blog/new', {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(post),
-    });
-    if (!res.ok) {
-        throw new Error('Erro ao criar postagem.');
-    }
-    return res.json();
-}
-
-async function updatePost(post: PostFormData) {
-    const res = await fetch(`/api/protected/blog/${post.id}`, {
-        method: 'PUT',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(post),
-    });
-    if (!res.ok) {
-        throw new Error('Erro ao atualizar postagem.');
-    }
-    return res.json();
-}
-
-async function deletePost(post: PostFormData) {
-    const res = await fetch(`/api/protected/blog/${post.id}`, {
-        method: 'DELETE',
-        headers: {
-            'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ id: post.id }),
-    });
-    if (!res.ok) {
-        throw new Error('Erro ao excluir postagem.');
-    }
-    return res.json();
-}
+import { createPost, deletePost, updatePost, postSchema, PostFormData } from '@/services/post-service';
 
 const PostEditor = ({ item, method, onClose }: TableItemEditorProps) => {
     const [post, setPost] = useState<PostFormData>(item as any || {
@@ -74,7 +26,7 @@ const PostEditor = ({ item, method, onClose }: TableItemEditorProps) => {
     });
 
     const mutation = useMutation({
-        mutationFn: method === 'create' ? createPost : updatePost,
+        mutationFn: method === 'create' ? createPost : updatePost(item.id),
         onSuccess: (data) => {
             isFunction(onClose) && onClose({ item: data, method });
         },
@@ -101,7 +53,7 @@ const PostEditor = ({ item, method, onClose }: TableItemEditorProps) => {
     const content = watch('content', undefined);
 
     return (
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
+        <form onSubmit={handleSubmit(handleFormSubmit)} className=" space-y-4">
             <h1 className='mb-2 text-2xl font-bold' >
                 Novo post
             </h1>
@@ -120,14 +72,21 @@ const PostEditor = ({ item, method, onClose }: TableItemEditorProps) => {
                 <MarkdownEditor value={content !== undefined ? content : item?.content} onChange={(value) => setValue('content', value)} />
                 {errors.content && <p className="text-red-500">{errors.content.message}</p>}
             </div>
-            <Button type="submit" className="w-full">
-                {mutation.isPending ? 'Salvando...' : 'Salvar'}
-            </Button>
-            {item ? (
-                <Button onClick={handleDelete} variant="destructive" className="w-full">
-                    {deleteMutation.isPending ? 'Removendo...' : 'Remover'}
-                </Button>
-            ) : null}
+            <div className="sticky -bottom-8 bg-neutral-200 grid grid-cols-12 gap-2 p-4">
+                <span className="col-span-6" />
+                <span className="col-span-2">
+                    {item ? (
+                        <Button onClick={handleDelete} variant="destructive" className="w-full col-span-2">
+                            {deleteMutation.isPending ? 'Removendo...' : 'Remover'}
+                        </Button>
+                    ) : null}
+                </span>
+                <span className="col-span-4">
+                    <Button type="submit" variant={"swipe"} className="w-full col-span-4 rounded-lg">
+                        {mutation.isPending ? 'Salvando...' : 'Salvar'}
+                    </Button>
+                </span>
+            </div>
         </form>
     );
 };

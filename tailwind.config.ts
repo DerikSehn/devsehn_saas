@@ -75,6 +75,10 @@ const config: Config = {
           "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
       },
       keyframes: {
+        pulse: {
+          "0%, 100%": { boxShadow: "0 0 0 0 var(--pulse-color)" },
+          "50%": { boxShadow: "0 0 0 8px var(--pulse-color)" },
+        },
         marquee: {
           to: { transform: "translateX(-50%)" },
         },
@@ -94,7 +98,7 @@ const config: Config = {
       //Adjust duration as your needs
       animation: {
         marquee: "marquee var(--duration, 30s) linear infinite",
-
+        pulse: "pulse var(--duration) ease-out infinite",
         "logo-carousel": "logo-carousel 16s linear infinite",
         "modal-fade-in": "modal-fade-in 500ms ease-out",
         "modal-fade-out": "modal-fade-out 500ms ease-in",

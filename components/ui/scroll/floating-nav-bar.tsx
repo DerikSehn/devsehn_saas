@@ -7,6 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../button";
+import WhatsappButton from "@/components/button/whatsapp-button";
 
 interface NavItem {
     name: string;
@@ -54,7 +55,7 @@ export const FloatingNavBar = ({ navItems, className }: FloatingNavBarProps) => 
             }}
             style={{ textShadow: '1px 1px 1px gray' }}
             className={cn(
-                "flex bg-primary-300 fixed top-0 inset-x-0 md:mx-auto transition-colors duration-500 border-b md:border md:border-primary/40 dark:border-white/20 md:rounded-b-[40px] lg:rounded-none dark:bg-primary-300 z-[5000] px-4 md:pl-8 py-2 items-between justify-between md:space-x-4",
+                "flex bg-primary-300 fixed top-0 inset-x-0 md:mx-auto transition-colors duration-500 border-b md:border md:border-primary/40 dark:border-white/20 md:rounded-b-[40px] lg:rounded-none  z-[5000] px-4 md:pl-8 py-2 items-between justify-between md:space-x-4",
                 isAtTop ? "md:bg-transparent md:border-none md:top-4 lg:top-6 xl:top-10 2xl:top-12" : "md:bg-primary/70 md:border-2 top-0 backdrop-blur-[2px] ",
                 className,
             )}
@@ -86,12 +87,7 @@ export const FloatingNavBar = ({ navItems, className }: FloatingNavBarProps) => 
                         </motion.span>
                     </Link>
                 ))}
-                <Link href={whatsAppLink} target="_blank" className="flex items-center justify-center">
-                    <Button variant="swipe" className="text-md group hover:pr-10 transition-all rounded-2xl hover:bg-green-600">
-                        WhatsApp
-                        <MessageCircleIcon className="absolute opacity-0 transition-all duration-500 rotate-12 group-hover:rotate-0 group-hover:opacity-100 right-2 translate-x-10 group-hover:translate-x-0" />
-                    </Button>
-                </Link>
+                <WhatsappButton link={whatsAppLink} />
             </div>
             <div className="flex sm:hidden h-20 w-full justify-center">
                 <Dropdown className="w-full flex justify-center items-center">

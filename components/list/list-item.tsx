@@ -50,12 +50,12 @@ const ListItem: React.FC<ListItemProps> = ({ item, onClick, onDelete, children }
                     <ConfirmDialog onConfirm={handleDelete} title="Remover Item" message="Tem certeza que deseja remover este item?" >
                         <button
                             title="Remover Item" className={cn(
-                                "absolute z-50 right-0  rounded-md inset-y-0 p-3 w-20 ",
+                                "absolute z-50 right-0  rounded-md inset-y-0 p-3 w-20 h-[75px] ",
                                 "flex justify-end items-center",
-                                "bg-gradient-to-l  from-neutral-200 from-40% to-neutral-100 border-l",
-                                "transition-all duration-500 opacity-0 group-hover/item:opacity-100"
+                                "bg-gradient-to-l  from-neutral-200 from-40% to-neutral-100 border",
+                                "transition-all duration-500 opacity-0 group-hover/item:opacity-100 hover:bg-neutral-100 hover:bg-none"
                             )} aria-label="Remove image">
-                            <X className="text-red-500 duration-500 translate-x-0 group-hover/item:-translate-x-2 transition-all" size={30} />
+                            <X className="text-red-500 duration-500 translate-x-2 group-hover/item:translate-x-0 transition-all" size={30} />
                         </button>
                     </ConfirmDialog>
                 </span>

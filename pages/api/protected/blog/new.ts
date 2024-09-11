@@ -99,23 +99,6 @@ export default async function handler(
       console.log(error);
       res.status(500).json(error);
     }
-  } else if (req.method === 'PUT') {
-    try {
-      const data = postSchema.parse(req.body);
-      const postId = Number(req.query.id);
-      const post = await prisma.post.update({
-        where: { id: postId },
-        data: {
-          title: data.title,
-          content: data.content,
-          contentHtml: await markdownToHtml(data.content),
-        },
-      });
-      res.status(200).json(post);
-    } catch (error) {
-      console.log(error);
-      res.status(500).json(error);
-    }
   } else {
     res.status(405).end();
   }

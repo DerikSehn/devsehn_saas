@@ -5,7 +5,7 @@ import { twMerge } from 'tailwind-merge';
 import SparklesText from '../magicui/sparkles-text';
 import { Button } from '../ui/button';
 import ListItem, { Item } from './list-item';
-import ListItemWrapper from './list-item-wrapper';
+import ListItemWrapper, { ListItemWrapperProps } from './list-item-wrapper';
 import ListPagination from './list-pagination';
 import { TableItemEditorProps } from '@/types/item-editor';
 import TableItemEditor from './table-item-editor';
@@ -28,6 +28,7 @@ interface ListProps {
     className?: string;
     customEditor?: ReactElement<TableItemEditorProps>;
     tableName?: CrudRequest["table"];
+    listItemWrapperProps?: Partial<ListItemWrapperProps>;
     header?: {
         title: string;
         subTitle?: string;
@@ -48,7 +49,8 @@ const List = ({
     className,
     tableName,
     header,
-    children
+    children,
+    listItemWrapperProps
 }: ListProps) => {
     const {
         currentPage,
@@ -84,10 +86,11 @@ const List = ({
                 {enableEditor ?
                     <ListItemWrapper onSubmit={handleSubmit}
                         clickArea={
-                            <Button variant={'outline'} className="absolute  right-2 top-2 rounded-3xl flex justify-between space-x-2">
+                            <Button variant={'outline'} className="absolute  right-2 top-2 flex justify-between space-x-2 dark:bg-white rounded-lg">
                                 <PlusIcon className=" w-6 h-6 text-neutral-800" />
                             </Button>
                         }
+                        {...listItemWrapperProps}
                     >
                         {customEditor ?
                             cloneElement(customEditor, { method: 'create', onClose: () => { }, tableName: tableName! })
@@ -132,10 +135,13 @@ const List = ({
             )}
             {enableEditor ? <>
                 {paginatedItems.map((item) =>
-                    <ListItemWrapper key={item?.id} onSubmit={handleSubmit} clickArea={
-                        <ListItem onDelete={() => handleItemDelete(item!.id)} onClick={handleItemClick} item={item!} >
-                            {children ? cloneElement(children, { item } as any) : null}
-                        </ListItem>}
+                    <ListItemWrapper key={item?.id} onSubmit={handleSubmit}
+
+                        clickArea={
+                            <ListItem onDelete={() => handleItemDelete(item!.id)} onClick={handleItemClick} item={item!} >
+                                {children ? cloneElement(children, { item } as any) : null}
+                            </ListItem>}
+                        {...listItemWrapperProps}
                     >
                         {customEditor ?
                             cloneElement(customEditor, { method: 'update', onClose: handleSubmit, tableName: tableName!, item: item })
