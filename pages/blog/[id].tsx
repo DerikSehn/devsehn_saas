@@ -1,5 +1,6 @@
 // pages/admin/blog/[id].tsx
 import { Section } from '@/components/landingpage/section/section';
+import ReturnToPage from '@/components/return-to-page';
 import prisma from '@/lib/prisma';
 import markdownToHtml from '@/lib/remark/markdown-to-html';
 import { Post } from '@prisma/client';
@@ -35,7 +36,8 @@ export default function PostPage({ post }: PostPageProps) {
 
         <Section id="blog-item" className="bg-transparent min-h-[1000px] h-auto flex flex-col max-w-screen-2xl mx-auto justify-start px-12 pt-64 ">
             <div className="relative w-full grid md:grid-cols-2 gap-4 overflow-visible text-neutral-50 mb-10">
-                <div>
+                <div >
+                    <ReturnToPage href='/blog' className="absolute -top-20 " />
                     <h1 className="z-10 flex flex-col font-moglan uppercase font-thin text-left text-6xl">
                         {post.title}
                     </h1>

@@ -10,28 +10,28 @@ export const PostCard = ({ item, className, readonly }: { item: Post, className?
 
     return (
         <Card
-            className={cn("relative overflow-hidden rounded-lg bg-gradient-to-b from-white to-neutral-100 hover:bg-neutral-50 transition-colors border-neutral-300 border-2 h-full",
+            className={cn("relative overflow-hidden rounded-lg bg-gradient-to-b from-neutral-100 to-white hover:bg-neutral-50 transition-colors border-primary-900 border-2 h-full",
                 className
             )}
         >
-            <h2 className="absolute right-2 text-neutral-400 p-4 top-0" >
+            <h2 className="absolute right-2 text-primary-400 p-4 top-0" >
                 #{item.id}
             </h2>
-            <CardHeader className="bg-neutral-300">
+            <CardHeader className="bg-primary-900 text-primary-400">
                 <CardTitle>{item.title}</CardTitle>
             </CardHeader>
-            <CardContent >
+            <CardContent className="relative max-h-60 mt-4 ">
                 <div
-                    className="max-h-40 w-full my-2 "
+                    className="max-h-60 overflow-hidden w-full "
                     dangerouslySetInnerHTML={{ __html: item.contentHtml }} />
-
+                <span className="absolute bottom-0 inset-x-2 h-10 bg-gradient-to-t from-white  " />
             </CardContent>
 
             {readonly ?
                 null
                 : <CardFooter className="bg-white">
                     <Link href={`/blog/${item.id}`} passHref>
-                        <Button variant="outline">Ler mais</Button>
+                        <Button variant="outline" className="mt-2">Ler mais</Button>
                     </Link>
                 </CardFooter>
             }
