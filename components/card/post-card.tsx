@@ -22,7 +22,7 @@ export const PostCard = ({ item, className, readonly }: { item: Post, className?
             </CardHeader>
             <CardContent className="relative max-h-60 mt-4 ">
                 <div
-                    className="max-h-60 overflow-hidden w-full "
+                    className="max-h-60 overflow-hidden w-full [&_h1]:mt-8 [&_h2]:mt-6 [&_p]:mb-4 [&_p]:mt-2  [&_li]:my-2"
                     dangerouslySetInnerHTML={{ __html: item.contentHtml }} />
                 <span className="absolute bottom-0 inset-x-2 h-10 bg-gradient-to-t from-white  " />
             </CardContent>

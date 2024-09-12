@@ -31,6 +31,10 @@
   h6 {
     @apply text-base font-normal;
   }
+
+  p {
+    @apply text-base font-normal;
+  }
 }
 
 @font-face {

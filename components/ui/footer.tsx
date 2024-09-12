@@ -96,7 +96,7 @@ export function Footer() {
                 <div className="mt-12 flex w-full flex-col items-center justify-between border-t border-neutral-50 py-4 md:flex-row">
                     <div className="flex gap-2">
                         {/* TODO ADD DYNAMIC LINKS */}
-                        <Link href={whatsAppLink} className="border p-2 aspect-square rounded-3xl transition-all aspec-square bg-primary/20 hover:bg-gray-800 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50"
+                        <Link href={whatsAppLink} className="border p-2 aspect-square rounded-3xl transition-all bg-primary/20 hover:bg-gray-800 hover:text-gray-900 dark:border-gray-800 dark:bg-gray-950 dark:hover:bg-gray-800 dark:hover:text-gray-50"
                         >
                             <WhatsApp />
                         </Link>
@@ -108,7 +108,10 @@ export function Footer() {
                         </Link>
                     </div>
                     <small className="mb-4 text-center font-normal  md:mb-0">
-                        &copy; {currentYear} <a href="https://material-tailwind.com/">Cultura Verde</a>. All Rights Reserved.
+                        by: <a href="https://github.com/DerikSehn">Derik Sehn</a>.
+                    </small>
+                    <small className="mb-4 text-center font-normal  md:mb-0">
+                        &copy; {currentYear} <a href="https://culturaverde.com.br/">Cultura Verde</a>. All Rights Reserved.
                     </small>
                 </div>
             </div>
@@ -117,4 +120,4 @@ export function Footer() {
 }
 
 
-const WhatsApp = () => <Image src="/whatsapp.png" alt="whatsapp" width={20} className="opacity-40" height={20} />
+const WhatsApp = () => <Image src="/whatsapp.png" alt="whatsapp" width={24} className="" height={24} />
