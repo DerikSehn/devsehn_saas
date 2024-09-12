@@ -1,4 +1,4 @@
-import { Contact, Home, Projector, ShoppingBag, User, Workflow } from 'lucide-react'
+import { Contact, Home, Newspaper, Projector, ShoppingBag, User, Workflow } from 'lucide-react'
 import { signOut, useSession } from 'next-auth/react'
 import { useRouter } from 'next/router'
 import { Footer } from '../ui/footer'
@@ -9,12 +9,13 @@ import AdminLayout from './admin-layout'
 
 const navItems = [
     { name: "Início", link: "/", icon: <Home /> },
-    { name: "A Empresa", link: "/section/a-empresa", icon: <Workflow /> },
-    { name: "A Paisagista", link: "/section/a-paisagista", icon: <User /> },
-    { name: "O CEO", link: "/section/o-especialista", icon: <User /> },
+    { name: "Empresa", link: "/section/a-empresa", icon: <Workflow /> },
+    { name: "Paisagista", link: "/section/a-paisagista", icon: <User /> },
+    { name: "CEO", link: "/section/o-especialista", icon: <User /> },
     { name: "Contato", link: "/contact", icon: <Contact /> },
     { name: "Projetos", link: "/projects", icon: <Projector /> },
     { name: "Produtos", link: "/products", icon: <ShoppingBag /> },
+    { name: "BLOG", link: "/blog", icon: <Newspaper /> },
 ]
 
 
