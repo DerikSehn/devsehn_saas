@@ -158,7 +158,7 @@ const ProductPage = ({ product, relatedProducts, whatsapp }: { product: Product,
                                 </Select>
                             </div>
                             <div className="flex flex-col gap-4 relative justify-end">
-                                <Button variant="swipe" className="flex  items-center w-full gap-4 z-10 border-neutral-100 hover:bg-gray-300 bg-gray text-primary-200 hover:text-neutral-700">
+                                <Button variant="swipe" className="flex  items-center w-full gap-4 z-10 border-neutral-100">
                                     <Coins className="h-4 w-4 mr-2" />
                                     <span className="text-neutral-600">
                                         Compre Já!
