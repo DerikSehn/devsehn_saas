@@ -39,7 +39,13 @@ const nextConfig = {
         hostname: "lh3.googleusercontent.com",
         port: "",
         pathname: "/**",
-      }
+      },
+      {
+        protocol: "https",
+        hostname: "api.microlink.io",
+        port: "",
+        pathname: "/**",
+      },
     ],
   },
   webpack: (config) => {
@@ -51,8 +57,6 @@ const nextConfig = {
     };
     return config;
   },
-
 };
 
 export default nextConfig;
-

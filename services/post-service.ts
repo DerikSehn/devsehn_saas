@@ -1,12 +1,25 @@
+import { DependencyType } from '@/components/ui/auto-form/types';
+import { Column } from '@/types/column';
 import { z } from 'zod';
 
-export const postSchema = z.object({
-  title: z.string().min(1, 'O título é obrigatório'),
-  content: z.string().min(1, 'O conteúdo é obrigatório'),
-  images: z.array(z.any()),
-});
+export const canShowColumn = (col: Column) => {
+  return (
+    !['updatedAt', 'createdAt', 'contentHtml', 'user'].includes(col.name) &&
+    !col.isId &&
+    !col.isReadOnly
+  );
+};
 
-export type PostFormData = z.infer<typeof postSchema> & { id: any };
+export const hideFields: any = (fields: string[]) => {
+  return fields.map((field) => ({
+    sourceField: field,
+    type: DependencyType.HIDES,
+    targetField: field,
+    when: () => true,
+  }));
+};
+
+export type PostFormData = z.infer<any> & { id: any };
 
 export const createPost = async (post: PostFormData) => {
   const res = await fetch('/api/protected/blog/new', {
@@ -23,7 +36,6 @@ export const createPost = async (post: PostFormData) => {
 };
 
 export const updatePost = (id: number) => async (post: PostFormData) => {
-  console.log(post);
   const res = await fetch(`/api/protected/blog/${id}`, {
     method: 'PUT',
     headers: {

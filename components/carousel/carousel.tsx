@@ -2,8 +2,9 @@ import 'keen-slider/keen-slider.min.css';
 import { useKeenSlider } from 'keen-slider/react';
 import React, { useEffect, useState } from 'react';
 import CarouselArrow from './carousel-arrow';
+import { cn } from '@/lib/utils';
 
-export default function Carousel({ perView, children }: { perView?: number, children: React.ReactNode }) {
+export default function Carousel({ perView, children, className }: { perView?: number, children: React.ReactNode, className?: string }) {
 
     const size = useWindowSize();
 
@@ -45,7 +46,7 @@ export default function Carousel({ perView, children }: { perView?: number, chil
     });
 
     return (
-        <div ref={sliderRef} className="keen-slider">
+        <div ref={sliderRef} className={cn("keen-slider", className)}>
             {React.Children.map(children, (child, index) => (
                 <div className="keen-slider__slide" key={index}>
                     {child}

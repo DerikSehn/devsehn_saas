@@ -1,4 +1,5 @@
 // pages/admin/blog/[id].tsx
+import Carousel from '@/components/carousel/carousel';
 import { Section } from '@/components/landingpage/section/section';
 import ReturnToPage from '@/components/return-to-page';
 import prisma from '@/lib/prisma';
@@ -11,7 +12,7 @@ import Image from 'next/image';
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const post = await prisma.post.findUnique({
         where: { id: Number(params?.id) },
-        include: { user: true, categories: true },
+        include: { user: true, categories: true, images: true },
     })
     return {
         props: {
@@ -48,11 +49,16 @@ export default function PostPage({ post }: PostPageProps) {
                     </div>
                 </div>
             </div>
-            <div className="min-h-screen pb-10">
-                <div className="container mx-auto px-4">
-                    <div>
-                        <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} className='max-w-prose mx-auto [&_h1]:mt-8 [&_h2]:mt-6 [&_p]:mb-4 [&_p]:mt-2  [&_li]:my-2' />
-                    </div>
+            <div className="min-h-screen pb-10 ">
+                <div className="container  px-4 space-y-2 flex flex-col justify-center">
+                    <Carousel perView={1} className='mx-auto max-w-prose' >
+                        {(post as any).images.map((image: any) => (
+                            <div key={image.id} className="relative h-96">
+                                <Image className="object-cover" alt={post.title} src={image.url} fill />
+                            </div>
+                        ))}
+                    </Carousel>
+                    <div dangerouslySetInnerHTML={{ __html: post.contentHtml }} className='max-w-prose mx-auto [&_h1]:mt-8 [&_h2]:mt-6 [&_p]:mb-4 [&_p]:mt-2  [&_li]:my-2' />
                 </div>
             </div>
         </Section>

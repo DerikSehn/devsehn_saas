@@ -14,7 +14,6 @@ import AutoFormTooltip from "../common/tooltip";
 import { AutoFormInputComponentProps } from "../types";
 import { useToast } from "@/components/providers/toast-provider";
 
-
 interface FileWithDescription {
     file?: File;
     image: ImageType;
@@ -27,7 +26,7 @@ export default function AutoFormFiles({
     fieldProps = { multiple: true },
     field,
 }: AutoFormInputComponentProps) {
-    const { showLabel: _showLabel, ...fieldPropsWithoutShowLabel } = fieldProps;
+    const { showLabel: _showLabel, className, ...fieldPropsWithoutShowLabel } = fieldProps;
     const showLabel = _showLabel === undefined ? true : _showLabel;
     const [files, setFiles] = useState<FileWithDescription[] | null>(null);
     const fileInputRef = useRef<HTMLInputElement>(null);
@@ -107,7 +106,7 @@ export default function AutoFormFiles({
     };
 
     const FcFirstImage = ({ onClick, src, className, index }: { onClick: any, src?: string, className?: string, index?: number }) => {
-        return (<span className="w-full relative group">
+        return (<span className={cn("w-full relative group", className)}>
 
             <Image
                 alt="Product image"

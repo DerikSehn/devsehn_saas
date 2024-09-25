@@ -1,94 +1,72 @@
 import MarkdownEditor from '@/components/MarkdownEditor';
-import { useToast } from '@/components/providers/toast-provider';
+import AutoForm, { AutoFormSubmit } from '@/components/ui/auto-form';
 import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { createPost, deletePost, PostFormData, postSchema, updatePost } from '@/services/post-service';
+import { useTableItemEditor } from '@/hooks/use-table-item-editor';
+import { getFieldConfig } from '@/services/item-editor-service';
+import { canShowColumn, hideFields } from '@/services/post-service';
 import { TableItemEditorProps } from '@/types/item-editor';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
-import { isFunction } from 'lodash';
-import { useState } from 'react';
-import { useForm } from 'react-hook-form';
+import AutoFormFiles from '../auto-form/fields/files';
+import { DependencyType } from '../auto-form/types';
+import AutoFormComplete from '../auto-form/fields/auto-complete';
+
+
 
 const PostEditor = ({ item, method, onClose }: TableItemEditorProps) => {
-    const [post, setPost] = useState<PostFormData>(item as any || {
-        title: '',
-        content: '',
-    });
-    const notify = useToast();
 
-    const { register, handleSubmit, formState: { errors }, setValue, watch } = useForm<PostFormData>({
-        resolver: zodResolver(postSchema),
-        defaultValues: post,
-    });
-
-    const mutation = useMutation({
-        mutationFn: method === 'create' ? createPost : updatePost(item.id),
-        onSuccess: (data) => {
-            isFunction(onClose) && onClose({ item: data, method });
-        },
-        onError: () => notify(`Erro ao ${method === 'create' ? 'criar' : 'atualizar'} postagem.`, { type: 'error' }),
-    });
-
-    const handleFormSubmit = (data: PostFormData) => {
-        mutation.mutate(data);
-    };
-
-    const deleteMutation = useMutation({
-        mutationFn: deletePost,
-        onSuccess: () => {
-            isFunction(onClose) && onClose({ item: post as any, method: 'delete' });
-        },
-        onError: () => notify(`Erro ao excluir postagem.`, { type: 'error' }),
-    });
-
-    const handleDelete = (e: any) => {
-        e.preventDefault();
-        deleteMutation.mutate(post);
-    };
-
-    const content = watch('content', undefined);
+    const { onSubmit, handleDelete, formSchema: rawFormSchema } = useTableItemEditor({ item, tableName: 'post', method, onClose });
 
 
-    return (
-        <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-4">
-            <h1 className='mb-2 text-2xl font-bold'>
-                Novo post
-            </h1>
-            <div className="grid gap-2">
-                <Label htmlFor="title">Título</Label>
-                <Input
-                    id="title"
-                    type="text"
-                    {...register('title')}
-                    onChange={(e) => setPost({ ...post, title: e.target.value })}
-                />
-                {errors.title && <p className="text-red-500">{errors.title.message}</p>}
+    return (<>
+        <h1 className="text-2xl font-bold">Editar informações de {item.title}</h1>
+        <AutoForm
+            /* @ts-ignore */
+            formSchema={rawFormSchema}
+            className="space-y-4"
+            values={item}
+            dependencies={hideFields(['user', 'contentHtml'])}
+            onSubmit={onSubmit}
+            fieldConfig={{
+                published: { label: 'Publicado', fieldType: 'checkbox' },
+                title: { label: 'Título' },
+                content: { label: 'Conteúdo', fieldType: MarkdownEditor },
+                categories: {
+                    label: 'Categorias do post',
+                    fieldType: AutoFormComplete,
+                    inputProps: {
+                        multiple: true,
+                        type: 'BlogCategory',
+                    },
+                },
+                images: {
+                    label: 'Imagens',
+                    inputProps: {
+                        className: 'max-w-xs',
+                        accept: "image/*",
+                        multiple: true,
+                    },
+                    fieldType: AutoFormFiles,
+                },
+            }}
+        >
+
+            <div className="sticky -bottom-8 bg-neutral-200 p-4 w-full flex justify-end">
+
+                {item &&
+                    <Button
+                        id="step-delete"
+                        type="button"
+                        className="bg-red-500 hover:bg-red-700 text-white mr-2"
+                        onClick={handleDelete}>Remover Item</Button>
+                }
+                <AutoFormSubmit className='mr-2 w-40'>
+                    Salvar
+                </AutoFormSubmit>
+
+
             </div>
-            <div className="grid gap-2">
-                <Label htmlFor="content">Conteúdo</Label>
-                <MarkdownEditor value={content !== undefined ? content : item?.content} onChange={(value) => setValue('content', value)} />
-                {errors.content && <p className="text-red-500">{errors.content.message}</p>}
-            </div>
+        </AutoForm>
+    </>
 
-            <div className="sticky -bottom-8 bg-neutral-200 grid grid-cols-12 gap-2 p-4">
-                <span className="col-span-6" />
-                <span className="col-span-2">
-                    {item ? (
-                        <Button onClick={handleDelete} variant="destructive" className="w-full col-span-2">
-                            {deleteMutation.isPending ? 'Removendo...' : 'Remover'}
-                        </Button>
-                    ) : null}
-                </span>
-                <span className="col-span-4">
-                    <Button type="submit" variant={"swipe"} className="w-full col-span-4 rounded-lg">
-                        {mutation.isPending ? 'Salvando...' : 'Salvar'}
-                    </Button>
-                </span>
-            </div>
-
-        </form>
     );
 };
 
