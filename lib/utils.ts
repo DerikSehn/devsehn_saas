@@ -1,25 +1,25 @@
-import { handleApiCrudRequest } from "@/services/crud-service";
-import { clsx, type ClassValue } from "clsx";
-import { useEffect, useState } from "react";
-import { twMerge } from "tailwind-merge";
+import { handleApiCrudRequest } from '@/services/crud-service';
+import { clsx, type ClassValue } from 'clsx';
+import { useEffect, useState } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 function isTouchDevice() {
-  if (typeof window === "undefined") return false;
-  const prefixes = " -webkit- -moz- -o- -ms- ".split(" ");
+  if (typeof window === 'undefined') return false;
+  const prefixes = ' -webkit- -moz- -o- -ms- '.split(' ');
   function mq(query: any) {
-    return typeof window !== "undefined" && window.matchMedia(query).matches;
+    return typeof window !== 'undefined' && window.matchMedia(query).matches;
   }
 
   if (
-    "ontouchstart" in window || // @ts-ignore
+    'ontouchstart' in window || // @ts-ignore
     (window?.DocumentTouch && document instanceof DocumentTouch)
   )
     return true;
-  const query = ["(", prefixes.join("touch-enabled),("), "heartz", ")"].join(
-    ""
+  const query = ['(', prefixes.join('touch-enabled),('), 'heartz', ')'].join(
+    '',
   ); // include the 'heartz' - https://git.io/vznFH
   return mq(query);
 }
@@ -34,7 +34,7 @@ export default function useIsTouchDevice() {
       isWinPhone,
       isMobileSafari,
       isTablet,
-    } = require("react-device-detect");
+    } = require('react-device-detect');
     setIsTouch(
       isTouch ||
         isAndroid ||
@@ -43,7 +43,7 @@ export default function useIsTouchDevice() {
         isWinPhone ||
         isMobileSafari ||
         isTablet ||
-        isTouchDevice()
+        isTouchDevice(),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -52,7 +52,7 @@ export default function useIsTouchDevice() {
 }
 
 export function generateWhatsAppLink({
-  countryCode = "55",
+  countryCode = '55',
   phoneNumber,
   message,
 }: {
@@ -61,8 +61,8 @@ export function generateWhatsAppLink({
   message: string;
 }) {
   // Remove caracteres não numéricos do código do país e do número de telefone
-  const cleanedCountryCode = countryCode.replace(/\D/g, "");
-  const cleanedPhoneNumber = phoneNumber.replace(/\D/g, "");
+  const cleanedCountryCode = countryCode?.replace(/\D/g, '');
+  const cleanedPhoneNumber = phoneNumber?.replace(/\D/g, '');
 
   // Codifica a mensagem para o formato de URL
   const encodedMessage = encodeURIComponent(message);
@@ -75,9 +75,9 @@ export function generateWhatsAppLink({
 export async function fetchWhatsappLink(message: string) {
   try {
     const { result } = await handleApiCrudRequest(
-      { where: { title: "WHATSAPP_NUMBER" } },
-      "setting",
-      "findFirst"
+      { where: { title: 'WHATSAPP_NUMBER' } },
+      'setting',
+      'findFirst',
     );
 
     return generateWhatsAppLink({
@@ -85,6 +85,6 @@ export async function fetchWhatsappLink(message: string) {
       message: message,
     });
   } catch (error) {
-    throw new Error("Erro ao buscar o número de telefone do WhatsApp");
+    throw new Error('Erro ao buscar o número de telefone do WhatsApp');
   }
 }

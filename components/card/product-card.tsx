@@ -5,7 +5,6 @@ import { Product } from "@prisma/client"
 import { Coins } from "lucide-react"
 import Image from "next/image"
 import { Badge } from "../ui/badge"
-import Link from "next/link"
 
 
 
