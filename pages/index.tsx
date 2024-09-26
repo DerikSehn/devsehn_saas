@@ -11,6 +11,7 @@ import { ModelWithImage, ModelWithImages } from "@/prisma/prisma-utils";
 import { Partner, Project, Section, Service, Testimonial } from "@prisma/client";
 import { Prata, Yeseva_One } from 'next/font/google';
 import Contact from "./contact";
+import Head from "next/head";
 
 
 export const getServerSideProps = (async () => {
@@ -62,20 +63,14 @@ interface HomePageProps {
 export default function Home({ projects, testimonials, services, partners, sections, heroImages }: HomePageProps) {
 
   return (<div className="relative z-0">
-    <script type="application/ld+json">
-      {JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "Organization",
-        "name": "Cultura Verde - a excelência em paisagismo",
-        "url": "https://culturaverde.com.br",
-        "logo": "https://culturaverde.com.br/logo.png",
-        "sameAs": [
-          "https://www.facebook.com/culturaverde",
-          "https://www.instagram.com/cultura_verde",
-          "https://www.facebook.com/culturaverders"
-        ]
-      })}
-    </script>
+    <Head>
+      <title>Cultura Verde - A Excelência em Paisagismo</title>
+      <meta name="description" content="Descubra os serviços de paisagismo da Cultura Verde e transforme seu jardim." />
+      <meta property="og:title" content="Cultura Verde - Transforme seu Jardim" />
+      <meta property="og:description" content="Descubra os serviços de paisagismo da Cultura Verde e transforme seu jardim." />
+      <meta property="og:image" content="https://culturaverde.com.br/homepage-image.png" />
+      <meta property="og:url" content="https://culturaverde.com.br" />
+    </Head>
     <Page className={`relative z-1  ${yeseva_one.className} ${prata.className}`}>
       <div className="flex flex-col w-full min-h-[100vh] bg-primary-300">
         <Hero heroImages={heroImages} />

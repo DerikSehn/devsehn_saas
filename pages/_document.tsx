@@ -1,10 +1,11 @@
 import { Html, Head, Main, NextScript } from "next/document";
 
 export default function Document() {
+
+
   return (
     <Html lang="en">
       <Head>
-        <title>Cultura Verde - A Excelência em Paisagismo</title>
         <meta name="description" content="Cultura Verde oferece os melhores serviços de paisagismo." />
         <meta name="keywords" content="paisagismo, jardinagem, cultura verde" />
         <meta property="og:title" content="Cultura Verde - Excelência em Paisagismo" />
