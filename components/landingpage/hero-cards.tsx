@@ -26,7 +26,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
                 borderTopRightRadius: isTouch ? '0%' : borderTopRightRadius,
             }}
             ref={ref}
-            className="h-auto relative z-10 w-full py-0 md:py-0 lg:py-0 flex flex-col justify-start border-gray-200 lg:border-[32px] bg-white"
+            className="h-auto relative z-10 w-full py-0 md:py-0 lg:py-0 flex flex-col justify-start border-white lg:border-[32px] bg-white"
         >
             {isTouch ?
                 <div className="space-y-2 text-center my-10 mx-auto flex flex-col items-center justify-center h-1/4 w-full col-span-full">
@@ -73,7 +73,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
 
 export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
     return (
-        <Card className="relative w-[300px] lg:w-[350px] xl:w-[400px] bg-gray-100 text-gray-800 text-left rounded-2xl shadow-md p-2">
+        <Card className="relative w-[300px] lg:w-[350px] xl:w-[400px] bg-primary-900 text-primary-300 text-left rounded-2xl shadow-md p-2 border-none">
             <CardHeader className="relative h-72">
                 {service.image?.url ?
                     <Image
@@ -83,10 +83,10 @@ export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
                         objectFit="cover"
                         className="rounded-t-lg"
                     />
-                    : <div className="absolute inset-0 bg-gray-300 z-0" />
+                    : <div className="absolute inset-0 bg-primary-900 z-0" />
                 }
             </CardHeader>
-            <CardContent className="relative z-50 -mt-40 -ml-1 pt-3 min-h-52 rounded-tr-3xl bg-gray-100 w-[80%]">
+            <CardContent className="relative z-50 -mt-40 -ml-1 pt-3 min-h-52 rounded-tr-3xl bg-primary-900 w-[80%]">
                 <CardTitle className="text-xl font-semibold my-4">{service.title}</CardTitle>
                 <CardDescription className="text-md">{service.description}</CardDescription>
             </CardContent>

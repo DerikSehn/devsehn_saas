@@ -72,7 +72,7 @@ export default function Home({ projects, testimonials, services, partners, secti
       <meta property="og:url" content="https://culturaverde.com.br" />
     </Head>
     <Page className={`relative z-1  ${yeseva_one.className} ${prata.className}`}>
-      <div className="flex flex-col w-full min-h-[100vh] bg-primary-300">
+      <article className="flex flex-col w-full min-h-[100vh] bg-primary-300">
         <Hero heroImages={heroImages} />
         <HeroCards services={services} />
         <Projects projects={projects} />
@@ -86,7 +86,7 @@ export default function Home({ projects, testimonials, services, partners, secti
             <Testimonials testimonials={testimonials} />
           </ScrollSectionReveal>
         </ScrollSectionReveal>
-      </div>
+      </article>
       <Contact />
     </Page>
   </div>
