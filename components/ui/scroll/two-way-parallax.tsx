@@ -72,7 +72,7 @@ const Column = ({ images, y = 0, classes }: Column) => {
             {images.map((src, idx) => (
                 <div
                     key={idx}
-                    className="relative h-full w-full overflow-hidden rounded-md"
+                    className="relative h-full w-full max-h-[900px] overflow-hidden rounded-md"
                 >
                     <Image
                         src={src}
@@ -80,6 +80,7 @@ const Column = ({ images, y = 0, classes }: Column) => {
                         fill
                         alt="img"
                         loading="eager"
+
                     />
                 </div>
             ))}
