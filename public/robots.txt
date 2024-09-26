@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://culturaverde.com.br
+
+# Sitemaps
+Sitemap: https://culturaverde.com.br/sitemap.xml

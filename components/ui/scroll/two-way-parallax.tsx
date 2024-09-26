@@ -79,6 +79,7 @@ const Column = ({ images, y = 0, classes }: Column) => {
                         objectFit="cover"
                         fill
                         alt="img"
+                        loading="eager"
                     />
                 </div>
             ))}

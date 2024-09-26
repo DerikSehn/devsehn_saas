@@ -82,6 +82,7 @@ export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
                         layout="fill"
                         objectFit="cover"
                         className="rounded-t-lg"
+                        loading="eager"
                     />
                     : <div className="absolute inset-0 bg-primary-900 z-0" />
                 }
