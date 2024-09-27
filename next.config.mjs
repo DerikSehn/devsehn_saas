@@ -65,7 +65,7 @@ const nextConfig = {
         permanent: true,
       },
       {
-        source: '/sitemap-pt-page-2013-05.xml',
+        source: 'sitemap-pt-post-2015-04',
         destination: '/sitemap.xml',
         permanent: true,
       },
