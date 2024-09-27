@@ -13,18 +13,20 @@ export default function Document() {
         <meta property="og:image" content="https://culturaverde.com.br/logo.png" />
         <meta property="og:url" content="https://culturaverde.com.br" />
         <script type="application/ld+json">
-          {JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "Organization",
-            "name": "Cultura Verde - a excelência em paisagismo",
-            "url": "https://culturaverde.com.br",
-            "logo": "https://culturaverde.com.br/logo.png",
-            "sameAs": [
-              "https://www.facebook.com/culturaverde",
-              "https://www.instagram.com/cultura_verde",
-              "https://www.facebook.com/culturaverders"
-            ]
-          })}
+          {`
+            {
+              "@context": "https://schema.org",
+              "@type": "Organization",
+              "name": "Cultura Verde - a excelência em paisagismo",
+              "url": "https://culturaverde.com.br",
+              "logo": "https://culturaverde.com.br/logo.png",
+              "sameAs": [
+                "https://www.facebook.com/culturaverde",
+                "https://www.instagram.com/cultura_verde",
+                "https://www.facebook.com/culturaverders"
+              ]
+            }
+          `}
         </script>
       </Head>
       <body className="selection:bg-primary-200 selection:text-primary-900 selection:text-opacity-100 selection:bg-opacity-50">
