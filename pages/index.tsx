@@ -12,6 +12,7 @@ import { Partner, Project, Section, Service, Testimonial } from "@prisma/client"
 import { Prata, Yeseva_One } from 'next/font/google';
 import Contact from "./contact";
 import Head from "next/head";
+import About from "@/components/landingpage/about";
 
 
 export const getServerSideProps = (async () => {
@@ -75,8 +76,8 @@ export default function Home({ projects, testimonials, services, partners, secti
       <article className="flex flex-col w-full min-h-[100vh] bg-primary-300">
         <Hero heroImages={heroImages} />
         <HeroCards services={services} />
+        <About />
         <Projects projects={projects} />
-        {/* <About /> */}
         <ScrollSectionReveal content={
           <Sections sections={sections} />
         }>

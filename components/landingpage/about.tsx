@@ -10,20 +10,31 @@ export default function About() {
 
             <VideoModal>
                 <VideoModalTrigger
-                    className="bg-primary text-white hover:bg-primary/80 hover:text-white/80 transition-all duration-500 rounded-full p-4 px-8 text-sm font-medium shadow-sm"
-                >Open modal
+                    className="absolute z-0 inset-20 bg-primary text-white hover:bg-primary/80 hover:text-white/80 transition-all duration-500 rounded-full p-4 px-8 text-sm font-medium shadow-sm"
+                >
+                    <Image
+                        fill
+                        className="object-cover brightness-75 blur-sm"
+                        src="https://cultura-verde-bucket.s3.sa-east-1.amazonaws.com/video/video-apresentacao-culturaverde-preview.png"
+                        alt="Video Trigger"
+                    />
+                    <span className="absolute inset-0 m-auto flex size-32 items-center justify-center rounded-full border border-white border-white/10 bg-white/50 transition duration-300 hover:bg-white/75">
+
+                        <PlayCircle className="absolute  size-20 stroke-1 text-white" />
+                    </span>
                 </VideoModalTrigger>
                 <VideoModalContent>
-                    <VideoModalTitle>Modal Video Demo</VideoModalTitle>
+                    <VideoModalTitle>Video sobre a Cultura verde</VideoModalTitle>
                     <VideoModalDescription>
-                        Your subtitle or description here
+                        Confira o video de apresentação da Cultura Verde
                     </VideoModalDescription>
                     <VideoModalVideo>
                         <VideoPlayer>
                             <VideoPreview className="relative">
                                 <Image
                                     fill
-                                    src="https://cdn.dribbble.com/userupload/4145843/file/original-c7a2c9a768450460259f232259d103d2.png?resize=1600x1200"
+                                    className="object-cover"
+                                    src="https://cultura-verde-bucket.s3.sa-east-1.amazonaws.com/video/video-apresentacao-culturaverde-preview.png"
                                     alt="Video preview"
                                 />
                             </VideoPreview>
@@ -34,7 +45,7 @@ export default function About() {
                             </VideoPlayButton>
                             <iframe
                                 className="size-full"
-                                src="https://cdn.magicui.design/globe.mp4"
+                                src="https://cultura-verde-bucket.s3.sa-east-1.amazonaws.com/video/video-apresentacao-culturaverde-2.mp4"
                                 allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"
                                 allowFullScreen
                             />

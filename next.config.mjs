@@ -57,6 +57,21 @@ const nextConfig = {
     };
     return config;
   },
+  async redirects() {
+    return [
+      {
+        source: '/sitemap-misc.xml',
+        destination: '/sitemap.xml',
+        permanent: true,
+      },
+      {
+        source: '/sitemap-pt-page-2013-05.xml',
+        destination: '/sitemap.xml',
+        permanent: true,
+      },
+      // Adicione mais redirecionamentos conforme necessário
+    ];
+  },
 };
 
 export default nextConfig;
