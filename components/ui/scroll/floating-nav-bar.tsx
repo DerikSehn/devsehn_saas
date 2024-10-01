@@ -8,6 +8,7 @@ import Link from "next/link";
 import { useState } from "react";
 import { Button } from "../button";
 import WhatsappButton from "@/components/button/whatsapp-button";
+import { HamburgerMenuIcon } from "@radix-ui/react-icons";
 
 interface NavItem {
     name: string;
@@ -33,9 +34,6 @@ export const FloatingNavBar = ({ navItems, className }: FloatingNavBarProps) => 
         }
     });
 
-    const phoneNumber = "(51) 99626-1079";
-    const message = "Olá, tudo bem? Gostaria de saber mais sobre os serviços da cultura verde. Poderia me fornecer mais informações?";
-    const whatsAppLink = generateWhatsAppLink({ phoneNumber, message });
 
     return (
         <motion.div
@@ -87,26 +85,29 @@ export const FloatingNavBar = ({ navItems, className }: FloatingNavBarProps) => 
                         </motion.span>
                     </Link>
                 ))}
-                <WhatsappButton link={whatsAppLink} />
+
             </div>
             <div className="flex sm:hidden h-20 w-full justify-center">
                 <Dropdown className="w-full flex justify-center items-center">
                     <TriggerWrapper>
-                        <Trigger>
+                        <Trigger className="flex space-x-2 justify-center items-center">
                             <div className="relative w-72 h-[80px]">
                                 <Image src="/logo-white.png" alt="logo" fill className="object-cover object-center" />
                             </div>
+                            <span>
+                                <HamburgerMenuIcon className="size-14 text-white" />
+                            </span>
                         </Trigger>
                     </TriggerWrapper>
                     <Tabs>
                         <Tab>
                             <div className="flex gap-4 p-4 w-full h-full bg-primary-300 text-jet-900 border-b border-jet-900">
-                                <Link href={whatsAppLink} target="_blank" className="flex mt-3">
+                                {/*  <Link href={whatsAppLink} target="_blank" className="flex mt-3">
                                     <Button variant="swipe" className="text-md group  pr-12 h-40 transition-all rounded-3xl bg-green-600 border-green-200 text-gray-300">
                                         WhatsApp
                                         <MessageCircleIcon className="absolute transition-all duration-500 right-4 " />
                                     </Button>
-                                </Link>
+                                </Link> */}
                                 <div className="flex flex-col justify-between">
                                     {navItems.map((navItem, idx) => (
                                         <Link

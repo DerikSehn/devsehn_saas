@@ -51,50 +51,54 @@ export default function Contact() {
         mutation.mutate()
     }
 
-    return emailSent ? (<MailSentMessage />)
-        : (
-            <span className="relative w-full h-full min-h-lvh bg-primary-200 px-4 lg:px-0 overflow-hidden">
+    return <>
 
-                <span className="absolute inset-0 min-h-[100dvh] bg-primary-200"
-                    style={{
-                        backgroundImage: gradientMesh['background-mesh']
-                    }}
-                />
-                <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-gray-900 bg-transparent min-h-screen h-auto  ">
-                    <div className="space-y-4 text-center">
-                        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Entre em contato</h1>
-                        <p className="text-muted-foreground md:text-xl">
-                            Tem alguma dúvida ou precisa de ajuda? Preencha o formulário abaixo e entraremos em contato o mais rápido possível.
-                        </p>
-                        <div className="inline-flex items-center justify-center gap-2 w-full  bg-gradient-to-r from-transparent via-primary-200 px-4 py-2 text-primary-900">
-                            <MailOpenIcon className="h-5 w-5 " />
-                            <span className="font-medium ">contato@culturaverde.com</span>
-                        </div>
-                    </div>
-                    <form onSubmit={handleSubmit} className="mt-10 space-y-6 md:w-[50dvw] w-full md:min-w-[380px] max-w-[800px]">
-                        <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
-                            <div className="space-y-2">
-                                <Label htmlFor="name">Nome</Label>
-                                <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="name" placeholder="Digite seu nome" value={name} onChange={(e) => setName(e.target.value)} />
-                            </div>
-                            <div className="space-y-2">
-                                <Label htmlFor="email">E-mail</Label>
-                                <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="email" type="email" placeholder="Digite seu e-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+        {emailSent ? (<MailSentMessage />)
+            : (
+                <span className="relative w-full h-full min-h-lvh bg-primary-200 px-4 lg:px-0 overflow-hidden">
+
+                    <span className="absolute inset-0 min-h-[100vh] h-full w-vw bg-primary-200"
+                        style={{
+                            backgroundImage: gradientMesh['background-mesh']
+                        }}
+                    />
+                    <Page className="w-full max-w-3xl mx-auto py-32 px-4 md:px-2 flex flex-col justify-center items-center relative z-10 text-gray-900 bg-primary-200 md:bg-transparent min-h-screen h-auto  ">
+                        <div className="space-y-4 text-center">
+                            <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">Entre em contato</h1>
+                            <p className="text-muted-foreground md:text-xl">
+                                Tem alguma dúvida ou precisa de ajuda? Preencha o formulário abaixo e entraremos em contato o mais rápido possível.
+                            </p>
+                            <div className="inline-flex items-center justify-center gap-2 w-full  bg-gradient-to-r from-transparent via-primary-200 px-4 py-2 text-primary-900">
+                                <MailOpenIcon className="h-5 w-5 " />
+                                <span className="font-medium ">contato@culturaverde.com</span>
                             </div>
                         </div>
-                        <div className="space-y-2">
-                            <Label htmlFor="message">Mensagem</Label>
-                            <Textarea id="message" placeholder="Nos diga como podemos ajudar . . . " className="border-gray-100 bg-primary-100/80 placeholder:text-white-300 min-h-[150px] " value={message} onChange={(e) => setMessage(e.target.value)} />
-                        </div>
-                        <div className="flex flex-col items-center justify-center">
-                            <Button variant={'swipe'} type="submit" className="w-full max-w-sm bg-primary-100" disabled={mutation.isPending}>
-                                {mutation.isPending ? 'Enviando...' : 'Enviar'}
-                            </Button>
-                        </div>
-                    </form>
-                </Page>
-            </span>
-        )
+                        <form onSubmit={handleSubmit} className="mt-10 space-y-6 md:w-[50dvw] w-full md:min-w-[380px] max-w-[800px]">
+                            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6">
+                                <div className="space-y-2">
+                                    <Label htmlFor="name">Nome</Label>
+                                    <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="name" placeholder="Digite seu nome" value={name} onChange={(e) => setName(e.target.value)} />
+                                </div>
+                                <div className="space-y-2">
+                                    <Label htmlFor="email">E-mail</Label>
+                                    <Input className="border-gray-100 bg-primary-100/80 placeholder:text-white-300" id="email" type="email" placeholder="Digite seu e-mail" value={email} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                            </div>
+                            <div className="space-y-2">
+                                <Label htmlFor="message">Mensagem</Label>
+                                <Textarea id="message" placeholder="Nos diga como podemos ajudar . . . " className="border-gray-100 bg-primary-100/80 placeholder:text-white-300 min-h-[150px] " value={message} onChange={(e) => setMessage(e.target.value)} />
+                            </div>
+                            <div className="flex flex-col items-center justify-center">
+                                <Button variant={'swipe'} type="submit" className="w-full max-w-sm bg-primary-100 h-20 text-xl" disabled={mutation.isPending}>
+                                    {mutation.isPending ? 'Enviando...' : 'Enviar'}
+                                </Button>
+                            </div>
+                        </form>
+                    </Page>
+                </span>
+            )
+        }
+    </>
 }
 
 function MailOpenIcon(props: { className?: string }) {

@@ -4,6 +4,7 @@ import { useRouter } from 'next/router'
 import { Footer } from '../ui/footer'
 import { FloatingNavBar } from '../ui/scroll/floating-nav-bar'
 import AdminLayout from './admin-layout'
+import FloatingWhatsappButton from '../ui/scroll/floating-whatsapp-button'
 
 
 
@@ -35,6 +36,7 @@ export const Layout = ({ children }: any) => {
                 >{children}</AdminLayout>
                 : <>
                     <FloatingNavBar navItems={navItems} />
+                    <FloatingWhatsappButton />
                     <div>{children}</div>
                     <Footer />
                 </>

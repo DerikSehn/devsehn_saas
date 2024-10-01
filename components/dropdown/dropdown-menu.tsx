@@ -44,12 +44,20 @@ export const TriggerWrapper: React.FC<{ children: React.ReactNode }> = ({ childr
     const { currentTab } = useContext(CurrentTabContext)!
     const { setAnimationDirection } = useContext(DirectionContext)!
 
+    function handleButtonClick(tab: number) {
+        if (currentTab === tab) {
+            setAnimationDirection(null)
+        } else {
+            setAnimationDirection(tab)
+        }
+    }
+
     return (
         <>
             {React.Children.map(children, (e, i) => (
                 <button
                     onMouseEnter={() => setAnimationDirection(i + 1)}
-                    onClick={() => setAnimationDirection(i + 1)}
+                    onClick={() => handleButtonClick(i + 1)}
                 >
                     {e}
                 </button>

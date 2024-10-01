@@ -29,7 +29,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
             className="h-auto relative z-10 w-full py-0 md:py-0 lg:py-0 flex flex-col justify-start border-white lg:border-[32px] bg-white"
         >
             {isTouch ?
-                <div className="space-y-2 text-center my-10 mx-auto flex flex-col items-center justify-center h-1/4 w-full col-span-full">
+                <div className="space-y-2 overflow-hidden text-center my-10 mx-auto flex flex-col items-center justify-center h-1/4 w-full col-span-full">
                     <h3 className="inline-block rounded-lg bg-gray-200 px-3 py-1 text-sm text-gray-800">
                         Áreas de atuação
                     </h3>
@@ -40,7 +40,23 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
                         </h2>
                     </span>
                     {services.map((service, index) =>
-                        <HeroCard key={index} service={service} />
+                        <motion.div
+                            initial={{
+
+                                opacity: 0,
+                                x: index % 2 === 0 ? -100 : 100,
+                            }}
+                            whileInView={{
+                                width: '100%',
+                                opacity: 1,
+                                x: 0,
+                                transition: {
+                                    duration: 0.5,
+                                    ease: 'easeInOut',
+                                }
+                            }}>
+                            <HeroCard key={index} service={service} />
+                        </motion.div>
                     )}
                 </div>
                 :
@@ -61,7 +77,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
                     className="overflow-x-clip w-full z-20 min-h-[400px] justify-center gap-4 lg:gap-6"
                 >
                     {services.map((service, index) =>
-                        <motion.div key={index}>
+                        <motion.div key={index} >
                             <HeroCard key={index} service={service} />
                         </motion.div>
                     )}
@@ -73,7 +89,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
 
 export function HeroCard({ service }: { service: ModelWithImage<Service> }) {
     return (
-        <Card className="relative w-[300px] lg:w-[350px] xl:w-[400px] bg-primary-900 text-primary-300 text-left rounded-2xl shadow-md p-2 border-none">
+        <Card className="relative w-auto lg:w-[350px] xl:w-[400px] bg-primary-900 text-primary-300 text-left rounded-2xl shadow-md p-2 border-none">
             <CardHeader className="relative h-72">
                 {service.image?.url ?
                     <Image
