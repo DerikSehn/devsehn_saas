@@ -29,6 +29,7 @@ export default function Testimonials({ testimonials }: { testimonials: any[] }) 
                     </div>
                     {testimonials.map((testimonial, index) =>
                         <motion.div
+                            key={index}
                             initial={{
 
                                 opacity: 0,
@@ -43,7 +44,7 @@ export default function Testimonials({ testimonials }: { testimonials: any[] }) 
                                     ease: 'easeInOut',
                                 }
                             }}>
-                            <TestimonialCard key={index} item={testimonial} readOnly />
+                            <TestimonialCard item={testimonial} readOnly />
 
                         </motion.div>
                     )

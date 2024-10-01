@@ -41,6 +41,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
                     </span>
                     {services.map((service, index) =>
                         <motion.div
+                            key={index}
                             initial={{
 
                                 opacity: 0,
@@ -55,7 +56,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
                                     ease: 'easeInOut',
                                 }
                             }}>
-                            <HeroCard key={index} service={service} />
+                            <HeroCard service={service} />
                         </motion.div>
                     )}
                 </div>
@@ -78,7 +79,7 @@ export default function HeroCards({ services }: { services: ModelWithImage<Servi
                 >
                     {services.map((service, index) =>
                         <motion.div key={index} >
-                            <HeroCard key={index} service={service} />
+                            <HeroCard service={service} />
                         </motion.div>
                     )}
                 </HorizontalScrollCarousel>
