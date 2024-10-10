@@ -36,6 +36,16 @@ export default function Document() {
           })(window,document,'script','dataLayer','GTM-NZDTDC5B');`
         }} />
         {/* End Google Tag Manager */}
+        {/* Google tag (gtag.js) */}
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=G-KNXRE5QRXP"></Script>
+        <Script id="google-analytics" dangerouslySetInnerHTML={{
+          __html: `
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', 'G-KNXRE5QRXP');
+          `
+        }} />
       </Head>
       <body className="selection:bg-primary-200 selection:text-primary-900 selection:text-opacity-100 selection:bg-opacity-50">
         {/* Google Tag Manager (noscript) */}
