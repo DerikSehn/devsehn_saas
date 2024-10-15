@@ -12,6 +12,7 @@ import { ReactLenis } from '@studio-freight/react-lenis';
 import { useState } from "react";
 
 import "driver.js/dist/driver.css";
+import Link from "next/link";
 
 
 export default function App({ Component,
@@ -35,13 +36,14 @@ export default function App({ Component,
                 cookieName="culturaVerdeConsent"
                 style={{ background: "#2B373B" }}
                 buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+
                 declineButtonStyle={{ color: "#fff", background: "#f44336", fontSize: "13px" }}
                 expires={150}
               >
                 Este site usa cookies para melhorar a experiência do usuário.{" "}
-                <a href="/about/privacy-policy" style={{ color: "#4e9c81" }}>
+                <Link href="/about/privacy-policy" style={{ color: "#4e9c81" }}>
                   Leia mais
-                </a>
+                </Link>
               </CookieConsent>
             </ReactLenis>
           </Layout>
