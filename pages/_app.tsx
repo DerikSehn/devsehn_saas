@@ -4,6 +4,7 @@ import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import { useRouter } from "next/router";
+import CookieConsent from 'react-cookie-consent';
 
 
 import { ToastProvider } from "@/components/providers/toast-provider";
@@ -27,6 +28,21 @@ export default function App({ Component,
           <Layout>
             <ReactLenis root options={{ touchMultiplier: 0, syncTouch: false }}>
               <Component {...pageProps} />
+              <CookieConsent
+                location="bottom"
+                buttonText="Aceitar"
+                declineButtonText="Recusar"
+                cookieName="culturaVerdeConsent"
+                style={{ background: "#2B373B" }}
+                buttonStyle={{ color: "#4e503b", fontSize: "13px" }}
+                declineButtonStyle={{ color: "#fff", background: "#f44336", fontSize: "13px" }}
+                expires={150}
+              >
+                Este site usa cookies para melhorar a experiência do usuário.{" "}
+                <a href="/about/privacy-policy" style={{ color: "#4e9c81" }}>
+                  Leia mais
+                </a>
+              </CookieConsent>
             </ReactLenis>
           </Layout>
         </ToastProvider>
